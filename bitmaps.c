@@ -181,7 +181,7 @@ const UINT32 one_bitmap[HEIGHT_32] =
 	0xFFFE01FF,
 	0xFFFE01FF,
 	0xFFFE01FF
-}
+};
 
 const UINT32 two_bitmap[HEIGHT_32] =
 {
@@ -217,7 +217,7 @@ const UINT32 two_bitmap[HEIGHT_32] =
 	0xC000000F,
 	0xC000000F,
 	0xC000000F,
-}
+};
 
 const UINT32 three_bitmap[HEIGHT_32] =
 {
@@ -253,7 +253,7 @@ const UINT32 three_bitmap[HEIGHT_32] =
 	0xC000000F,
 	0xC000000F,
 	0xC000000F
-}
+};
 
 const UINT32 four_bitmap[HEIGHT_32] =
 {
@@ -289,7 +289,7 @@ const UINT32 four_bitmap[HEIGHT_32] =
 	0xC03FF00F,
 	0xC03FF00F,
 	0xC03FF00F,
-}
+};
 
 const UINT32 five_bitmap[HEIGHT_32] =
 {
@@ -325,7 +325,7 @@ const UINT32 five_bitmap[HEIGHT_32] =
 	0xC000000F,
 	0xC000000F,
 	0xC000000F,
-}
+};
 
 const UINT32 six_bitmap[HEIGHT_32] =
 {
@@ -361,7 +361,7 @@ const UINT32 six_bitmap[HEIGHT_32] =
 	0xC000000F,
 	0xC000000F,
 	0xC000000F,
-}
+};
 
 const UINT32 seven_bitmap[HEIGHT_32] =
 {
@@ -397,7 +397,7 @@ const UINT32 seven_bitmap[HEIGHT_32] =
 	0xFFF00FFF,
 	0xFFF00FFF,
 	0xFFF00FFF
-}
+};
 
 const UINT32 eight_bitmap[HEIGHT_32] =
 {
@@ -433,7 +433,7 @@ const UINT32 eight_bitmap[HEIGHT_32] =
 	0xC000000F,
 	0xC000000F,
 	0xC000000F
-}
+};
 
 const UINT32 nine_bitmap[HEIGHT_32] =
 {
@@ -463,4 +463,4 @@ const UINT32 nine_bitmap[HEIGHT_32] =
 	0xFFFFF30F,
 	0xFFFFF30F,
 	0xFFFFF30F
-}
+};
