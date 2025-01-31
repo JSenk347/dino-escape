@@ -1,8 +1,11 @@
 #define L_BIRD_HEIGHT 32
 #define S_BIRD_HEIGHT 16
+#include "raster.h"
 
+/*
 typedef unsigned long UINT32
 typedef unsigned int UINT16
+*/
 
 const UINT32 dino_wdown_bitmap[L_BIRD_HEIGHT] = {
     0x3FC0,
