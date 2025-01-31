@@ -1,5 +1,4 @@
 #define HEIGHT_32 32
-#define S_BIRD_HEIGHT 16
 #include "raster.h"
 
 /*
