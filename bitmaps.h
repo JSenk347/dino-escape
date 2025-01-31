@@ -1,9 +1,7 @@
 #ifndef BITMAPS_H
 #define BITMAPS_H
-#define HEIGHT_32 32
 
-typedef unsigned long UINT32;
-typedef unsigned int UINT16;
+#define HEIGHT_32 32
 
 extern const UINT32 dino_wdown_bitmap[HEIGHT_32];
 extern const UINT32 dino_wup_bitmap[HEIGHT_32];

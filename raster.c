@@ -1,7 +1,4 @@
 #include "raster.h"
-//#include <osbind.h>
-
-
 
 void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height){
 	int i;
