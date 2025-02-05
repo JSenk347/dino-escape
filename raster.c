@@ -32,3 +32,4 @@ void clear_screen(UINT16 *base, int pattern){
 			*(loc++) = pattern;
 		}
 }
+
