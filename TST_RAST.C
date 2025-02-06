@@ -4,12 +4,14 @@
 #include <osbind.h> 
 #include <linea.h>
 
+#define OR 1
 #define XOR 2
 #define AND 3
 
 int main(){
 	int i;
-	int y;
+	int y = 0;
+	int x = 0;
 
 	void *base = Physbase();
 	linea0();
@@ -17,14 +19,20 @@ int main(){
 	clear_screen((UINT16 *)base, 0);
 
 	while (!Cconis()){
+		plot_vline(x, XOR);
 		plot_hline(y, XOR);
 		Vsync();
+		plot_vline(x, XOR);
 		plot_hline(y,XOR);
 
+		x++;
 		y++;
 
-		if (y == 400)
+		if (y == 400){
 			y = 0;
+		} else if (x == 639){
+			x = 0;
+		}
 	}
 	
 	

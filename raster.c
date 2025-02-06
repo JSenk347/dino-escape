@@ -1,6 +1,6 @@
 #include "raster.h"
-#include <stdio.h>
-#include <osbind.h> 
+/*#include <stdio.h>*/
+/*#include <osbind.h>*/ 
 #include <linea.h>
 
 void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height){
@@ -54,6 +54,32 @@ void plot_hline(unsigned short y, short mode)
 	Y2 = y;
 	LNMASK = 0xFFFF;/*Solid line style*/
 	WMODE = mode; 	/*Writing mode*/
+	LSTLIN = 0;
+	linea3();
+}
+
+void plot_vline(unsigned short x, short mode)
+{
+	X1 = x;
+	Y1 = 0;
+	X2 = x;
+	Y2 = 399;
+	LNMASK = 0xFFFF;
+	WMODE = mode;
+	LSTLIN = 0;
+	linea3();
+}
+
+void plot_gline(unsigned short x1, unsigned short y1,
+				unsigned short x2, unsigned short y2,
+				short mode)
+{
+	X1 = x1;
+	Y1 = y1;
+	X2 = x2;
+	Y2 = y2;
+	LNMASK = 0xFFFF;
+	WMODE = mode;
 	LSTLIN = 0;
 	linea3();
 }
