@@ -1,4 +1,7 @@
 #include "raster.h"
+#include <stdio.h>
+#include <osbind.h> 
+#include <linea.h>
 
 void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height){
 	int i;
@@ -33,3 +36,24 @@ void clear_screen(UINT16 *base, int pattern){
 		}
 }
 
+/*
+	MODES:
+		- 0: replace
+		- 1: or
+		- 2: xor
+		- 3: and
+	SUMMARY:
+		Plots a horizontal line at a specified y coordinate. 
+		linea0() must be called before this function.
+*/
+void plot_hline(unsigned short y, short mode)
+{
+	X1 = (unsigned short) 0;
+	Y1 = y;
+	X2 = (unsigned short) 639;
+	Y2 = y;
+	LNMASK = 0xFFFF;/*Solid line style*/
+	WMODE = mode; 	/*Writing mode*/
+	LSTLIN = 0;
+	linea3();
+}

@@ -17,4 +17,4 @@ extern const UINT32 seven_bitmap[HEIGHT_32];
 extern const UINT32 eight_bitmap[HEIGHT_32];
 extern const UINT32 nine_bitmap[HEIGHT_32];
 
-#endif // BITMAPS_H
+#endif
