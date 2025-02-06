@@ -18,4 +18,5 @@ tst_rast.o: tst_rast.c raster.h
 	$(CC) -c tst_rast.c -o tst_rast.o
 
 clean:
-	$(RM) *.o
+	$(RM) $(OBJ) $(EXEC)
+	

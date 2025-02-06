@@ -9,5 +9,5 @@ typedef unsigned int UINT16;
 void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height);
 void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height);
 void clear_screen(UINT16 *base, int pattern);
-
+void plot_hline(unsigned short y1, short mode);
 #endif
