@@ -23,6 +23,7 @@ int main()
 	plot_hline(200, XOR);
 	plot_vline(320, XOR);
 	plot_borders();
+	
 
 	/* DINOSAUR BITMAPS */
 	plot_bitmap_32((UINT32 *)base, 0, 184, dino_wdown_bitmap, HEIGHT_32);
