@@ -1,10 +1,4 @@
-#define HEIGHT_32 32
 #include "raster.h"
-
-/*
-typedef unsigned long UINT32
-typedef unsigned int UINT16
-*/
 
 const UINT32 dino_wdown_bitmap[HEIGHT_32] = {
     0x3FC0,

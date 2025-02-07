@@ -2,6 +2,7 @@
 #define RASTER_H
 
 #define BYTES_PER_SCREEN 32000
+#define HEIGHT_32 32
 
 typedef unsigned long UINT32;
 typedef unsigned int UINT16;
@@ -14,4 +15,6 @@ void plot_vline(unsigned short x, short mode);
 void plot_gline(unsigned short x1, unsigned short y1,
                 unsigned short x2, unsigned short y2,
                 short mode);
+void plot_borders();
+void disable_cursor();
 #endif

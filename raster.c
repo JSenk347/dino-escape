@@ -1,7 +1,9 @@
-#include "raster.h"
-/*#include <stdio.h>*/
-/*#include <osbind.h>*/ 
+#include "raster.h" 
+#include <stdio.h>
 #include <linea.h>
+#include <osbind.h>
+
+#define XOR 2
 
 void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height){
 	int i;
@@ -82,4 +84,23 @@ void plot_gline(unsigned short x1, unsigned short y1,
 	WMODE = mode;
 	LSTLIN = 0;
 	linea3();
+}
+
+void plot_borders()
+{
+	int i;
+
+	for (i = 0; i < 50; i++){
+		plot_hline(i, XOR);
+		plot_hline(399 - i, XOR);
+	}
+}
+
+/*
+	Hides the cursor
+*/
+void disable_cursor()
+{
+	printf("\033f");
+	fflush(stdout);
 }
