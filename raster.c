@@ -5,28 +5,40 @@
 
 #define XOR 2
 
-void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height){
-	int i;
-	int offset;
+void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height) {
+    int i;
+    int word_offset = (x >> 5) + (y * 20); /* Word-aligned base offset */
+    int bit_shift = x & 31; /* Offset within the 32-bit word */
 
-	offset = (x >> 5) + (y * 20);
+    for (i = 0; i < height; i++) {
+        UINT32 *pixel_addr = base + word_offset + (20 * i);
 
-	for (i = 0; i < height; i++){
-		*(base + offset + (20 * i)) |= bitmap[i];
-	}
-	return;
+        if (bit_shift == 0) {
+            /* Perfectly aligned on a 32-bit boundary */
+            *pixel_addr |= bitmap[i];
+        } else {
+            /* Bitmap is split across two 32-bit words */
+            pixel_addr[0] |= bitmap[i] >> bit_shift; /* First part in current word */
+            pixel_addr[1] |= bitmap[i] << (32 - bit_shift); /* Remaining part in next word */
+        }
+    }
 }
 
 void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height){
 	int i;
-	int offset;
-
-	offset = (x >> 4) + (y * 40);
+	int word_offset = (x >> 4) + (y * 40);
+	int bit_shift = x & 15;
 
 	for (i = 0; i < height; i++){
-		*(base + offset + (40 * i)) |= bitmap[i];
+		UINT16 *pixel_addr = base + word_offset + (20 * i);
+
+		if (bit_shift == 0){
+			*pixel_addr |= bitmap[i];
+		} else {
+			pixel_addr[0] |= bitmap[i] >> bit_shift;
+			pixel_addr[0] |= bitmap[i] << (32 - bit_shift);
+		}
 	}
-	return;
 };
 
 void clear_screen(UINT16 *base, int pattern){
@@ -94,6 +106,10 @@ void plot_borders()
 		plot_hline(i, XOR);
 		plot_hline(399 - i, XOR);
 	}
+
+	for (i = 390; i > 358; i--){
+		plot_gline(311, i, 631, i, XOR);
+	}
 }
 
 /*
@@ -104,3 +120,4 @@ void disable_cursor()
 	printf("\033f");
 	fflush(stdout);
 }
+
