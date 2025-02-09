@@ -485,7 +485,7 @@ const UINT16 triangle_bitmap[HEIGHT_16] =
 	0xFFFF
 };
 
-const /*UINT16*/ start_button_bitmap[HEIGHT_32] =	/*bitmap is 32x64 can't use UINT16*/
+/*const UINT32 start_button_bitmap[HEIGHT_32] =	//bitmap is 32x64 can't use UINT32?
 {
 	0xFFFFFFFFFFFFFFFF,
 	0x8000000000000001,
@@ -519,7 +519,7 @@ const /*UINT16*/ start_button_bitmap[HEIGHT_32] =	/*bitmap is 32x64 can't use UI
 	0x8000000000000001,
 	0x8000000000000001,
 	0xFFFFFFFFFFFFFFFF
-};
+}; */
 
 /*The bottom edge of the top portion of the obstacle.*/
 const UINT32 obs_bottom_edge_bitmap[HEIGHT_32] =
