@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <linea.h>
 #include <osbind.h>
+#include "bitmaps.h"
 
 #define XOR 2
 
@@ -136,33 +137,41 @@ void disable_cursor()
 	printf("\033f");
 	fflush(stdout);
 }
-void plot_obstacle(UINT32*base, int x, int gap_y, int gap_height, int pipe_width, int screen_height, int thickness) 
+
+void plot_obstacle(UINT32 *base, int x, int gap_y, int gap_height, int pipe_width, int thickness)
 {
     int i;
 
-    /* Ensure x is word-aligned i hope */
+    /* Ensure x is word-aligned */
     x &= ~1;
 
-    /* Draw top pipe outline */
-    for (i = 0; i < thickness; i++) {
-        plot_gline(x + i, 0, x + i, gap_y, XOR);
-        plot_gline(x + pipe_width - thickness + i, 0, x + pipe_width - thickness + i, gap_y, XOR);
-    }
-    plot_gline(x, 0, x + pipe_width - 1, 0, XOR);
-    plot_gline(x, gap_y, x + pipe_width - 1, gap_y, XOR);
+    /* Adjust gap_y to be inside the borders */
+    if (gap_y < 50) gap_y = 50; /* Ensures it starts below the top black border */
+    if (gap_y + gap_height > 349) gap_height = 349 - gap_y; /* Ensures it ends above the bottom border */
 
-    /* Draw bottom pipe outline */
+    /* Draw left vertical edge of the top pipe */
     for (i = 0; i < thickness; i++) {
-        plot_gline(x + i, gap_y + gap_height, x + i, screen_height - 1, XOR);
-        plot_gline(x + pipe_width - thickness + i, gap_y + gap_height, x + pipe_width - thickness + i, screen_height - 1, XOR);
+        plot_gline(x + i, 50, x + i, gap_y, XOR);
     }
-    plot_gline(x, gap_y + gap_height, x + pipe_width - 1, gap_y + gap_height, XOR);
-    plot_gline(x, screen_height - 1, x + pipe_width - 1, screen_height - 1, XOR);
+
+    /* Draw right vertical edge of the top pipe */
+    for (i = 0; i < thickness; i++) {
+        plot_gline(x + pipe_width - thickness + i, 50, x + pipe_width - thickness + i, gap_y, XOR);
+    }
+
+    /* Draw left vertical edge of the bottom pipe */
+    for (i = 0; i < thickness; i++) {
+        plot_gline(x + i, gap_y + gap_height, x + i, 349, XOR);
+    }
+
+    /* Draw right vertical edge of the bottom pipe */
+    for (i = 0; i < thickness; i++) {
+        plot_gline(x + pipe_width - thickness + i, gap_y + gap_height, x + pipe_width - thickness + i, 349, XOR);
+    }
+
+    /* Plot the 32x32 bitmap on top of the bottom pipe */
+    plot_bitmap_32(base, x, gap_y + gap_height - 32, obs_top_edge_bitmap, 32);
+
+    /* Plot the 32x32 bitmap at the bottom of the top pipe */
+    plot_bitmap_32(base, x, gap_y, obs_bottom_edge_bitmap, 32);
 }
-    /* Draw bitmap on top of the upper pipe */
-    /*plot_bitmap_16(base, x, gap_y - bitmap_height, bitmap, bitmap_height); */
-
-    /* Draw bitmap on top of the lower pipe */
-    /*plot_bitmap_16(base, x, gap_y + gap_height, bitmap, bitmap_height); */
-
-=======
