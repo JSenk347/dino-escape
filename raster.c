@@ -1,3 +1,9 @@
+/*******************************************************************************
+ AUTHORS: Anna Running Rabbit, Jordan Senko, Joseph Mills
+ COURSE: COMP2659-001
+ INSTRUCTOR: Tim Reimer
+ DATE: Feb.10, 2025
+*******************************************************************************/
 #include "raster.h" 
 #include <stdio.h>
 #include <linea.h>
@@ -153,7 +159,7 @@ void plot_gline(unsigned short x1, unsigned short y1,
 /*******************************************************************************
 	PURPOSE: 	To plot the upper and lower borders of the game, exclusing the 
 				ground and roof triangles (rocks)
-	INPUT: N/A
+	INPUT: 	N/A
 	OUTPUT: N/A
 *******************************************************************************/
 void plot_borders()
@@ -174,10 +180,12 @@ void plot_borders()
 }
 
 /*******************************************************************************
-	PURPOSE: Plots a 32x32 bitmap side by side across the screen to create the
-				triangle boarders on the top and bottom of the gameplay screen
-				using plot_bitmap_32().
-	INPUT:
+	PURPOSE: Plots an upper and lower 32x32 bitmap side by side across the
+				screen to create the stalactite and stalagmite boarders on the
+				top and bottom of the gameplay screen using plot_bitmap_32()
+	INPUT: 	- *base	pointer to the frame buffer
+			- *bitmap pointer to the uppper bitmap you'd like to plot
+			- *bitmap pointer to the lower bitmap you'd like to plot
 	OUTPUT:	N/A
 *******************************************************************************/
 void plot_triangle_border(UINT32 *base, const UINT32 *bitmap_top,
@@ -198,8 +206,12 @@ void plot_triangle_border(UINT32 *base, const UINT32 *bitmap_top,
 
 /*******************************************************************************
 	PURPOSE: Plots the top three 32x32 bitmaps to create the top half of the 
-				start button.
-	INPUT:
+				start button
+	INPUT:	- *base	pointer to the frame buffer
+			- *bitmap pointer to the top left corner bitmap you'd like to plot
+			- *bitmap pointer to the top middle-left corner bitmap you'd like to plot
+			- *bitmap pointer to the top middle-right corner bitmap you'd like to plot
+			- *bitmap pointer to the top right corner bitmap you'd like to plot
 	OUTPUT:	N/A
 *******************************************************************************/
 void plot_top_start_button(UINT32 *base, const UINT32 *lt_top_start_bitmap,
@@ -214,8 +226,12 @@ void plot_top_start_button(UINT32 *base, const UINT32 *lt_top_start_bitmap,
 
 /*******************************************************************************
 	PURPOSE: Plots the bottom three 32x32 bitmaps to create the bottom half of
-				the start button using plot_bitmap_32().
-	INPUT:
+				the start button using plot_bitmap_32()
+	INPUT:	- *base	pointer to the frame buffer
+			- *bitmap pointer to the bottom left corner bitmap you'd like to plot
+			- *bitmap pointer to the bottom middle-left corner bitmap you'd like to plot
+			- *bitmap pointer to the bottom middle-right corner bitmap you'd like to plot
+			- *bitmap pointer to the bottom right corner bitmap you'd like to plot
 	OUTPUT: N/A
 *******************************************************************************/
 void plot_bottom_start_button(UINT32 *base, const UINT32 *lt_bottom_start_bitmap,
@@ -230,7 +246,7 @@ void plot_bottom_start_button(UINT32 *base, const UINT32 *lt_bottom_start_bitmap
 
 /*******************************************************************************
 	PURPOSE: To disable the cursor and remove it from the screen
-	INPUT: N/A
+	INPUT: 	N/A
 	OUTPUT: N/A
 *******************************************************************************/
 void disable_cursor()
@@ -242,7 +258,7 @@ void disable_cursor()
 /*******************************************************************************
 	PURPOSE: 
 	INPUT:
-	OUTPUT:
+	OUTPUT:	N/A
 *******************************************************************************/
 void plot_obstacle(UINT32 *base, int x, int gap_y, int gap_height, int pipe_width, int thickness)
 {

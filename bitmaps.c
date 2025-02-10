@@ -1,7 +1,13 @@
+/*******************************************************************************
+ AUTHORS: Anna Running Rabbit, Jordan Senko, Joseph Mills
+ COURSE: COMP2659-001
+ INSTRUCTOR: Tim Reimer
+ DATE: Feb.10, 2025
+*******************************************************************************/
 #include "raster.h"
 
 /*******************************************************************************
- 
+	32x32 pixel bitmap for the player dino in the wings down position.
 *******************************************************************************/
 const UINT32 dino_wdown_bitmap[HEIGHT_32] = {
     0x3FC0,
@@ -38,7 +44,7 @@ const UINT32 dino_wdown_bitmap[HEIGHT_32] = {
 };
 
 /*******************************************************************************
- 
+	32x32 pixel bitmap for the player dino in the wings up position.
 *******************************************************************************/
 const UINT32 dino_wup_bitmap[HEIGHT_32] =
 {
@@ -77,7 +83,7 @@ const UINT32 dino_wup_bitmap[HEIGHT_32] =
 };
 
 /*******************************************************************************
- 
+	32x32 pixel bitmap for the player dino in the dead position.
 *******************************************************************************/
 const UINT32 dino_dead_bitmap[HEIGHT_32] =
 {
@@ -115,7 +121,7 @@ const UINT32 dino_dead_bitmap[HEIGHT_32] =
 };
 
 /*******************************************************************************
- 
+	32x32 pixel bitmap for the score digit 0.
 *******************************************************************************/
 const UINT32 zero_bitmap[HEIGHT_32] =
 {
@@ -154,7 +160,7 @@ const UINT32 zero_bitmap[HEIGHT_32] =
 };
 
 /*******************************************************************************
- 
+	32x32 pixel bitmap for the score digit 1.
 *******************************************************************************/
 const UINT32 one_bitmap[HEIGHT_32] =
 {
@@ -193,7 +199,7 @@ const UINT32 one_bitmap[HEIGHT_32] =
 };
 
 /*******************************************************************************
- 
+ 	32x32 pixel bitmap for the score digit 22.
 *******************************************************************************/
 const UINT32 two_bitmap[HEIGHT_32] =
 {
@@ -232,7 +238,7 @@ const UINT32 two_bitmap[HEIGHT_32] =
 };
 
 /*******************************************************************************
- 
+ 	32x32 pixel bitmap for the score digit 3.
 *******************************************************************************/
 const UINT32 three_bitmap[HEIGHT_32] =
 {
@@ -271,7 +277,7 @@ const UINT32 three_bitmap[HEIGHT_32] =
 };
 
 /*******************************************************************************
- 
+	32x32 pixel bitmap for the score digit 4.
 *******************************************************************************/
 const UINT32 four_bitmap[HEIGHT_32] =
 {
@@ -310,7 +316,7 @@ const UINT32 four_bitmap[HEIGHT_32] =
 };
 
 /*******************************************************************************
- 
+	32x32 pixel bitmap for the score digit 5.
 *******************************************************************************/
 const UINT32 five_bitmap[HEIGHT_32] =
 {
@@ -349,7 +355,7 @@ const UINT32 five_bitmap[HEIGHT_32] =
 };
 
 /*******************************************************************************
- 
+	32x32 pixel bitmap for the score digit 6.
 *******************************************************************************/
 const UINT32 six_bitmap[HEIGHT_32] =
 {
@@ -388,7 +394,7 @@ const UINT32 six_bitmap[HEIGHT_32] =
 };
 
 /*******************************************************************************
- 
+	32x32 pixel bitmap for the score digit 7.
 *******************************************************************************/
 const UINT32 seven_bitmap[HEIGHT_32] =
 {
@@ -427,7 +433,7 @@ const UINT32 seven_bitmap[HEIGHT_32] =
 };
 
 /*******************************************************************************
- 
+	32x32 pixel bitmap for the score digit 8.
 *******************************************************************************/
 const UINT32 eight_bitmap[HEIGHT_32] =
 {
@@ -466,7 +472,7 @@ const UINT32 eight_bitmap[HEIGHT_32] =
 };
 
 /*******************************************************************************
- 
+	32x32 pixel bitmap for the score digit 9.
 *******************************************************************************/
 const UINT32 nine_bitmap[HEIGHT_32] =
 {
@@ -505,7 +511,8 @@ const UINT32 nine_bitmap[HEIGHT_32] =
 };
 
 /*******************************************************************************
- 
+	32x32 pixel bitmap for the upside down triangle (stalactites) for the
+		gameplay screen top border.
 *******************************************************************************/
 const UINT32 top_triangle_bitmap[HEIGHT_32] =
 {
@@ -544,7 +551,8 @@ const UINT32 top_triangle_bitmap[HEIGHT_32] =
 };
 
 /*******************************************************************************
- 
+	32x32 pixel bitmap for the triangle (stalagmites) for the gameplay screen
+		bottom border.
 *******************************************************************************/
 const UINT32 bottom_triangle_bitmap[HEIGHT_32] =
 {
@@ -924,7 +932,7 @@ const UINT32 start_button_rt_bitmap[HEIGHT_32] =
 */
 
 /*******************************************************************************
-	The bottom edge of the top portion of the obstacle.
+	32x32 pixel bitmap for the bottom edge of the top portion of the obstacle.
 *******************************************************************************/
 const UINT32 obs_bottom_edge_bitmap[HEIGHT_32] =
 {
@@ -963,7 +971,7 @@ const UINT32 obs_bottom_edge_bitmap[HEIGHT_32] =
 };
 
 /*******************************************************************************
-	The top edge of the bottom portion of the obstacle.
+	32x32 pixel bitmap for the top edge of the bottom portion of the obstacle.
 *******************************************************************************/
 const UINT32 obs_top_edge_bitmap[HEIGHT_32] =
 {
