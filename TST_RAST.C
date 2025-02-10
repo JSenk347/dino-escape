@@ -10,6 +10,7 @@
 #define XOR 2
 #define AND 3
 
+
 int main()
 {
 	void *base = Physbase();
@@ -23,8 +24,12 @@ int main()
 	plot_hline(200, XOR);
 	plot_vline(320, XOR);
 	plot_borders();
-	
 
+	/* Obstacle Plotting*/
+	
+	plot_obstacle((UINT16 *)Physbase(), 200, 120, 100, 20, 400);
+	plot_obstacle((UINT16 *)Physbase(), 400, 150, 100, 20, 400);
+	
 	/* DINOSAUR BITMAPS */
 	plot_bitmap_32((UINT32 *)base, 0, 184, dino_wdown_bitmap, HEIGHT_32);
 	plot_bitmap_32((UINT32 *)base, 32, 184, dino_wup_bitmap, HEIGHT_32);

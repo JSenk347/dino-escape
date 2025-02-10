@@ -104,3 +104,25 @@ void disable_cursor()
 	printf("\033f");
 	fflush(stdout);
 }
+
+void plot_obstacle_32(UINT32 *base, int x, int gap_y, int gap_height, int pipe_width, int screen_height, int thickness) 
+{
+    int i;
+
+    /* Draw top pipe outline */
+    for (i = 0; i < thickness; i++) {
+        plot_gline(x + i, 0, x + i, gap_y, XOR);
+        plot_gline(x + pipe_width - i - 1, 0, x + pipe_width - i - 1, gap_y, XOR);
+    }
+    plot_gline(x, 0, x + pipe_width - 1, 0, XOR);
+    plot_gline(x, gap_y, x + pipe_width - 1, gap_y, XOR);
+
+    /* Draw bottom pipe outline */
+    for (i = 0; i < thickness; i++) {
+        plot_gline(x + i, gap_y + gap_height, x + i, screen_height - 1, XOR);
+        plot_gline(x + pipe_width - i - 1, gap_y + gap_height, x + pipe_width - i - 1, screen_height - 1, XOR);
+    }
+    plot_gline(x, gap_y + gap_height, x + pipe_width - 1, gap_y + gap_height, XOR);
+    plot_gline(x, screen_height - 1, x + pipe_width - 1, screen_height - 1, XOR);
+}
+

@@ -15,6 +15,7 @@ void plot_vline(unsigned short x, short mode);
 void plot_gline(unsigned short x1, unsigned short y1,
                 unsigned short x2, unsigned short y2,
                 short mode);
+void plot_obstacle(UINT16 *base, int x, int gap_y, int gap_height, int pipe_width, int screen_height, int thickness) 
 void plot_borders();
 void disable_cursor();
 #endif
