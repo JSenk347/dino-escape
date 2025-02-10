@@ -113,6 +113,22 @@ void plot_borders()
 }
 
 /*
+	Plots 32x32 bitmap side by side across the screen.
+*/
+void plot_triangle_border(UINT32 *base, const UINT32 *bitmap_top, const UINT32 *bitmap_bottom)
+{
+	int i;
+
+	for (i = 0; i < 640; i+=32){
+		plot_bitmap_32((UINT32 *)base, i, 50, bitmap_top, HEIGHT_32);
+	}
+
+	for (i = 0; i < 640; i+=32){
+		plot_bitmap_32((UINT32 *)base, i, 314, bitmap_bottom, HEIGHT_32);
+	}
+}
+
+/*
 	Hides the cursor
 */
 void disable_cursor()
