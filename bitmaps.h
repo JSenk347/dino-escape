@@ -21,6 +21,8 @@ extern const UINT32 nine_bitmap[HEIGHT_32];
 extern const UINT16 bottom_triangle_bitmap[HEIGHT_16];*/
 extern const UINT32 top_triangle_bitmap[HEIGHT_32];
 extern const UINT32 bottom_triangle_bitmap[HEIGHT_32];
+extern const UINT32 start_button_lt_bitmap[HEIGHT_32];
+extern const UINT32 start_button_rt_bitmap[HEIGHT_32];
 extern const UINT32 obs_bottom_edge_bitmap[HEIGHT_32];
 extern const UINT32 obs_top_edge_bitmap[HEIGHT_32];
 
