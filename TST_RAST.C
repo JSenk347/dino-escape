@@ -51,7 +51,7 @@ int main()
 	plot_top_start_button((UINT32 *)base, lt_top_start_bitmap,
 			mid_lt_top_start_bitmap, mid_rt_top_start_bitmap,
 			rt_top_start_bitmap);
-	plot_top_start_button((UINT32 *)base, lt_bottom_start_bitmap,
+	plot_bottom_start_button((UINT32 *)base, lt_bottom_start_bitmap,
 			mid_lt_bottom_start_bitmap, mid_rt_bottom_start_bitmap,
 			rt_bottom_start_bitmap);
 
