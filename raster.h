@@ -20,5 +20,6 @@ void plot_obstacle(UINT32 *base, int x, int gap_y, int gap_height, int pipe_widt
                 
 void plot_borders();
 void plot_triangle_border(UINT32 *base, const UINT32 *bitmap_top, const UINT32 *bitmap_bottom);
+void plot_start_button(UINT32 *base, const UINT32 *left_bitmap, const UINT32 *right_bitmap);
 void disable_cursor();
 #endif
