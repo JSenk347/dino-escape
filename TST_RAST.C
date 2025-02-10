@@ -22,10 +22,8 @@ int main()
 	/* LINE PLOTTING */
   
 	plot_borders();
-  /* Obstacle Plotting*/
+  
 	
-	plot_obstacle((UINT32 *)Physbase(), 200, 120, 100, 16, 400, 2);
-	plot_obstacle((UINT32 *)Physbase(), 400, 150, 100, 16, 400, 2);
 
 	/* TRIANGLE BORDER BITMAPS */
 	/*plot_triangle_borders();*/
@@ -51,10 +49,11 @@ int main()
 	plot_bitmap_32((UINT32 *)base, 567, 359, eight_bitmap, HEIGHT_32);
 	plot_bitmap_32((UINT32 *)base, 599, 359, nine_bitmap, HEIGHT_32);
 
-	/* OBSTACLE EDGE BITMAPS */
-	plot_bitmap_32((UINT32 *)base, 407, 168, obs_bottom_edge_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 407, 248, obs_top_edge_bitmap, HEIGHT_32);
-
+	/* Obstacle Plotting*/
+	
+	plot_obstacle((UINT32 *)Physbase(), 250, 150, 140, 32, 2);
+	plot_obstacle((UINT32 *)Physbase(), 320, 100, 140, 32, 2);
+	
 	Cconin();
 
 	return 0;
