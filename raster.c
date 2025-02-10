@@ -130,6 +130,15 @@ void plot_triangle_border(UINT32 *base, const UINT32 *bitmap_top, const UINT32 *
 }
 
 /*
+	Plots the right and left 32x32 bitmaps to create the start button.
+*/
+void plot_start_button(UINT32 *base, const UINT32 *left_bitmap, const UINT32 *right_bitmap)
+{
+	plot_bitmap_32((UINT32 *)base, 288, 200, left_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 320, 200, right_bitmap, HEIGHT_32);
+}
+
+/*
 	Hides the cursor
 */
 void disable_cursor()

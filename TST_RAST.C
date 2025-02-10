@@ -20,10 +20,7 @@ int main()
 	clear_screen((UINT16 *)base, 0);
 
 	/* LINE PLOTTING */
-  
 	plot_borders();
-  
-	
 
 	/* TRIANGLE BORDER BITMAPS */
 	plot_triangle_border((UINT32 *)base, top_triangle_bitmap, bottom_triangle_bitmap);
@@ -50,10 +47,12 @@ int main()
 	plot_bitmap_32((UINT32 *)base, 599, 359, nine_bitmap, HEIGHT_32);
 
 	/* Obstacle Plotting*/
-	
 	plot_obstacle((UINT32 *)Physbase(), 250, 150, 140, 32, 2);
 	plot_obstacle((UINT32 *)Physbase(), 320, 100, 140, 32, 2);
 	
+	/* Start Button Plotting*/
+	plot_start_button((UINT32 *)base, start_button_lt_bitmap, start_button_rt_bitmap);
+
 	Cconin();
 
 	return 0;
