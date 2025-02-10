@@ -27,9 +27,9 @@ int main()
 
 	/* Obstacle Plotting*/
 	
-	plot_obstacle((UINT16 *)Physbase(), 200, 120, 100, 20, 400);
-	plot_obstacle((UINT16 *)Physbase(), 400, 150, 100, 20, 400);
-	
+	plot_obstacle((UINT32 *)Physbase(), 200, 120, 100, 16, 400, 2);
+	plot_obstacle((UINT32 *)Physbase(), 400, 150, 100, 16, 400, 2);
+
 	/* DINOSAUR BITMAPS */
 	plot_bitmap_32((UINT32 *)base, 0, 184, dino_wdown_bitmap, HEIGHT_32);
 	plot_bitmap_32((UINT32 *)base, 32, 184, dino_wup_bitmap, HEIGHT_32);

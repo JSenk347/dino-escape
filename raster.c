@@ -105,14 +105,17 @@ void disable_cursor()
 	fflush(stdout);
 }
 
-void plot_obstacle_32(UINT32 *base, int x, int gap_y, int gap_height, int pipe_width, int screen_height, int thickness) 
+void plot_obstacle(UINT32*base, int x, int gap_y, int gap_height, int pipe_width, int screen_height, int thickness) 
 {
     int i;
+
+    /* Ensure x is word-aligned i hope */
+    x &= ~1;
 
     /* Draw top pipe outline */
     for (i = 0; i < thickness; i++) {
         plot_gline(x + i, 0, x + i, gap_y, XOR);
-        plot_gline(x + pipe_width - i - 1, 0, x + pipe_width - i - 1, gap_y, XOR);
+        plot_gline(x + pipe_width - thickness + i, 0, x + pipe_width - thickness + i, gap_y, XOR);
     }
     plot_gline(x, 0, x + pipe_width - 1, 0, XOR);
     plot_gline(x, gap_y, x + pipe_width - 1, gap_y, XOR);
@@ -120,9 +123,14 @@ void plot_obstacle_32(UINT32 *base, int x, int gap_y, int gap_height, int pipe_w
     /* Draw bottom pipe outline */
     for (i = 0; i < thickness; i++) {
         plot_gline(x + i, gap_y + gap_height, x + i, screen_height - 1, XOR);
-        plot_gline(x + pipe_width - i - 1, gap_y + gap_height, x + pipe_width - i - 1, screen_height - 1, XOR);
+        plot_gline(x + pipe_width - thickness + i, gap_y + gap_height, x + pipe_width - thickness + i, screen_height - 1, XOR);
     }
     plot_gline(x, gap_y + gap_height, x + pipe_width - 1, gap_y + gap_height, XOR);
     plot_gline(x, screen_height - 1, x + pipe_width - 1, screen_height - 1, XOR);
 }
+    /* Draw bitmap on top of the upper pipe */
+    /*plot_bitmap_16(base, x, gap_y - bitmap_height, bitmap, bitmap_height); */
+
+    /* Draw bitmap on top of the lower pipe */
+    /*plot_bitmap_16(base, x, gap_y + gap_height, bitmap, bitmap_height); */
 
