@@ -3,6 +3,7 @@
 
 #define BYTES_PER_SCREEN 32000
 #define HEIGHT_32 32
+#define HEIGHT_16 16
 
 typedef unsigned long UINT32;
 typedef unsigned int UINT16;
