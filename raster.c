@@ -16,7 +16,8 @@
 			- height height of the bitmap you are plotting
 	OUTPUT: N/A
 *******************************************************************************/
-void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height) {
+void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height)
+{
     int i;
     int word_offset = (x >> 5) + (y * 20); /* Word-aligned base offset */
     int bit_shift = x & 31; /* Offset within the 32-bit word */
@@ -44,7 +45,8 @@ void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned i
 			- height height of the bitmap you are plotting
 	OUTPUT: N/A
 *******************************************************************************/
-void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height){
+void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height)
+{
 	int i;
 	int word_offset = (x >> 4) + (y * 40); /* Word-aligned base offset*/
 	int bit_shift = x & 15; /* Offset within the 32-bit words */
@@ -63,13 +65,14 @@ void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned i
 	}
 };
 
-/*
+/******************************************************************************
 	PURPOSE: To clear the screen and display all white
 	INPUT: 	- *base pointer to the frame buffer
 			- pattern the pixel state to fill the screen with (0/1)
 	OUTPUT: N/A
-*/
-void clear_screen(UINT16 *base, int pattern){
+******************************************************************************/
+void clear_screen(UINT16 *base, int pattern)
+{
 	register int i = 0;
 	register UINT16 *loc = base;
 
@@ -78,7 +81,7 @@ void clear_screen(UINT16 *base, int pattern){
 		}
 }
 
-/*
+/******************************************************************************
 	PURPOSE: To plot a horizontal line at a specified y coordinate
 	INPUT: 	- y the y coordinate to plot the line at
 			- mode the behaviour of the line:
@@ -87,7 +90,7 @@ void clear_screen(UINT16 *base, int pattern){
 				- 2: xor
 				- 3: and
 	OUTPUT: N/A
-*/
+******************************************************************************/
 void plot_hline(unsigned short y, short mode)
 {
 	X1 = (unsigned short) 0;
@@ -170,29 +173,59 @@ void plot_borders()
 	}
 }
 
-/*
-	Plots 32x32 bitmap side by side across the screen.
-*/
-void plot_triangle_border(UINT32 *base, const UINT32 *bitmap_top, const UINT32 *bitmap_bottom)
+/*******************************************************************************
+	PURPOSE: Plots a 32x32 bitmap side by side across the screen to create the
+				triangle boarders on the top and bottom of the gameplay screen
+				using plot_bitmap_32().
+	INPUT:
+	OUTPUT:	N/A
+*******************************************************************************/
+void plot_triangle_border(UINT32 *base, const UINT32 *bitmap_top,
+	const UINT32 *bitmap_bottom)
 {
 	int i;
-
+	
+	/* plots the upper border triangle line with plot_bitmap_32()*/
 	for (i = 0; i < 640; i+=32){
 		plot_bitmap_32((UINT32 *)base, i, 50, bitmap_top, HEIGHT_32);
 	}
 
+	/* plots the lower border triangle line with plot_bitmap_32()*/
 	for (i = 0; i < 640; i+=32){
 		plot_bitmap_32((UINT32 *)base, i, 314, bitmap_bottom, HEIGHT_32);
 	}
 }
 
-/*
-	Plots the right and left 32x32 bitmaps to create the start button.
-*/
-void plot_start_button(UINT32 *base, const UINT32 *left_bitmap, const UINT32 *right_bitmap)
+/*******************************************************************************
+	PURPOSE: Plots the top three 32x32 bitmaps to create the top half of the 
+				start button.
+	INPUT:
+	OUTPUT:	N/A
+*******************************************************************************/
+void plot_top_start_button(UINT32 *base, const UINT32 *top_lt_bitmap,
+	const UINT32 *top_mid_lt_bitmap, const UINT32 *top_mid_rt_bitmap,
+	const UINT32 *top_rt_bitmap)
 {
-	plot_bitmap_32((UINT32 *)base, 288, 200, left_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 320, 200, right_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 256, 168, top_lt_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 288, 168, top_mid_lt_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 320, 168, top_mid_rt_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 352, 168, top_rt_bitmap, HEIGHT_32);
+}
+
+/*******************************************************************************
+	PURPOSE: Plots the bottom three 32x32 bitmaps to create the bottom half of
+				the start button using plot_bitmap_32().
+	INPUT:
+	OUTPUT: N/A
+*******************************************************************************/
+void plot_bottom_start_button(UINT32 *base, const UINT32 *bottom_lt_bitmap,
+	const UINT32 *bottom_mid_lt_bitmap,	const UINT32 *bottom_mid_rt_bitmap,
+	const UINT32 *bottom_rt_bitmap)
+{
+	plot_bitmap_32((UINT32 *)base, 256, 200, bottom_lt_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 288, 200, bottom_mid_lt_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 320, 200, bottom_mid_rt_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 352, 200, bottom_rt_bitmap, HEIGHT_32);
 }
 
 /*******************************************************************************
@@ -206,6 +239,11 @@ void disable_cursor()
 	fflush(stdout); /* ensures above line is output immediatley*/
 }
 
+/*******************************************************************************
+	PURPOSE: 
+	INPUT:
+	OUTPUT:
+*******************************************************************************/
 void plot_obstacle(UINT32 *base, int x, int gap_y, int gap_height, int pipe_width, int thickness)
 {
     int i;

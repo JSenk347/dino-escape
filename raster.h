@@ -8,18 +8,27 @@
 typedef unsigned long UINT32;
 typedef unsigned int UINT16;
 
-void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height);
-void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height);
+void plot_bitmap_16(UINT16 *base, int x, int y, 
+        const UINT16 *bitmap, unsigned int height);
+void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap,
+                unsigned int height);
 void clear_screen(UINT16 *base, int pattern);
 void plot_hline(unsigned short y, short mode);
 void plot_vline(unsigned short x, short mode);
 void plot_gline(unsigned short x1, unsigned short y1,
                 unsigned short x2, unsigned short y2,
                 short mode);
-void plot_obstacle(UINT32 *base, int x, int gap_y, int gap_height, int pipe_width, int thickness);
-                
+void plot_obstacle(UINT32 *base, int x, int gap_y, int gap_height, int pipe_width,
+                int thickness);               
 void plot_borders();
-void plot_triangle_border(UINT32 *base, const UINT32 *bitmap_top, const UINT32 *bitmap_bottom);
-void plot_start_button(UINT32 *base, const UINT32 *left_bitmap, const UINT32 *right_bitmap);
+void plot_triangle_border(UINT32 *base, const UINT32 *bitmap_top,
+                const UINT32 *bitmap_bottom);
+plot_top_start_button(UINT32 *base, const UINT32 *top_lt_bitmap,
+                const UINT32 *top_mid_lt_bitmap, const UINT32 *top_mid_rt_bitmap,
+                const UINT32 *top_rt_bitmap);
+plot_bottom_start_button(UINT32 *base, const UINT32 *bottom_lt_bitmap,
+                const UINT32 *bottom_mid_lt_bitmap,
+                const UINT32 *bottom_mid_rt_bitmap,
+                const UINT32 *bottom_rt_bitmap);
 void disable_cursor();
 #endif

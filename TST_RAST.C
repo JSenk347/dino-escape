@@ -23,11 +23,8 @@ int main()
 	plot_borders();
 
 	/* TRIANGLE BORDER BITMAPS */
-	plot_triangle_border((UINT32 *)base, top_triangle_bitmap, bottom_triangle_bitmap);
-	/*plot_bitmap_16((UINT16 *)base, 0, 50, top_triangle_bitmap, HEIGHT_16);
-	plot_bitmap_16((UINT16 *)base, 0, 330, bottom_triangle_bitmap, HEIGHT_16);*/
-	/*plot_bitmap_32((UINT32 *)base, 0, 50, top_triangle_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 0, 314, bottom_triangle_bitmap, HEIGHT_32); Will eventuall just call plot_triangle_borders(); to loop.*/
+	plot_triangle_border((UINT32 *)base, top_triangle_bitmap,
+			bottom_triangle_bitmap);
 	
 	/* DINOSAUR BITMAPS */
 	plot_bitmap_32((UINT32 *)base, 0, 184, dino_wdown_bitmap, HEIGHT_32);
@@ -46,12 +43,17 @@ int main()
 	plot_bitmap_32((UINT32 *)base, 567, 359, eight_bitmap, HEIGHT_32);
 	plot_bitmap_32((UINT32 *)base, 599, 359, nine_bitmap, HEIGHT_32);
 
-	/* Obstacle Plotting*/
+	/* OBSTACLE PLOTTING*/
 	plot_obstacle((UINT32 *)Physbase(), 250, 150, 140, 32, 2);
 	plot_obstacle((UINT32 *)Physbase(), 320, 100, 140, 32, 2);
 	
-	/* Start Button Plotting*/
-	plot_start_button((UINT32 *)base, start_button_lt_bitmap, start_button_rt_bitmap);
+	/* START BUTTON PLOTTING*/
+	plot_top_start_button((UINT32 *)base, lt_top_start_bitmap,
+			mid_lt_top_start_bitmap, mid_rt_top_start_bitmap,
+			rt_top_start_bitmap);
+	plot_top_start_button((UINT32 *)base, lt_bottom_start_bitmap,
+			mid_lt_bottom_start_bitmap, mid_rt_bottom_start_bitmap,
+			rt_bottom_start_bitmap);
 
 	Cconin();
 
