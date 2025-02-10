@@ -17,5 +17,6 @@ void plot_gline(unsigned short x1, unsigned short y1,
                 unsigned short x2, unsigned short y2,
                 short mode);
 void plot_borders();
+void plot_triangle_border(UINT32 *base, const UINT32 *bitmap_top, const UINT32 *bitmap_bottom);
 void disable_cursor();
 #endif

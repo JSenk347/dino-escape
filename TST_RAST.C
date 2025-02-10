@@ -22,11 +22,11 @@ int main()
 	plot_borders();
 
 	/* TRIANGLE BORDER BITMAPS */
-	/*plot_triangle_borders();*/
+	plot_triangle_border((UINT32 *)base, top_triangle_bitmap, bottom_triangle_bitmap);
 	/*plot_bitmap_16((UINT16 *)base, 0, 50, top_triangle_bitmap, HEIGHT_16);
 	plot_bitmap_16((UINT16 *)base, 0, 330, bottom_triangle_bitmap, HEIGHT_16);*/
-	plot_bitmap_32((UINT32 *)base, 0, 50, top_triangle_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 0, 314, bottom_triangle_bitmap, HEIGHT_32); /*Will eventuall just call plot_triangle_borders(); to loop.*/
+	/*plot_bitmap_32((UINT32 *)base, 0, 50, top_triangle_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 0, 314, bottom_triangle_bitmap, HEIGHT_32); Will eventuall just call plot_triangle_borders(); to loop.*/
 	
 	/* DINOSAUR BITMAPS */
 	plot_bitmap_32((UINT32 *)base, 0, 184, dino_wdown_bitmap, HEIGHT_32);
