@@ -6,6 +6,16 @@
 
 #define XOR 2
 
+
+/*******************************************************************************
+	PURPOSE: To plot 32 bit bitmaps at specified x and y coordinates
+	INPUT: 	- *base	pointer to the frame buffer
+			- x	x coordinate you'd like to plot the bitmap at
+			- y y coordinate you'd like to plot the bitmap at
+			- *bitmap pointer to the bitmap you'd like to plot
+			- height height of the bitmap you are plotting
+	OUTPUT: N/A
+*******************************************************************************/
 void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height) {
     int i;
     int word_offset = (x >> 5) + (y * 20); /* Word-aligned base offset */
@@ -25,23 +35,40 @@ void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned i
     }
 }
 
+/*******************************************************************************
+	PURPOSE: To plot 16 bit bitmaps at specified x and y coordinates
+	INPUT: 	- *base	pointer to the frame buffer
+			- x	x coordinate you'd like to plot the bitmap at
+			- y y coordinate you'd like to plot the bitmap at
+			- *bitmap pointer to the bitmap you'd like to plot
+			- height height of the bitmap you are plotting
+	OUTPUT: N/A
+*******************************************************************************/
 void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned int height){
 	int i;
-	int word_offset = (x >> 4) + (y * 40);
-	int bit_shift = x & 15;
+	int word_offset = (x >> 4) + (y * 40); /* Word-aligned base offset*/
+	int bit_shift = x & 15; /* Offset within the 32-bit words */
 
 	for (i = 0; i < height; i++){
 		UINT16 *pixel_addr = base + word_offset + (20 * i);
 
 		if (bit_shift == 0){
+			/* the bitmap is aligned with the frame buffer words*/
 			*pixel_addr |= bitmap[i];
 		} else {
-			pixel_addr[0] |= bitmap[i] >> bit_shift;
-			pixel_addr[0] |= bitmap[i] << (32 - bit_shift);
+			/* bitmap is split across two 32 bit words */
+			pixel_addr[0] |= bitmap[i] >> bit_shift; /* first part is in the current word*/
+			pixel_addr[0] |= bitmap[i] << (32 - bit_shift); /* second part is in the next word*/
 		}
 	}
 };
 
+/*
+	PURPOSE: To clear the screen and display all white
+	INPUT: 	- *base pointer to the frame buffer
+			- pattern the pixel state to fill the screen with (0/1)
+	OUTPUT: N/A
+*/
 void clear_screen(UINT16 *base, int pattern){
 	register int i = 0;
 	register UINT16 *loc = base;
@@ -52,14 +79,14 @@ void clear_screen(UINT16 *base, int pattern){
 }
 
 /*
-	MODES:
-		- 0: replace
-		- 1: or
-		- 2: xor
-		- 3: and
-	SUMMARY:
-		Plots a horizontal line at a specified y coordinate. 
-		linea0() must be called before this function.
+	PURPOSE: To plot a horizontal line at a specified y coordinate
+	INPUT: 	- y the y coordinate to plot the line at
+			- mode the behaviour of the line:
+				- 0: replace
+				- 1: or
+				- 2: xor
+				- 3: and
+	OUTPUT: N/A
 */
 void plot_hline(unsigned short y, short mode)
 {
@@ -73,6 +100,16 @@ void plot_hline(unsigned short y, short mode)
 	linea3();
 }
 
+/******************************************************************************
+	PURPOSE: To plot a vertical line at a specified x coordinate
+	INPUT: 	- x the x coordinate to plot the line at
+			- mode the behaviour of the line:
+				- 0: replace
+				- 1: or
+				- 2: xor
+				- 3: and				
+	OUTPUT: N/A
+******************************************************************************/
 void plot_vline(unsigned short x, short mode)
 {
 	X1 = x;
@@ -85,29 +122,49 @@ void plot_vline(unsigned short x, short mode)
 	linea3();
 }
 
+/*****************************************************************************
+	PURPOSE: To plot a general line at specified x1, y1, x2, and y2 coordinates
+	INPUT:	- x1 the x coordinate of the start of the line
+			- y1 the y coordinate of the start of the line
+			- x2 the x coordinate of the end of the line
+			- y2 the y coordinate of the end of the line
+	OUTPUT: N/A
+*****************************************************************************/
 void plot_gline(unsigned short x1, unsigned short y1,
 				unsigned short x2, unsigned short y2,
 				short mode)
 {
-	X1 = x1;
+	/* updating the line-a library variables*/
+	X1 = x1; 
 	Y1 = y1;
 	X2 = x2;
 	Y2 = y2;
 	LNMASK = 0xFFFF;
 	WMODE = mode;
 	LSTLIN = 0;
+
+	/* plotting the line */
 	linea3();
 }
 
+/*******************************************************************************
+	PURPOSE: 	To plot the upper and lower borders of the game, exclusing the 
+				ground and roof triangles (rocks)
+	INPUT: N/A
+	OUTPUT: N/A
+*******************************************************************************/
 void plot_borders()
 {
 	int i;
 
+	/* plots the upper and lower border lines with plot_hline()*/
 	for (i = 0; i < 50; i++){
 		plot_hline(i, XOR);
 		plot_hline(399 - i, XOR);
 	}
 
+	/*  plots lines to cancel out lines covering the score. will be implemented
+		in scoring function later in development*/
 	for (i = 390; i > 358; i--){
 		plot_gline(311, i, 631, i, XOR);
 	}
@@ -129,13 +186,15 @@ void plot_triangle_border(UINT32 *base, const UINT32 *bitmap_top, const UINT32 *
 	}
 }
 
-/*
-	Hides the cursor
-*/
+/*******************************************************************************
+	PURPOSE: To disable the cursor and remove it from the screen
+	INPUT: N/A
+	OUTPUT: N/A
+*******************************************************************************/
 void disable_cursor()
 {
-	printf("\033f");
-	fflush(stdout);
+	printf("\033f"); /* excutes "ESC + F" which disables the cursor*/
+	fflush(stdout); /* ensures above line is output immediatley*/
 }
 
 void plot_obstacle(UINT32 *base, int x, int gap_y, int gap_height, int pipe_width, int thickness)
