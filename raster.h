@@ -23,12 +23,11 @@ void plot_obstacle(UINT32 *base, int x, int gap_y, int gap_height, int pipe_widt
 void plot_borders();
 void plot_triangle_border(UINT32 *base, const UINT32 *bitmap_top,
                 const UINT32 *bitmap_bottom);
-plot_top_start_button(UINT32 *base, const UINT32 *top_lt_bitmap,
-                const UINT32 *top_mid_lt_bitmap, const UINT32 *top_mid_rt_bitmap,
-                const UINT32 *top_rt_bitmap);
-plot_bottom_start_button(UINT32 *base, const UINT32 *bottom_lt_bitmap,
-                const UINT32 *bottom_mid_lt_bitmap,
-                const UINT32 *bottom_mid_rt_bitmap,
-                const UINT32 *bottom_rt_bitmap);
+void plot_top_start_button(UINT32 *base, const UINT32 *lt_top_start_bitmap,
+	        const UINT32 *mid_lt_top_start_bitmap, const UINT32 *mid_rt_top_start_bitmap,
+	        const UINT32 *rt_top_start_bitmap);
+void plot_bottom_start_button(UINT32 *base, const UINT32 *lt_bottom_start_bitmap,
+	        const UINT32 *mid_lt_bottom_start_bitmap, const UINT32 *mid_rt_bottom_start_bitmap,
+	        const UINT32 *rt_bottom_start_bitmap);
 void disable_cursor();
 #endif

@@ -202,14 +202,14 @@ void plot_triangle_border(UINT32 *base, const UINT32 *bitmap_top,
 	INPUT:
 	OUTPUT:	N/A
 *******************************************************************************/
-void plot_top_start_button(UINT32 *base, const UINT32 *top_lt_bitmap,
-	const UINT32 *top_mid_lt_bitmap, const UINT32 *top_mid_rt_bitmap,
-	const UINT32 *top_rt_bitmap)
+void plot_top_start_button(UINT32 *base, const UINT32 *lt_top_start_bitmap,
+	const UINT32 *mid_lt_top_start_bitmap, const UINT32 *mid_rt_top_start_bitmap,
+	const UINT32 *rt_top_start_bitmap)
 {
-	plot_bitmap_32((UINT32 *)base, 256, 168, top_lt_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 288, 168, top_mid_lt_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 320, 168, top_mid_rt_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 352, 168, top_rt_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 256, 168, lt_top_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 288, 168, mid_lt_top_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 320, 168, mid_rt_top_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 352, 168, rt_top_start_bitmap, HEIGHT_32);
 }
 
 /*******************************************************************************
@@ -218,14 +218,14 @@ void plot_top_start_button(UINT32 *base, const UINT32 *top_lt_bitmap,
 	INPUT:
 	OUTPUT: N/A
 *******************************************************************************/
-void plot_bottom_start_button(UINT32 *base, const UINT32 *bottom_lt_bitmap,
-	const UINT32 *bottom_mid_lt_bitmap,	const UINT32 *bottom_mid_rt_bitmap,
-	const UINT32 *bottom_rt_bitmap)
+void plot_bottom_start_button(UINT32 *base, const UINT32 *lt_bottom_start_bitmap,
+	const UINT32 *mid_lt_bottom_start_bitmap, const UINT32 *mid_rt_bottom_start_bitmap,
+	const UINT32 *rt_bottom_start_bitmap)
 {
-	plot_bitmap_32((UINT32 *)base, 256, 200, bottom_lt_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 288, 200, bottom_mid_lt_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 320, 200, bottom_mid_rt_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 352, 200, bottom_rt_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 256, 200, lt_bottom_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 288, 200, mid_lt_bottom_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 320, 200, mid_rt_bottom_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 352, 200, rt_bottom_start_bitmap, HEIGHT_32);
 }
 
 /*******************************************************************************
