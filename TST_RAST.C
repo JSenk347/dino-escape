@@ -10,6 +10,7 @@
 #define XOR 2
 #define AND 3
 
+
 int main()
 {
 	void *base = Physbase();
@@ -19,7 +20,12 @@ int main()
 	clear_screen((UINT16 *)base, 0);
 
 	/* LINE PLOTTING */
+  
 	plot_borders();
+  /* Obstacle Plotting*/
+	
+	plot_obstacle((UINT32 *)Physbase(), 200, 120, 100, 16, 400, 2);
+	plot_obstacle((UINT32 *)Physbase(), 400, 150, 100, 16, 400, 2);
 
 	/* TRIANGLE BORDER BITMAPS */
 	/*plot_triangle_borders();*/
