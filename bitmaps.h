@@ -29,5 +29,6 @@ extern const UINT32 mid_rt_bottom_start_bitmap[HEIGHT_32];
 extern const UINT32 rt_bottom_start_bitmap[HEIGHT_32];
 extern const UINT32 obs_bottom_edge_bitmap[HEIGHT_32];
 extern const UINT32 obs_top_edge_bitmap[HEIGHT_32];
+extern const UINT32 obs_bitmap[HEIGHT_32];
 
 #endif
