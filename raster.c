@@ -157,7 +157,7 @@ void plot_gline(unsigned short x1, unsigned short y1,
 }
 
 /*******************************************************************************
-	PURPOSE: 	To plot the upper and lower borders of the game, exclusing the 
+	PURPOSE: 	To plot the upper and lower borders of the game, excluding the 
 				ground and roof triangles (rocks)
 	INPUT: 	N/A
 	OUTPUT: N/A
