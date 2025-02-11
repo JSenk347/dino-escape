@@ -16,10 +16,10 @@
 /*******************************************************************************
 	PURPOSE: To plot 32 bit bitmaps at specified x and y coordinates
 	INPUT: 	- *base	pointer to the frame buffer
-			- x	x coordinate you'd like to plot the bitmap at
-			- y y coordinate you'd like to plot the bitmap at
-			- *bitmap pointer to the bitmap you'd like to plot
-			- height height of the bitmap you are plotting
+		- x	x coordinate you'd like to plot the bitmap at
+		- y y coordinate you'd like to plot the bitmap at
+		- *bitmap pointer to the bitmap you'd like to plot
+		- height height of the bitmap you are plotting
 	OUTPUT: N/A
 *******************************************************************************/
 void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height)
