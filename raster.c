@@ -256,41 +256,22 @@ void disable_cursor()
 }
 
 /*******************************************************************************
-	PURPOSE: 
-	INPUT:
+	PURPOSE: Plots the obstacles for the game using plot_bitmap_32() to create upper and lower 
+	stalagtites and stalagmites for the bird to pass through or collide with.
+	INPUT:	- *base	pointer to the frame buffer
+			- x - x coordinate to plot the obstacle at
+			- gap_y - y coordinate to plot the gap at
+			- gap_height size of the gap between top and bottom obstacles
 	OUTPUT:	N/A
 *******************************************************************************/
-void plot_obstacle(UINT32 *base, int x, int gap_y, int gap_height, int pipe_width, int thickness)
+void plot_obstacle(UINT32 *base, int x, int gap_y, int gap_height)
 {
-    int i;
+    
+	plot_bitmap_32(base, x, gap_y + gap_height, obs_bitmap, 32);
+	plot_bitmap_32(base, x, gap_y + gap_height + 32, obs_bitmap, 32);
+	plot_bitmap_32(base, x, gap_y + gap_height + 64, obs_bitmap, 32);
 
-    /* Ensure x is word-aligned */
-    x &= ~1;
-
-    /* Adjust gap_y to be inside the borders */
-    if (gap_y < 50) gap_y = 50; /* Ensures it starts below the top black border */
-    if (gap_y + gap_height > 349) gap_height = 349 - gap_y; /* Ensures it ends above the bottom border */
-
-    /* Draw left vertical edge of the top pipe */
-    for (i = 0; i < thickness; i++) {
-        plot_gline(x + i, 50, x + i, gap_y, XOR);
-    }
-
-    /* Draw right vertical edge of the top pipe */
-    for (i = 0; i < thickness; i++) {
-        plot_gline(x + pipe_width - thickness + i, 50, x + pipe_width - thickness + i, gap_y, XOR);
-    }
-
-    /* Draw left vertical edge of the bottom pipe */
-    for (i = 0; i < thickness; i++) {
-        plot_gline(x + i, gap_y + gap_height, x + i, 349, XOR);
-    }
-
-    /* Draw right vertical edge of the bottom pipe */
-    for (i = 0; i < thickness; i++) {
-        plot_gline(x + pipe_width - thickness + i, gap_y + gap_height, x + pipe_width - thickness + i, 349, XOR);
-    }
-
+	plot_bitmap_32(base, x, gap_y + gap_height - 172, obs_bitmap, 32);
     /* Plot the 32x32 bitmap on top of the bottom pipe */
     plot_bitmap_32(base, x, gap_y + gap_height - 32, obs_top_edge_bitmap, 32);
 
