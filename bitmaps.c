@@ -1053,6 +1053,10 @@ const UINT32 obs_top_edge_bitmap[HEIGHT_32] =
 	0xC0000003,
 	0xC0000003	
 };
+
+/*******************************************************************************
+	32x32 pixel bitmap for straight portion of the obstacle.
+*******************************************************************************/
 const UINT32 obs_bitmap[HEIGHT_32] =
 {
     0xC0000003,
