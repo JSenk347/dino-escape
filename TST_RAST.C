@@ -50,7 +50,10 @@ int main()
 	plot_bitmap_32((UINT32 *)base, 599, 359, nine_bitmap, HEIGHT_32);
 
 	/* OBSTACLE PLOTTING */
+	/*
 	plot_obstacle((UINT32 *)Physbase(), 400, 100, 140);
+	*/
+	plot_obstacles((UINT32 *)base, 96, 279);
 	
 	/* START BUTTON PLOTTING */
 	plot_top_start_button((UINT32 *)base, lt_top_start_bitmap,

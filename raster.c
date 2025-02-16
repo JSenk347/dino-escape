@@ -11,6 +11,7 @@
 #include "bitmaps.h"
 
 #define XOR 2
+#define HALF_GAP 25
 
 
 /*******************************************************************************
@@ -264,6 +265,8 @@ void disable_cursor()
 			- gap_height size of the gap between top and bottom obstacles
 	OUTPUT:	N/A
 *******************************************************************************/
+
+/*
 void plot_obstacle(UINT32 *base, int x, int gap_y, int gap_height)
 {
     
@@ -272,9 +275,59 @@ void plot_obstacle(UINT32 *base, int x, int gap_y, int gap_height)
 	plot_bitmap_32(base, x, gap_y + gap_height + 64, obs_bitmap, 32);
 
 	plot_bitmap_32(base, x, gap_y + gap_height - 172, obs_bitmap, 32);
-    /* Plot the 32x32 bitmap on top of the bottom pipe */
+     Plot the 32x32 bitmap on top of the bottom pipe 
     plot_bitmap_32(base, x, gap_y + gap_height - 32, obs_top_edge_bitmap, 32);
 
-    /* Plot the 32x32 bitmap at the bottom of the top pipe */
+     Plot the 32x32 bitmap at the bottom of the top pipe 
     plot_bitmap_32(base, x, gap_y, obs_bottom_edge_bitmap, 32);
+	
+}
+*/
+
+void plot_top_obs(UINT32 *base, int x, int gap_y)
+{
+	int edge_y = gap_y - HALF_GAP - 32; /* - 32 to account for height of bitmap */ 
+	int base_y;
+	
+	plot_bitmap_32(base, x, edge_y, obs_bottom_edge_bitmap, HEIGHT_32);
+
+	if (edge_y >= 50 && edge_y <= 82){
+		base_y = edge_y - 32;
+		plot_bitmap_32(base, x, base_y, obs_bitmap, HEIGHT_32);
+	} else if (edge_y > 82){
+		plot_bitmap_32(base, x, 50, obs_bitmap, HEIGHT_32);
+		plot_gline(x, 82, x, edge_y, XOR);
+		plot_gline(x + 1, 82, x + 1, edge_y, XOR);
+		plot_gline(x + 30, 82, x + 30, edge_y, XOR);
+		plot_gline(x + 31, 82, x + 31, edge_y, XOR);
+	}
+}
+
+void plot_bottom_obs(UINT32 *base, int x, int gap_y)
+{
+	/* edge_y must be less than 298 so gap must be less than 279*/
+	int edge_y = gap_y + HALF_GAP; 
+	int base_y;
+	int cover_y1;
+	int cover_y2;
+	
+	plot_bitmap_32(base, x, edge_y, obs_top_edge_bitmap, HEIGHT_32);
+	plot_bitmap_32(base, x, 314, obs_bitmap, HEIGHT_32);
+
+	if (edge_y >= 303){
+		printf("ERROR IN: gap out of bounds");
+	} else if (edge_y < 282){
+		plot_gline(x, 313, x, edge_y + 31, XOR);
+		plot_gline(x + 1, 313, x + 1, edge_y + 31, XOR);
+		plot_gline(x + 30, 313, x + 30, edge_y + 31, XOR);
+		plot_gline(x + 31, 313, x + 31, edge_y + 31, XOR);
+	}
+}
+
+/*
+	GAP_Y must be between 279 and 107
+*/
+void plot_obstacles(UINT32 *base, int x, int gap_y){
+	plot_top_obs(base, x, gap_y);
+	plot_bottom_obs(base, x, gap_y);
 }

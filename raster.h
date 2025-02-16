@@ -18,7 +18,9 @@ void plot_vline(unsigned short x, short mode);
 void plot_gline(unsigned short x1, unsigned short y1,
                 unsigned short x2, unsigned short y2,
                 short mode);
-void plot_obstacle(UINT32 *base, int x, int gap_y, int gap_height);          
+void plot_top_obstacle(UINT32 *base, int x, int gap_y);
+void plot_bottom_obstacle(UINT32 *base, int x, int gap_y);
+void plot_obstacles(UINT32 *base, int x, int gap_y);          
 void plot_borders();
 void plot_triangle_border(UINT32 *base, const UINT32 *bitmap_top,
                 const UINT32 *bitmap_bottom);

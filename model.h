@@ -9,6 +9,14 @@ typedef struct {
     /*dino bitmap?*/
 } Dino;
 
+typedef struct {
+    unsigned int upr_x;
+    unsigned int upr_y;
+    unsigned int lwr_x;
+    unsigned int lwr_y;
+
+} Obs;
+
 /* FUNCTION DECLARATIONS */
 void move_dino(Dino *dino);
 #endif
