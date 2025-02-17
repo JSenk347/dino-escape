@@ -22,5 +22,5 @@ typedef struct {
 } All_models;
 
 /* FUNCTION DECLARATIONS */
-void move_dino(Dino *dino);
+void move_dino(Dino *dino, int direction);
 #endif
