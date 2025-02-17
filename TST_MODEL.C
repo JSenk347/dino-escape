@@ -11,7 +11,7 @@
 int main()
 {
     All_models initial_all = {
-        {0, 184, 0, 0},         /* Initializes dino start variables */
-        {}                      /* Initializes obstacle start variables */
-        } ;
+        {16, 184, 0, 0},         /* Initializes dino start variables */
+        {}                       /* Initializes obstacle start variables */
+    }; 
 }
