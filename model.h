@@ -6,7 +6,6 @@ typedef struct {
     unsigned int x, y;
     int vert_velocity;
     int vert_direction;
-    /*dino bitmap?*/
 } Dino;
 
 typedef struct {
@@ -16,6 +15,11 @@ typedef struct {
     unsigned int lwr_y;
 
 } Obs;
+
+typedef struct {
+    Dino dino;
+    Obs obstacle;
+} All_models;
 
 /* FUNCTION DECLARATIONS */
 void move_dino(Dino *dino);
