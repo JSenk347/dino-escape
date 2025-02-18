@@ -31,36 +31,20 @@ typedef struct {
 typedef struct
 {
     Vertex top_left;
+    Vertex top_right;
+    Vertex bot_left;
+    Vertex bot_right;
     unsigned int value;
     unsigned int bool_in_use;
-} Ones_digit;
-
-typedef struct
-{
-    Vertex top_left;
-    unsigned int value;
-    unsigned int bool_in_use;
-} Tens_digit;
-
-typedef struct
-{
-    Vertex top_left;
-    unsigned int value;
-    unsigned int bool_in_use;
-} Hund_digit;
-
-typedef struct
-{
-    Vertex top_left;
-    unsigned int value;
-    unsigned int bool_in_use;
-} Thous_digit;
+} Digit;
 
 typedef struct {
-    Ones_digit ones;
-    Tens_digit tens;
-    Hund_digit hund;
-    Thous_digit thous;
+    Vertex top_left;
+    Vertex top_right;
+    Vertex bot_left;
+    Vertex bot_right;
+    unsigned int max_value;
+    unsigned int value;
 } Score;
 
 typedef struct {
