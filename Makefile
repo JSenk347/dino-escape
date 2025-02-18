@@ -3,7 +3,7 @@ CC = cc68x
 RAST_OBJS = bitmaps.o raster.o tst_rast.o
 RAST = tst_rast
 
-MOD_OBJS = events.o model.o tst_model.o
+MOD_OBJS = events.o model.o tst_mod.o
 MOD = tst_mod
 
 raster: $(RAST)
@@ -22,8 +22,8 @@ events.o: events.c events.h
 model.o: model.c model.h
 	$(CC) -c model.c
 
-tst_model: tst_model.c tst_model.h
-	$(CC) -c tst_model.c -o tst_model.o
+tst_model: tst_mod.c tst_mod.h
+	$(CC) -c tst_mod.c
 
 bitmaps.o: bitmaps.c bitmaps.h raster.h
 	$(CC) -c bitmaps.c
@@ -32,10 +32,18 @@ raster.o: raster.c raster.h
 	$(CC) -c raster.c
 
 tst_rast.o: tst_rast.c raster.h
-	$(CC) -c tst_rast.c -o tst_rast.o
+	$(CC) -c tst_rast.c
+
+clean_model:
+	$(RM) $(MOD_OBJS) $(MOD)
 
 clean_raster:
 	$(RM) $(RAST_OBJS) $(RAST)
 
-clean_model:
-	$(RM) $(MOD_OBJS) $(MODEL)
+
+
+
+
+
+
+	

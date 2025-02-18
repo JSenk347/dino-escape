@@ -3,6 +3,7 @@
         "TST_RAST.C": "cpp",
         "ANIMATE.C": "cpp",
         "FILL.C": "cpp",
-        "TST_MODEL.C": "cpp"
+        "TST_MODEL.C": "cpp",
+        "tst_mod.C": "cpp"
     }
 }
