@@ -22,7 +22,7 @@ events.o: events.c events.h
 model.o: model.c model.h
 	$(CC) -c model.c
 
-tst_model: tst_mod.c tst_mod.h
+tst_mod.o: tst_mod.c tst_mod.h
 	$(CC) -c tst_mod.c
 
 bitmaps.o: bitmaps.c bitmaps.h raster.h
@@ -46,4 +46,3 @@ clean_raster:
 
 
 
-	
