@@ -1,9 +1,9 @@
-
+#include "events.h"
 
 
 /* SYNCHRONUS EVENTS */
 
-/* move_obstacles() */
+/* move_obstacles() - Joseph*/
 
 /* generate_obs_pos() */
 
@@ -12,6 +12,8 @@
 /* move_dino() */
 
 /* update_dino_sprint() */
+
+/* ASYNCHRONUS EVENTS */
 
 /* CONDITION BASED EVENTS */
 

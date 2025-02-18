@@ -7,6 +7,7 @@
 #include "bitmaps.h"
 #include "raster.h"
 #include "model.h"
+#include "events.h"
 
 int main()
 {
