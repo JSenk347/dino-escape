@@ -5,38 +5,51 @@
  DATE: Feb.10, 2025
 *******************************************************************************/
 #include "model.h"
-
 #include <stdio.h>
 
 #define HALF_GAP 25
+#define TOP_BORDER 50
+#define BOTTOM_BORDER 350
+#define DINO_HEIGHT 32
+
 /*******************************************************************************
 	PURPOSE: To move the dino vertically up or down the screen, while staying
-		within the gameplay borders.
-	INPUT: 	- pointer to the Dino object to be moved
-			- 
+				within the gameplay borders.
+	INPUT: 	- dino: pointer to the Dino object to be moved
+			- direction: integer set as either -1 or +1 used to determine up or
+				down movement
 	OUTPUT: N/A
 *******************************************************************************/
-
 void move_dino(Dino *dino, int direction)
 {
-	dino->y += (dino->vert_velocity*dino->vert_direction);
-
-	unsigned int top_border = 57;
-	unsigned int bottom_border = 83;
-	unsigned int dino_height = 32;
+	dino->top_left.y += (dino->vert_velocity*dino->vert_direction);
+	dino->top_right.y += (dino->vert_velocity*dino->vert_direction);
+	dino->bot_left.y += (dino->vert_velocity*dino->vert_direction);
+	dino->bot_right.y += (dino->vert_velocity*dino->vert_direction);
 
 	/* Limits dino movement to top border of gamescreen */
-	if (dino->y <= top_border) {
+	if (dino->top_left.y <= TOP_BORDER) {
 		dino->vert_velocity = 0;
-		dino->y = top_border + 1;
+		dino->top_left.y = TOP_BORDER + 1;
+		dino->top_right.y = TOP_BORDER + 1;
+		dino->bot_left.y = TOP_BORDER + (DINO_HEIGHT + 1);
+		dino->bot_right.y = TOP_BORDER + (DINO_HEIGHT + 1);
 	}
 	/* Limits dino movement to bottom border of gamescreen */
-	if (dino->y >= 115){
+	if (dino->bot_left.y >= BOTTOM_BORDER){
 		dino->vert_velocity = 0;
-		dino->y = bottom_border - (dino_height + 1);
+		dino->top_left.y = BOTTOM_BORDER - (DINO_HEIGHT + 1);
+		dino->top_right.y = BOTTOM_BORDER - (DINO_HEIGHT + 1);
+		dino->bot_left.y = BOTTOM_BORDER - 1;
+		dino->bot_right.y = BOTTOM_BORDER - 1;
 	}
 }
 
+/*******************************************************************************
+	PURPOSE:
+	INPUT: 	
+	OUTPUT: N/A
+*******************************************************************************/
 void init_obs_wall(Obs_wall *wall, unsigned int x, unsigned int gap_y) {
 	/* Bottom Obstacle */
 	wall -> bottom.top_left.x = x;
