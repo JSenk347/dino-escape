@@ -1,12 +1,29 @@
 CC = cc68x
 
-OBJ = bitmaps.o raster.o tst_rast.o
-EXEC = tst_rast
+RAST_OBJS = bitmaps.o raster.o tst_rast.o
+RAST = tst_rast
 
-all: $(EXEC)
+MOD_OBJS = events.o model.o tst_model.o
+MOD = tst_mod
 
-$(EXEC): $(OBJ)
-	$(CC) -o $(EXEC) $(OBJ)
+raster: $(RAST)
+
+model: $(MOD)
+
+$(RAST): $(RAST_OBJS)
+	$(CC) -o $(RAST) $(RAST_OBJS)
+
+$(MOD): $(MOD_OBJS)
+	$(CC) -o $(MOD) $(MOD_OBJS)
+
+events.o: events.c events.h
+	$(CC) -c events.c
+
+model.o: model.c model.h
+	$(CC) -c model.c
+
+tst_model: tst_model.c tst_model.h
+	$(CC) -c tst_model.c -o tst_model.o
 
 bitmaps.o: bitmaps.c bitmaps.h raster.h
 	$(CC) -c bitmaps.c
@@ -17,6 +34,8 @@ raster.o: raster.c raster.h
 tst_rast.o: tst_rast.c raster.h
 	$(CC) -c tst_rast.c -o tst_rast.o
 
-clean:
-	$(RM) $(OBJ) $(EXEC)
-	
+clean_raster:
+	$(RM) $(RAST_OBJS) $(RAST)
+
+clean_model:
+	$(RM) $(MOD_OBJS) $(MODEL)
