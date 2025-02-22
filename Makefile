@@ -39,10 +39,3 @@ clean_model:
 
 clean_raster:
 	$(RM) $(RAST_OBJS) $(RAST)
-
-
-
-
-
-
-

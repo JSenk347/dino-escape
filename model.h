@@ -1,6 +1,15 @@
 #ifndef MODEL_H
 #define MODEL_H
 
+#define SCREEN_WIDTH  680
+#define SCREEN_HEIGHT 400
+#define HALF_GAP      25
+#define TOP_BORDER    50
+#define BOTTOM_BORDER 350
+#define DINO_HEIGHT   32
+#define OBSTACLE_WIDTH 32  /* X dimension of each obstacle rectangle */
+
+
 /* STRUCTURE DEFINITIONS */
 typedef struct {
     unsigned int x, y;
@@ -61,5 +70,6 @@ typedef struct {
 } Model;
 
 /* FUNCTION DECLARATIONS */
-void move_dino(Dino *dino, int direction);
+void init_obs_wall(Obs_wall *wall, unsigned int x, unsigned int gap_y);
+void move_obstacles(Obs_wall *wall, int speed);
 #endif
