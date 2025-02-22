@@ -1,6 +1,9 @@
+#include <stdio.h>
+#include <osbind.h>
 #include "events.h"
-#include <osbind.h>  /* For Cconis() and Cnecin() */
+#include "model.h"
 
+/* For Cconis() and Cnecin() */
 /* Handles user input and calls other event-related functions */
 void handle_events(Model *gameModel) {
     /* Check for key press (example: 'w' for Dino jump) */
@@ -24,7 +27,11 @@ void handle_events(Model *gameModel) {
 
 /* SYNCHRONUS EVENTS */
 
-/* move_obstacles() - Joseph*/
+void move_obstacle(Model *gameModel) {
+    move_obstacles(&(gameModel->wall), OBSTACLE_SPEED); 
+    printf("🌪 Obstacle at X: %u\n", gameModel->wall.bottom.top_left.x);
+}
+
 
 /* generate_obs_pos() */
 
