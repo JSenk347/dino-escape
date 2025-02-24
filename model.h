@@ -4,7 +4,6 @@
 typedef unsigned int bool;
 #define TRUE 1
 #define FALSE 0
-
 /* STRUCTURE DEFINITIONS */
 typedef struct {
     unsigned int x, y;

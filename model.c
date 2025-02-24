@@ -1,10 +1,11 @@
 /*******************************************************************************
- AUTHORS: Anna Running Rabbit, Jordan Senko, Joseph Mills
- COURSE: COMP2659-001
- INSTRUCTOR: Tim Reimer
- DATE: Feb.24, 2025
+ AUTHORS:      Anna Running Rabbit, Jordan Senko, Joseph Mills
+ COURSE:       COMP2659-001
+ INSTRUCTOR:   Tim Reimer
+ DATE:         Feb.10, 2025
 
- SUMMARY: Contains object behaviour functions for all game objects
+ FILE: model.c
+ PURPOSE: Contains the data structures and related functions for the game model.
 *******************************************************************************/
 #include "model.h"
 #include <stdio.h>
@@ -19,12 +20,13 @@
 #define DINO_HEIGHT 32
 
 /*******************************************************************************
-	PURPOSE: To move the dino vertically up or down the screen, while staying
-				within the gameplay borders.
-	INPUT: 	- dino: pointer to the Dino object to be moved
-			- direction: integer set as either -1 or +1 used to determine up or
-				down movement
-	OUTPUT: N/A
+    PURPOSE: Moves the dino vertically up or down the screen, while staying
+             within the gameplay borders.
+    INPUT:
+      - dino: pointer to the Dino object to be moved
+      - direction: integer set as either -1 or +1 used to determine up or
+                   down movement
+    OUTPUT: N/A
 *******************************************************************************/
 void move_dino(Dino *dino, int direction){
 	dino->top_left.y += (dino->vert_velocity*dino->vert_direction);
@@ -91,13 +93,13 @@ void move_obstacles(Obs_wall *wall, unsigned int velocity){
 		return;
 	}
 	
-	wall -> bottom.bot_left.x = wall -> bottom.bot_left.x - velocity;
-	wall -> bottom.bot_right.x = wall -> bottom.bot_right.x - velocity;
-	wall -> bottom.top_left.x = wall -> bottom.top_left.x - velocity;
-	wall -> bottom.top_right.x = wall -> bottom.top_right.x - velocity;
+	wall -> bottom.bot_left.x -= velocity;
+	wall -> bottom.bot_right.x -= velocity;
+	wall -> bottom.top_left.x -= velocity;
+	wall -> bottom.top_right.x -= velocity;
 	
-	wall -> top.bot_left.x = wall -> top.bot_left.x - velocity;
-	wall -> top.bot_right.x = wall -> top.bot_right.x - velocity;
-	wall -> top.top_left.x = wall -> top.top_left.x - velocity;
-	wall -> top.top_right.x = wall -> top.top_right.x - velocity;
+	wall -> top.bot_left.x = wall -= velocity;
+	wall -> top.bot_right.x = wall -= velocity;
+	wall -> top.top_left.x = wall -= velocity;
+	wall -> top.top_right.x = wall -= velocity;
 }
