@@ -2,7 +2,9 @@
  AUTHORS: Anna Running Rabbit, Jordan Senko, Joseph Mills
  COURSE: COMP2659-001
  INSTRUCTOR: Tim Reimer
- DATE: Feb.10, 2025
+ DATE: Feb.24, 2025
+
+ SUMMARY: Contains functions for all game raster graphics
 *******************************************************************************/
 #include "raster.h" 
 #include <stdio.h>

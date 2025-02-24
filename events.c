@@ -1,3 +1,14 @@
+/*******************************************************************************
+ AUTHORS: Anna Running Rabbit, Jordan Senko, Joseph Mills
+ COURSE: COMP2659-001
+ INSTRUCTOR: Tim Reimer
+ DATE: Feb.24, 2025
+
+ SUMMARY: Contains ..... (incomplete)
+*******************************************************************************/
+#include "events.h"
+#include "model.h"
+
 #include <stdio.h>
 #include <osbind.h>
 #include "events.h"
@@ -41,14 +52,13 @@ void move_obstacle(Model *gameModel) {
         move_obstacles(&gameModel->wall, OBSTACLE_SPEED);
         printf("Step %d - Obstacle Bottom top-right X: %u\n", i + 1, gameModel->wall.bottom.top_right.x);
     
-        /* ✅ Check if reset occurs after moving off the screen */
+        /* Check if reset occurs after moving off the screen */
         if (gameModel->wall.bottom.top_right.x == SCREEN_WIDTH + OBSTACLE_WIDTH - 1) {
             printf("Obstacle reset to right side at Step %d\n", i + 1);
             i = 250;  
         }
     }
 }
-
 /* generate_obs_pos() */
 
 /* check_game_state() */
@@ -61,9 +71,19 @@ void move_obstacle(Model *gameModel) {
 
 /* CONDITION BASED EVENTS */
 
-/* update_score() */
+void update_score(Model *game){
+    int value;
 
-/* move_dino() */
+    Score *score = &(game -> game_state.score);
+    if (score -> value < score -> max_value){
+        (score -> value)++;
+        value = score -> value;
+        (score -> digits)[0].value = (value / 1000) % 10;
+        (score -> digits)[1].value = (value / 100) % 10;
+        (score -> digits)[2].value = (value / 10) % 10;
+        (score -> digits)[3].value = value % 10;
+    }
+}
 
 /* upper_edge_collision() */
 

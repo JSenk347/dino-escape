@@ -1,15 +1,9 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-#define SCREEN_WIDTH  680
-#define SCREEN_HEIGHT 400
-#define HALF_GAP      25
-#define TOP_BORDER    50
-#define BOTTOM_BORDER 350
-#define DINO_HEIGHT   32
-#define OBSTACLE_WIDTH 32  /* X dimension of each obstacle rectangle */
-
-
+typedef unsigned int bool;
+#define TRUE 1
+#define FALSE 0
 /* STRUCTURE DEFINITIONS */
 typedef struct {
     unsigned int x, y;
@@ -44,7 +38,6 @@ typedef struct
     Vertex bot_left;
     Vertex bot_right;
     unsigned int value;
-    unsigned int bool_in_use;
 } Digit;
 
 typedef struct {
@@ -52,24 +45,28 @@ typedef struct {
     Vertex top_right;
     Vertex bot_left;
     Vertex bot_right;
+    Digit digits[4];
     unsigned int max_value;
     unsigned int value;
 } Score;
 
 typedef struct {
-    int start_flag;
-    int lost_flag;
-    int dead_flag;
-    int score;
+    bool start_flag;
+    bool lost_flag;
+    bool dead_flag;
+    Score score;
 } Context;
 
 typedef struct {
     Dino dino;
     Obs_wall wall;
     Score score;
+    Context game_state;
 } Model;
 
 /* FUNCTION DECLARATIONS */
-void init_obs_wall(Obs_wall *wall, unsigned int x, unsigned int gap_y);
-void move_obstacles(Obs_wall *wall, int speed);
+void move_dino(Dino *dino, int direction);
+void init_obs_wall(Obs_wall *wall, unsigned int gap_y);
+unsigned int gap_y();
+void move_obstacles(Obs_wall *wall, unsigned int velocity);
 #endif
