@@ -58,20 +58,7 @@ int main() {
     printf("Dino Position after hitting BOTTOM border: Top-Left Y = %d\n", init_all.dino.top_left.y);
 
     /* Place obstacle at the right side of the screen */
-    init_obs_wall(&init_all.wall, SCREEN_WIDTH, GAP_CENTER);
-    printf("Initial Obstacle Position (Bottom top-left X): %u\n", init_all.wall.bottom.top_left.x);
-   
-
-    for (i = 0; i < 250; i++) {  /* Move enough times to ensure reset triggers */
-        move_obstacles(&init_all.wall, OBSTACLE_SPEED);
-        printf("Step %d - Obstacle Bottom top-right X: %u\n", i + 1, init_all.wall.bottom.top_right.x);
-    
-        /* ✅ Check if reset occurs after moving off the screen */
-        if (init_all.wall.bottom.top_right.x == SCREEN_WIDTH + OBSTACLE_WIDTH - 1) {
-            printf("Obstacle reset to right side at Step %d\n", i + 1);
-            i = 250;  
-        }
-    }
+    move_obstacle(&init_all);
     
     return 0;
 }
