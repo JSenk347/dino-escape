@@ -3,6 +3,8 @@
  COURSE: COMP2659-001
  INSTRUCTOR: Tim Reimer
  DATE: Feb.10, 2025
+
+ SUMMARY: Contains all game bitmaps
 *******************************************************************************/
 #include "raster.h"
 

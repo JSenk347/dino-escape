@@ -61,6 +61,7 @@ typedef struct {
 typedef struct {
     Dino dino;
     Obs_wall wall;
+    Score score;
     Context game_state;
 } Model;
 

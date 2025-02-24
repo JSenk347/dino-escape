@@ -2,7 +2,9 @@
  AUTHORS: Anna Running Rabbit, Jordan Senko, Joseph Mills
  COURSE: COMP2659-001
  INSTRUCTOR: Tim Reimer
- DATE: Feb.10, 2025
+ DATE: Feb.24, 2025
+
+ SUMMARY: Contains object behaviour functions for all game objects
 *******************************************************************************/
 #include "model.h"
 #include <stdio.h>
@@ -11,7 +13,7 @@
 
 #define HALF_GAP 25
 #define T_BORDER_Y 49
-#define B_BORDER_Y 349
+#define B_BORDER_Y 352
 #define R_BORDER_X 639
 #define L_BORDER_X 0
 #define DINO_HEIGHT 32
@@ -24,8 +26,7 @@
 				down movement
 	OUTPUT: N/A
 *******************************************************************************/
-void move_dino(Dino *dino, int direction)
-{
+void move_dino(Dino *dino, int direction){
 	dino->top_left.y += (dino->vert_velocity*dino->vert_direction);
 	dino->top_right.y += (dino->vert_velocity*dino->vert_direction);
 	dino->bot_left.y += (dino->vert_velocity*dino->vert_direction);
