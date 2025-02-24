@@ -1,3 +1,11 @@
+/*******************************************************************************
+ AUTHORS: Anna Running Rabbit, Jordan Senko, Joseph Mills
+ COURSE: COMP2659-001
+ INSTRUCTOR: Tim Reimer
+ DATE: Feb.24, 2025
+
+ SUMMARY: Contains ..... (incomplete)
+*******************************************************************************/
 #include "events.h"
 #include "model.h"
 

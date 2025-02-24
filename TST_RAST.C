@@ -33,9 +33,9 @@ int main()
 			bottom_triangle_bitmap);
 	
 	/* DINOSAUR BITMAPS */
-	plot_bitmap_32((UINT32 *)base, 0, 184, dino_wdown_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 32, 184, dino_wup_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 64, 184, dino_dead_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 16, 184, dino_wdown_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 48, 184, dino_wup_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 80, 184, dino_dead_bitmap, HEIGHT_32);
 
 	/* NUMBER BITMAPS */
 	plot_bitmap_32((UINT32 *)base, 311, 359, zero_bitmap, HEIGHT_32);
