@@ -34,7 +34,7 @@ int main() {
 
     wait_for_game_start(&init_all);
     init_obs_wall(&init_all.wall, gap_y());
-    while (!init_all.game_state.lost_flag) {
+    while (!init_all.game_state.dead_flag) {
         handle_events(&init_all);  
         move_obstacle(&init_all);
 
@@ -46,7 +46,7 @@ int main() {
             init_all.score.value);
      
      
-        if (init_all.game_state.lost_flag) {
+        if (init_all.game_state.dead_flag) {
             printf("Game Over!\n");
         }
     }
