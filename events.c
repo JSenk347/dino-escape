@@ -1,64 +1,69 @@
-/*******************************************************************************
- AUTHORS: Anna Running Rabbit, Jordan Senko, Joseph Mills
- COURSE: COMP2659-001
- INSTRUCTOR: Tim Reimer
- DATE: Feb.24, 2025
-
- SUMMARY: Contains ..... (incomplete)
-*******************************************************************************/
-#include "events.h"
-#include "model.h"
-
 #include <stdio.h>
 #include <osbind.h>
 #include "events.h"
 #include "model.h"
 
-#define SCREEN_WIDTH 680
-#define GAP_CENTER   200
-#define OBSTACLE_SPEED 3
-#define TRUE 1
-#define FALSE 0
+void wait_for_game_start(Model *gameModel) {
+    printf("Press ENTER to start the game...\n");
+
+    while (!gameModel->game_state.start_flag) {
+        if (Cconis()) {                  // Check if a key is pressed
+            char key = Cnecin();         // Read the pressed key
+
+            if (key == '\r') {           // '\r' corresponds to the Enter key
+                gameModel->game_state.start_flag = TRUE;
+                printf("Game started by user!\n");  // ✅ Message printed when Enter is pressed
+            }
+        }
+    }
+}
 
 /* For Cconis() and Cnecin() */
 /* Handles user input and calls other event-related functions */
-void handle_events(Model *gameModel) {
-    /* Check for key press (example: 'w' for Dino jump) */
-    if (Cconis()) {  /* Cconis() checks if a key is pressed */
-        char key = Cnecin();  /* Reads the pressed key */
+void handle_events(Model *gameModel)
+{
+    /* 1) Asynchronous key presses */
+    handle_input(gameModel);
 
-        if (key == 'w') {  /* Simulate Dino jump */
-            gameModel->dino.vert_velocity = -5;
+    /* 2) Synchronous (clock/tick) updates */
+    handle_clock_tick(gameModel);
+
+    /* 3) Condition-based checks (collisions, etc.) */
+    check_conditions(gameModel);
+}
+
+void handle_input(Model *gameModel) {
+    if (Cconis()) {                   
+        char key = Cnecin();          
+
+        if (key == 'w') {             
+            gameModel->dino.vert_velocity = 5;
             gameModel->dino.vert_direction = -1;
+            move_dino(&gameModel->dino);
+            printf("Dino moved up!\n");
+
+        } else if (key == 's') {      
+            gameModel->dino.vert_velocity = 5;
+            gameModel->dino.vert_direction = 1;
+            move_dino(&gameModel->dino);
+            printf("Dino moved down!\n");
+
+        } else if (key == 'q') {      
+            gameModel->game_state.start_flag = FALSE;
+            printf("Game ended by user.\n");
         }
     }
-
-    /* Simulate gravity (Dino returns down after jump) */
-    if (gameModel->dino.vert_velocity < 5) {
-        gameModel->dino.vert_velocity += 1;
-        gameModel->dino.vert_direction = 1;
-    }
-    move_dino(&gameModel->dino, gameModel->dino.vert_direction);
 }
 
 
 /* SYNCHRONUS EVENTS */
-void move_obstacle(Model *gameModel) {
-    int i;
-    finit_obs_wall(&gameModel->wall, SCREEN_WIDTH, GAP_CENTER);
-    printf("Initial Obstacle Position (Bottom top-left X): %u\n", gameModel->wall.bottom.top_left.x);
-   
-    for (i = 0; i < 250; i++) {  /* Move enough times to ensure reset triggers */
-        move_obstacles(&gameModel->wall, OBSTACLE_SPEED);
-        printf("Step %d - Obstacle Bottom top-right X: %u\n", i + 1, gameModel->wall.bottom.top_right.x);
-    
-        /* Check if reset occurs after moving off the screen */
-        if (gameModel->wall.bottom.top_right.x == SCREEN_WIDTH + OBSTACLE_WIDTH - 1) {
-            printf("Obstacle reset to right side at Step %d\n", i + 1);
-            i = 250;  
-        }
-    }
+
+void move_obstacle(Model gameModel) {
+    move_obstacles(&gameModel, OBSTACLE_SPEED); 
+    printf("Obstacle at X: %u\n", gameModel->wall.bottom.top_left.x);
 }
+
+
 /* generate_obs_pos() */
 
 /* check_game_state() */
@@ -71,19 +76,9 @@ void move_obstacle(Model *gameModel) {
 
 /* CONDITION BASED EVENTS */
 
-void update_score(Model *game){
-    int value;
+/* update_score() */
 
-    Score *score = &(game -> game_state.score);
-    if (score -> value < score -> max_value){
-        (score -> value)++;
-        value = score -> value;
-        (score -> digits)[0].value = (value / 1000) % 10;
-        (score -> digits)[1].value = (value / 100) % 10;
-        (score -> digits)[2].value = (value / 10) % 10;
-        (score -> digits)[3].value = value % 10;
-    }
-}
+/* move_dino() */
 
 /* upper_edge_collision() */
 
