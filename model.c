@@ -12,13 +12,6 @@
 #include <ctime>
 #include <cstdlib>
 
-#define HALF_GAP 25
-#define T_BORDER_Y 49
-#define B_BORDER_Y 352
-#define R_BORDER_X 639
-#define L_BORDER_X 0
-#define DINO_HEIGHT 32
-
 /*******************************************************************************
     PURPOSE: Moves the dino vertically up or down the screen, while staying
              within the gameplay borders.
@@ -28,7 +21,7 @@
                    down movement
     OUTPUT: N/A
 *******************************************************************************/
-void move_dino(Dino *dino, int direction){
+void move_dino(Dino *dino){
 	dino->top_left.y += (dino->vert_velocity*dino->vert_direction);
 	dino->top_right.y += (dino->vert_velocity*dino->vert_direction);
 	dino->bot_left.y += (dino->vert_velocity*dino->vert_direction);
@@ -98,8 +91,8 @@ void move_obstacles(Obs_wall *wall, unsigned int velocity){
 	wall -> bottom.top_left.x -= velocity;
 	wall -> bottom.top_right.x -= velocity;
 	
-	wall -> top.bot_left.x = wall -= velocity;
-	wall -> top.bot_right.x = wall -= velocity;
-	wall -> top.top_left.x = wall -= velocity;
-	wall -> top.top_right.x = wall -= velocity;
+	wall -> top.bot_left.x -= velocity;
+	wall -> top.bot_right.x -= velocity;
+	wall -> top.top_left.x -= velocity;
+	wall -> top.top_right.x -= velocity;
 }
