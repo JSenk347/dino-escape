@@ -4,6 +4,13 @@
 typedef unsigned int bool;
 #define TRUE 1
 #define FALSE 0
+#define HALF_GAP 25
+#define T_BORDER_Y 49
+#define B_BORDER_Y 352
+#define R_BORDER_X 639
+#define L_BORDER_X 0
+#define DINO_HEIGHT 32
+
 /* STRUCTURE DEFINITIONS */
 typedef struct {
     unsigned int x, y;
@@ -65,7 +72,7 @@ typedef struct {
 } Model;
 
 /* FUNCTION DECLARATIONS */
-void move_dino(Dino *dino, int direction);
+void move_dino(Dino *dino);
 void init_obs_wall(Obs_wall *wall, unsigned int gap_y);
 unsigned int gap_y();
 void move_obstacles(Obs_wall *wall, unsigned int velocity);

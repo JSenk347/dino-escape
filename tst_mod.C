@@ -11,7 +11,7 @@
 #include "model.h"
 #include "events.h"
 
-#define SCREEN_WIDTH 680
+#define SCREEN_WIDTH 640
 #define GAP_CENTER   200
 #define OBSTACLE_SPEED 3
 #define TRUE 1
@@ -29,44 +29,26 @@ int main() {
             {{537,359},{568,359},{537,390},{568,390},0},
             {{569,359},{600,359},{568,390},{600,390},0},
             {{601,359},{632,359},{601,390},{632,390},0}},5000,0},
-        {}                                                            /* Context variables */
+        {0,0,0},                                                            /* Context variables */
     }; 
 
-    printf("Initial Dino Position: Top-Left Y = %d\n", init_all.dino.top_left.y);
+    wait_for_game_start(&init_all);
+    init_obs_wall(&init_all.wall, gap_y());
+    while (!init_all.game_state.lost_flag) {
+        handle_events(&init_all);  
+        move_obstacle(&init_all);
 
-    /* Move Dino UP by setting negative velocity */
-    init_all.dino.vert_velocity = 5;
-    init_all.dino.vert_direction = -1;
-    move_dino(&init_all.dino, init_all.dino.vert_direction);
-    printf("Dino Position after moving UP: Top-Left Y = %d\n", init_all.dino.top_left.y);
-
-    /* Move Dino DOWN by setting positive velocity */
-    init_all.dino.vert_velocity = 5;
-    init_all.dino.vert_direction = 1;
-    move_dino(&init_all.dino, init_all.dino.vert_direction);
-    printf("Dino Position after moving DOWN: Top-Left Y = %d\n", init_all.dino.top_left.y);
-
-    /* Test Top Border Limit */
-    init_all.dino.top_left.y = 49;  /* Just above top border (50) */
-    init_all.dino.vert_velocity = 5;
-    init_all.dino.vert_direction = -1;
-    move_dino(&init_all.dino, init_all.dino.vert_direction);
-    printf("Dino Position after hitting TOP border: Top-Left Y = %d\n", init_all.dino.top_left.y);
-
-        /* Test Bottom Border Limit */
-    init_all.dino.top_left.y = 351;
-    init_all.dino.top_right.y = 351;
-    init_all.dino.bot_left.y = 351 + DINO_HEIGHT - 1;   /* Ensure bottom matches top + height */
-    init_all.dino.bot_right.y = 351 + DINO_HEIGHT - 1;
-
-    init_all.dino.vert_velocity = 5;
-    init_all.dino.vert_direction = 1;
-    move_dino(&init_all.dino, init_all.dino.vert_direction);
-
-    printf("Dino Position after hitting BOTTOM border: Top-Left Y = %d\n", init_all.dino.top_left.y);
-
-    /* Place obstacle at the right side of the screen */
-    move_obstacle(&init_all);
-    
+        printf("Dino Y: %u | Bottom Obstacle Top-Left Y: %u "
+            "| Top Obstacle Top-Left Y: %u | Score: %u\n",
+            init_all.dino.top_right.y,
+            init_all.wall.bottom.top_left.y,
+            init_all.wall.top.bot_left.y,
+            init_all.score.value);
+     
+     
+        if (init_all.game_state.lost_flag) {
+            printf("Game Over!\n");
+        }
+    }
     return 0;
 }
