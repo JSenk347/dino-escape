@@ -38,11 +38,11 @@ int main() {
         handle_events(&init_all);  
         move_obstacle(&init_all);
 
-        printf("Dino Y: %u | Bottom Obstacle Top-Left X: %u "
-            "| Top Obstacle Top-Left X: %u | Score: %u\n",
+        printf("Dino Y: %u | Bottom Obstacle Top-Left Y: %u "
+            "| Top Obstacle Top-Left Y: %u | Score: %u\n",
             init_all.dino.top_right.y,
-            init_all.wall.bottom.top_left.x,
-            init_all.wall.top.top_left.x,
+            init_all.wall.bottom.top_left.y,
+            init_all.wall.top.bot_left.y,
             init_all.score.value);
      
      

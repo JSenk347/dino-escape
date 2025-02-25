@@ -53,9 +53,9 @@ void move_dino(Dino *dino){
 void init_obs_wall(Obs_wall *wall, unsigned int gap_y) {
 	/* Bottom Obstacle */
 	wall -> bottom.top_left.x = R_BORDER_X;
-	wall -> bottom.top_left.y = gap_y - HALF_GAP;
+	wall -> bottom.top_left.y = gap_y + HALF_GAP;
 	wall -> bottom.top_right.x = R_BORDER_X + 31;
-	wall -> bottom.top_right.y = gap_y - HALF_GAP;
+	wall -> bottom.top_right.y = gap_y + HALF_GAP;
 
 	wall -> bottom.bot_left.x = R_BORDER_X;
 	wall -> bottom.bot_left.y = B_BORDER_Y - 1;
@@ -69,9 +69,9 @@ void init_obs_wall(Obs_wall *wall, unsigned int gap_y) {
 	wall -> top.top_right.y = T_BORDER_Y + 1;
 
 	wall -> top.bot_left.x = R_BORDER_X;
-	wall -> top.bot_left.y = gap_y + HALF_GAP;
+	wall -> top.bot_left.y = gap_y - HALF_GAP;
 	wall -> top.bot_right.x = R_BORDER_X + 31;
-	wall -> top.bot_right.y = gap_y + HALF_GAP;
+	wall -> top.bot_right.y = gap_y - HALF_GAP;
 }
 
 unsigned int gap_y(){
@@ -79,6 +79,7 @@ unsigned int gap_y(){
 	/* returning a random int from 50 - 291 (inclusive)*/
 	return rand() % 242 + 50;
 }
+
 
 void move_obstacles(Obs_wall *wall, unsigned int velocity){
 	if (wall -> bottom.bot_right.x < L_BORDER_X && wall -> top.top_right.x < L_BORDER_X){
