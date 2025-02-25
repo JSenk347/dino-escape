@@ -15,10 +15,9 @@
 /*******************************************************************************
     PURPOSE: Moves the dino vertically up or down the screen, while staying
              within the gameplay borders.
-    INPUT:
-      - dino: pointer to the Dino object to be moved
-      - direction: integer set as either -1 or +1 used to determine up or
-                   down movement
+    INPUT:	- dino: pointer to the Dino object to be moved
+      		- direction: integer set as either -1 or +1 used to determine up or
+                down movement
     OUTPUT: N/A
 *******************************************************************************/
 void move_dino(Dino *dino){
