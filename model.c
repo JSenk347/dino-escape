@@ -9,8 +9,8 @@
 *******************************************************************************/
 #include "model.h"
 #include <stdio.h>
-#include <ctime>
-#include <cstdlib>
+#include <time.h>  
+#include <stdlib.h>  
 
 /*******************************************************************************
     PURPOSE: Moves the dino vertically up or down the screen, while staying
@@ -83,6 +83,7 @@ unsigned int gap_y(){
 void move_obstacles(Obs_wall *wall, unsigned int velocity){
 	if (wall -> bottom.bot_right.x < L_BORDER_X && wall -> top.top_right.x < L_BORDER_X){
 		init_obs_wall(wall, gap_y());
+		printf("Obstacle reset with new gap");
 		return;
 	}
 	

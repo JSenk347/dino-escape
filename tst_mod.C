@@ -29,20 +29,24 @@ int main() {
             {{537,359},{568,359},{537,390},{568,390},0},
             {{569,359},{600,359},{568,390},{600,390},0},
             {{601,359},{632,359},{601,390},{632,390},0}},5000,0},
-        {}                                                            /* Context variables */
+        {0,0,0},                                                            /* Context variables */
     }; 
 
     wait_for_game_start(&init_all);
-    
-    while (!gameModel.game_state.lost_flag) {
-        handle_events(&init_all);  // Handle input, obstacle movement, and collisions
+    init_obs_wall(&init_all.wall, gap_y());
+    while (!init_all.game_state.lost_flag) {
+        handle_events(&init_all);  
+        move_obstacle(&init_all);
 
-        printf("Dino Y: %u | Obstacle X: %u | Score: %u\n",
-               gameModel.dino.top_left.y,
-               gameModel.wall.bottom.top_left.x,
-               gameModel.score.value);
-
-        if (gameModel.game_state.lost_flag) {
+        printf("Dino Y: %u | Bottom Obstacle Top-Left X: %u "
+            "| Top Obstacle Top-Left X: %u | Score: %u\n",
+            init_all.dino.top_right.y,
+            init_all.wall.bottom.top_left.x,
+            init_all.wall.top.top_left.x,
+            init_all.score.value);
+     
+     
+        if (init_all.game_state.lost_flag) {
             printf("Game Over!\n");
         }
     }

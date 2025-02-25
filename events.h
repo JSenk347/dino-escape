@@ -8,7 +8,9 @@
 
 void handle_events(Model *gameModel);  /* Handles user input and synchronous events */
 void update_score(Model *gameModel);   /* Placeholder for updating score */
-void move_dino(Dino *dino, int direction); /* Moves the Dino */
 void move_obstacle(Model *gameModel);
+void handle_input(Model *gameModel);
+void check_conditions(Model *gameModel);
+void wait_for_game_start(Model *gameModel);
 
 #endif
