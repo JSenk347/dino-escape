@@ -119,7 +119,7 @@ void read_quit_req(Model *gameModel, char key)
 {
     if (key == 'q')
     {
-        gameModel->game_state.lost_flag = FALSE;
+        gameModel->game_state.lost_flag = TRUE;
         printf("Game ended by user.\n");
     }
 }
