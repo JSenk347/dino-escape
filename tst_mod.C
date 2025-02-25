@@ -11,7 +11,7 @@
 #include "model.h"
 #include "events.h"
 
-#define SCREEN_WIDTH 680
+#define SCREEN_WIDTH 640
 #define GAP_CENTER   200
 #define OBSTACLE_SPEED 3
 #define TRUE 1
@@ -32,41 +32,19 @@ int main() {
         {}                                                            /* Context variables */
     }; 
 
-    printf("Initial Dino Position: Top-Left Y = %d\n", init_all.dino.top_left.y);
-
-    /* Move Dino UP by setting negative velocity */
-    init_all.dino.vert_velocity = 5;
-    init_all.dino.vert_direction = -1;
-    move_dino(&init_all.dino, init_all.dino.vert_direction);
-    printf("Dino Position after moving UP: Top-Left Y = %d\n", init_all.dino.top_left.y);
-
-    /* Move Dino DOWN by setting positive velocity */
-    init_all.dino.vert_velocity = 5;
-    init_all.dino.vert_direction = 1;
-    move_dino(&init_all.dino, init_all.dino.vert_direction);
-    printf("Dino Position after moving DOWN: Top-Left Y = %d\n", init_all.dino.top_left.y);
-
-    /* Test Top Border Limit */
-    init_all.dino.top_left.y = 49;  /* Just above top border (50) */
-    init_all.dino.vert_velocity = 5;
-    init_all.dino.vert_direction = -1;
-    move_dino(&init_all.dino, init_all.dino.vert_direction);
-    printf("Dino Position after hitting TOP border: Top-Left Y = %d\n", init_all.dino.top_left.y);
-
-        /* Test Bottom Border Limit */
-    init_all.dino.top_left.y = 351;
-    init_all.dino.top_right.y = 351;
-    init_all.dino.bot_left.y = 351 + DINO_HEIGHT - 1;   /* Ensure bottom matches top + height */
-    init_all.dino.bot_right.y = 351 + DINO_HEIGHT - 1;
-
-    init_all.dino.vert_velocity = 5;
-    init_all.dino.vert_direction = 1;
-    move_dino(&init_all.dino, init_all.dino.vert_direction);
-
-    printf("Dino Position after hitting BOTTOM border: Top-Left Y = %d\n", init_all.dino.top_left.y);
-
-    /* Place obstacle at the right side of the screen */
-    move_obstacle(&init_all);
+    wait_for_game_start(&init_all);
     
+    while (!gameModel.game_state.lost_flag) {
+        handle_events(&init_all);  // Handle input, obstacle movement, and collisions
+
+        printf("Dino Y: %u | Obstacle X: %u | Score: %u\n",
+               gameModel.dino.top_left.y,
+               gameModel.wall.bottom.top_left.x,
+               gameModel.score.value);
+
+        if (gameModel.game_state.lost_flag) {
+            printf("Game Over!\n");
+        }
+    }
     return 0;
 }
