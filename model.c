@@ -98,3 +98,18 @@ void move_obstacles(Obs_wall *wall, unsigned int velocity){
 	wall -> top.top_left.x -= velocity;
 	wall -> top.top_right.x -= velocity;
 }
+
+void update_score(Model *game){
+    int value;
+
+    Score *score = &(game -> game_state.score);
+
+    if (score -> value < score -> max_value){
+        (score -> value)++;
+        value = score -> value;
+        (score -> digits)[0].value = (value / 1000) % 10;
+        (score -> digits)[1].value = (value / 100) % 10;
+        (score -> digits)[2].value = (value / 10) % 10;
+        (score -> digits)[3].value = value % 10;
+    }
+}

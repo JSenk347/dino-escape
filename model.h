@@ -76,4 +76,5 @@ void move_dino(Dino *dino);
 void init_obs_wall(Obs_wall *wall, unsigned int gap_y);
 unsigned int gap_y();
 void move_obstacles(Obs_wall *wall, unsigned int velocity);
+void update_score(Model *game);
 #endif
