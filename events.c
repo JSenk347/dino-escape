@@ -28,7 +28,7 @@ void wait_for_game_start(Model *gameModel)
 void handle_events(Model *gameModel)
 {
     /* 1) Asynchronous key presses */
-    handle_input(gameModel);
+    read_input(gameModel);
 
     /* 2) Synchronous (clock/tick) updates
     handle_clock_tick(gameModel);*/

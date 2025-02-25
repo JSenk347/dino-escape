@@ -14,6 +14,5 @@ void update_score(Model *gameModel);   /* Placeholder for updating score */
 void read_input(Model *gameModel);
 void read_dino_input(Model *gameModel, char key);
 void read_quit_req(Model *gameModel, char key);
-void handle_input(Model *gameModel);
 
 #endif
