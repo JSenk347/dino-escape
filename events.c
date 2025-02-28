@@ -1,3 +1,12 @@
+/*******************************************************************************
+ AUTHORS:      Anna Running Rabbit, Jordan Senko, Joseph Mills
+ COURSE:       COMP2659-001
+ INSTRUCTOR:   Tim Reimer
+ DATE:         Feb.10, 2025
+
+ FILE:          events.c
+ PURPOSE:       
+*******************************************************************************/
 #include <stdio.h>
 #include <osbind.h>
 #include <time.h>
