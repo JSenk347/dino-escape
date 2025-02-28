@@ -117,19 +117,40 @@ void wait_for_game_start(Model *gameModel)
 *******************************************************************************/
 void read_input(Model *gameModel)
 {
-    if (Cconis())
+    static char lastKey = 0; 
+
+    if (Cconis()) 
     {
-        char key = Cnecin();
-        /* Moves dino */
-        if (key == 'w' || key == 's')
+        char key = Cnecin(); 
+
+        
+        if (key == lastKey || key != lastKey)
         {
-            read_dino_input(gameModel,key);
+            lastKey = key; 
+
+            
+            while (Cconis()) 
+            {
+                Cnecin(); 
+            }
+
+            
+            if (key == 'w' || key == 's')
+            {
+                read_dino_input(gameModel, key);
+            }
+
+        
+            if (key == 'q')
+            {
+                read_quit_req(gameModel, key);
+            }
         }
-        /* Quits game */
-        if (key == 'q')
-        {
-            read_quit_req(gameModel,key);
-        }
+    }
+    else 
+    {
+        
+        lastKey = 0;
     }
 }
 
