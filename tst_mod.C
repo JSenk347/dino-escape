@@ -21,7 +21,7 @@
 int main() {
     int i;
     /* Initialize Model with Dino at (16, 184) */
-    Model init_all = {
+    Model new_game = {
         {{16,184},{47,184},{16,215},{47,215},0,0},                    /* Dino variables */
         {{{0,0},{0,0},{0,0},{0,0}}, {{0,0},{0,0},{0,0},{0,0}}, 278},  /* Obs_wall variables */
         {{505,359},{632,359},{505,390},{632,390},                     /* Score variables */
@@ -32,21 +32,21 @@ int main() {
         {0,0,0},                                                            /* Context variables */
     }; 
 
-    wait_for_game_start(&init_all);
-    init_obs_wall(&init_all.wall, gap_y());
-    while (!init_all.game_state.dead_flag) {
-        handle_events(&init_all);  
-        move_obstacle(&init_all);
+    wait_for_game_start(&new_game);
+    init_obs_wall(&new_game.wall, gap_y());
+    while (!new_game.game_state.dead_flag) {
+        handle_events(&new_game);  
+        move_obstacle(&new_game);
 
         printf("Dino Y: %u | Bottom Obstacle Top-Left Y: %u "
             "| Top Obstacle Top-Left Y: %u | Score: %u\n",
-            init_all.dino.top_right.y,
-            init_all.wall.bottom.top_left.y,
-            init_all.wall.top.bot_left.y,
-            init_all.score.value);
+            new_game.dino.top_right.y,
+            new_game.wall.bottom.top_left.y,
+            new_game.wall.top.bot_left.y,
+            new_game.score.value);
      
      
-        if (init_all.game_state.dead_flag) {
+        if (new_game.game_state.dead_flag) {
             printf("Game Over!\n");
         }
     }

@@ -137,7 +137,7 @@ void read_dino_input(Model *gameModel, char key)
     if (key == 'w')
     {
         gameModel->dino.vert_velocity = 5;
-        gameModel->dino.vert_direction = -1;
+        gameModel->dino.vert_direction = -1; /* Changes dino direction to up */
         move_dino(&gameModel->dino);
         printf("Dino moved up!\n");
     }
@@ -145,7 +145,7 @@ void read_dino_input(Model *gameModel, char key)
     else if (key == 's')
     {
         gameModel->dino.vert_velocity = 5;
-        gameModel->dino.vert_direction = 1;
+        gameModel->dino.vert_direction = 1; /* Changes dino direction to down */
         move_dino(&gameModel->dino);
         printf("Dino moved down!\n");
     }
@@ -184,7 +184,7 @@ void reflect_dino_death(Model *gameModel)
 {   
     /* Will need to add dino bitmap update to dino_dead_bitmap() */
 
-    gameModel->dino.vert_direction = -1;
+    gameModel->dino.vert_direction = 1; /* Changes dino direction to down */
     gameModel->dino.vert_velocity = gameModel->dino.vert_velocity*2;
-    move_dino(gameModel->dino);
+    move_dino(&gameModel->dino);
 }
