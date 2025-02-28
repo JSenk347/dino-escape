@@ -16,18 +16,18 @@
     PURPOSE: Moves the dino vertically up or down the screen, while staying
              within the gameplay borders.
     INPUT:	- dino: pointer to the Dino object to be moved
-      		- direction: integer set as either -1 or +1 used to determine up or
-                down movement
+      		- direction: integer set as either -1 to represent moving up or +1
+                to represent moving down
     OUTPUT: N/A
 *******************************************************************************/
-void move_dino(Dino *dino){
+void move_dino(Dino *dino) {
 	dino->top_left.y += (dino->vert_velocity*dino->vert_direction);
 	dino->top_right.y += (dino->vert_velocity*dino->vert_direction);
 	dino->bot_left.y += (dino->vert_velocity*dino->vert_direction);
 	dino->bot_right.y += (dino->vert_velocity*dino->vert_direction);
 
 	/* Limits dino movement to top border of gamescreen */
-	if (dino->top_left.y <= T_BORDER_Y) {
+	if (dino->top_left.y <= T_BORDER_Y && dino->vert_direction == -1) {
 		dino->vert_velocity = 0;
 		dino->top_left.y = T_BORDER_Y + 1;
 		dino->top_right.y = T_BORDER_Y + 1;
@@ -35,7 +35,7 @@ void move_dino(Dino *dino){
 		dino->bot_right.y = T_BORDER_Y + (DINO_HEIGHT + 1);
 	}
 	/* Limits dino movement to bottom border of gamescreen */
-	if (dino->bot_left.y >= B_BORDER_Y){
+	if (dino->bot_left.y >= B_BORDER_Y && dino->vert_direction == 1){
 		dino->vert_velocity = 0;
 		dino->top_left.y = B_BORDER_Y - (DINO_HEIGHT + 1);
 		dino->top_right.y = B_BORDER_Y - (DINO_HEIGHT + 1);
