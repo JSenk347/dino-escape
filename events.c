@@ -42,7 +42,7 @@ void handle_events(Model *gameModel)
 void move_obstacle(Model *gameModel)
 {
     /* Just call the model behavior function each tick */
-    move_obstacles(&gameModel->wall);
+    move_obstacles(gameModel);
     printf("Obstacle moving... Current X: %u\n", gameModel->wall.bottom.top_left.x);
 }
 

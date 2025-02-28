@@ -92,7 +92,7 @@ unsigned int gap_y(){
 void move_obstacles(Model *game){
 	/* Checks if reset is needed */
 	if (game -> wall.bottom.bot_right.x < L_BORDER_X && game -> wall.top.top_right.x < L_BORDER_X){
-		obs_reset(&game);
+		reset_obs(game);
 		/* init_obs_wall(wall, gap_y());
 		printf("Obstacle reset with new gap"); */
 		return;
