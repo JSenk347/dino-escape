@@ -90,6 +90,18 @@ void clear_screen(UINT16 *base, int pattern)
 		}
 }
 
+void clear_screen(UINT32 *base, UINT32 pattern)
+{
+    register int i = 0;
+    register UINT32 *loc = base;
+
+
+    while (i++ < (BYTES_PER_SCREEN) / 4) {  
+        *(loc++) = pattern;
+    }
+}
+
+
 /******************************************************************************
 	PURPOSE: To plot a horizontal line at a specified y coordinate
 	INPUT: 	- y the y coordinate to plot the line at
