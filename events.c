@@ -117,24 +117,15 @@ void wait_for_game_start(Model *gameModel)
 *******************************************************************************/
 void read_input(Model *gameModel)
 {
-    static char lastKey = 0; 
 
     if (Cconis()) 
     {
         char key = Cnecin(); 
-
-        
-        if (key == lastKey || key != lastKey)
-        {
-            lastKey = key; 
-
-            
             while (Cconis()) 
             {
                 Cnecin(); 
             }
 
-            
             if (key == 'w' || key == 's')
             {
                 read_dino_input(gameModel, key);
@@ -146,12 +137,7 @@ void read_input(Model *gameModel)
                 read_quit_req(gameModel, key);
             }
         }
-    }
-    else 
-    {
-        
-        lastKey = 0;
-    }
+    
 }
 
 /*******************************************************************************
