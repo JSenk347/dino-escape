@@ -13,7 +13,7 @@
 
 #define SCREEN_WIDTH 640
 #define GAP_CENTER   200
-#define OBSTACLE_SPEED 3
+#define OBS_START_SPEED 3
 #define TRUE 1
 #define FALSE 0
 #define X 1
@@ -23,7 +23,7 @@ int main() {
     /* Initialize Model with Dino at (16, 184) */
     Model new_game = {
         {{16,184},{47,184},{16,215},{47,215},0,0},                    /* Dino variables */
-        {{{0,0},{0,0},{0,0},{0,0}}, {{0,0},{0,0},{0,0},{0,0}}, FALSE, 278},  /* Obs_wall variables */
+        {{{0,0},{0,0},{0,0},{0,0}}, {{0,0},{0,0},{0,0},{0,0}}, FALSE, 278, OBS_START_SPEED},  /* Obs variables */
         {{505,359},{632,359},{505,390},{632,390},                     /* Score variables */
             {{{505,359},{536,359},{505,390},{536,390},0},
             {{537,359},{568,359},{537,390},{568,390},0},

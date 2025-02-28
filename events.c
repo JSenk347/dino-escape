@@ -42,7 +42,7 @@ void handle_events(Model *gameModel)
 void move_obstacle(Model *gameModel)
 {
     /* Just call the model behavior function each tick */
-    move_obstacles(&gameModel->wall, OBSTACLE_SPEED);
+    move_obstacles(&gameModel->wall);
     printf("Obstacle moving... Current X: %u\n", gameModel->wall.bottom.top_left.x);
 }
 
@@ -181,7 +181,7 @@ void read_quit_req(Model *gameModel, char key)
 /******************************************************************************************
     PURPOSE: To check whether the dino has passed a barrier or not, and then update the 
              score with update_score(Model *model)
-    INPUT: game The model of the game
+    INPUT:  - game The model of the game
     OUTPUT: N/A
 ******************************************************************************************/
 void check_score(Model *game){
