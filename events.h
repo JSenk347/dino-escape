@@ -19,4 +19,5 @@ void read_quit_req(Model *gameModel, char key);
 void point_scored(Model *gameModel);   /* Placeholder for updating score */
 void play_point_sound();                /* Placeholder for playing point sound */
 void reflect_dino_death(Model *gameModel);
+void check_score(Model *game);
 #endif

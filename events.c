@@ -168,7 +168,22 @@ void read_quit_req(Model *gameModel, char key)
 }
 
 /* CONDITION BASED EVENTS */
-/* point_scored() checks if obs was passed */
+
+/******************************************************************************************
+    PURPOSE: To check whether the dino has passed a barrier or not, and then update the 
+             score with update_score(Model *model)
+    INPUT: game The model of the game
+    OUTPUT: N/A
+******************************************************************************************/
+void check_score(Model *game){
+    Dino *dino = &(game -> dino);
+    Obs_wall *wall = &(game -> wall);
+
+    if ((dino -> bot_left.x > wall -> bottom.top_right.x)  && (wall -> been_passed == FALSE)){
+        update_score(game);
+        wall -> been_passed = TRUE;
+    }
+}
 
 /* play_point_sound() */
 
