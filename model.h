@@ -35,6 +35,7 @@ typedef struct{
 typedef struct {
     Obs top;
     Obs bottom;
+    bool been_passed;
     unsigned int gap_y;
 } Obs_wall;
 
