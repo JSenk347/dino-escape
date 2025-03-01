@@ -13,7 +13,7 @@ typedef unsigned int bool;
 
 /* STRUCTURE DEFINITIONS */
 typedef struct {
-    unsigned int x, y;
+    int x, y;
 } Vertex;
 
 typedef struct {

@@ -40,12 +40,12 @@ int main() {
         if (new_game.game_state.dead_flag) {
             printf("Game Over!\n");
         }
-    }
         printf("Dino Y: %u | Bottom Obstacle Top-Left Y: %u "
             "| Top Obstacle Top-Left Y: %u | Score: %u\n",
             new_game.dino.top_right.y,
             new_game.wall.bottom.top_left.y,
             new_game.wall.top.bot_left.y,
             new_game.score.value);
+        }
     return 0;
 }

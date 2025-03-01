@@ -43,7 +43,7 @@ void move_obstacle(Model *gameModel)
 {
     /* Just call the model behavior function each tick */
     move_obstacles(gameModel);
-    printf("Obstacle moving... Current X: %u\n", gameModel->wall.bottom.top_left.x);
+    printf("Obstacle moving... Current X: %u\n", gameModel -> wall.bottom.top_left.x);
 }
 
 /*******************************************************************************
@@ -54,31 +54,31 @@ void move_obstacle(Model *gameModel)
 *******************************************************************************/
 void check_conditions(Model *gameModel)
 {
-    Obs *top_obs = &gameModel->wall.top;
-    Obs *bottom_obs = &gameModel->wall.bottom;
-    Dino *d = &gameModel->dino;
+    Obs *top_obs = &gameModel -> wall.top;
+    Obs *bottom_obs = &gameModel -> wall.bottom;
+    Dino *d = &gameModel -> dino;
 
     /*Collision with TOP obstacle*/
-    if (d->top_left.x < top_obs->top_right.x &&
-        d->top_right.x > top_obs->top_left.x &&
-        d->top_left.y < top_obs->bot_left.y &&
-        d->bot_left.y > top_obs->top_left.y)
+    if (d -> top_left.x < top_obs -> top_right.x &&
+        d -> top_right.x > top_obs -> top_left.x &&
+        d -> top_left.y < top_obs -> bot_left.y &&
+        d -> bot_left.y > top_obs -> top_left.y)
     {
         reflect_dino_death(gameModel);
-        gameModel->game_state.lost_flag = TRUE;
-        gameModel->game_state.start_flag = FALSE;
+        gameModel -> game_state.lost_flag = TRUE;
+        gameModel -> game_state.start_flag = FALSE;
         printf("Collision with top obstacle!\n");
     }
 
     /*Collision with BOTTOM obstacle*/
-    if (d->top_left.x < bottom_obs->top_right.x &&
-        d->top_right.x > bottom_obs->top_left.x &&
-        d->top_left.y < bottom_obs->bot_left.y &&
-        d->bot_left.y > bottom_obs->top_left.y)
+    if (d -> top_left.x < bottom_obs -> top_right.x &&
+        d -> top_right.x > bottom_obs -> top_left.x &&
+        d -> top_left.y < bottom_obs -> bot_left.y &&
+        d -> bot_left.y > bottom_obs -> top_left.y)
     {
         reflect_dino_death(gameModel);
-        gameModel->game_state.lost_flag = TRUE;
-        gameModel->game_state.start_flag = FALSE;
+        gameModel -> game_state.lost_flag = TRUE;
+        gameModel -> game_state.start_flag = FALSE;
         printf("Collision with bottom obstacle!\n");
     }
 }
@@ -94,7 +94,7 @@ void wait_for_game_start(Model *gameModel)
 {
     printf("Press ENTER to start the game...\n");
 
-    while (!gameModel->game_state.start_flag)
+    while (!gameModel -> game_state.start_flag)
     {
         if (Cconis())
         {
@@ -102,7 +102,7 @@ void wait_for_game_start(Model *gameModel)
 
             if (key == '\r')
             {
-                gameModel->game_state.start_flag = TRUE;
+                gameModel -> game_state.start_flag = TRUE;
                 printf("Game started by user!\n");
             }
         }
@@ -152,17 +152,17 @@ void read_dino_input(Model *gameModel, char key)
     /* Moves dino up */
     if (key == 'w')
     {
-        gameModel->dino.vert_velocity = 5;
-        gameModel->dino.vert_direction = -1; /* Changes dino direction to up */
-        move_dino(&gameModel->dino);
+        gameModel -> dino.vert_velocity = 5;
+        gameModel -> dino.vert_direction = -1; /* Changes dino direction to up */
+        move_dino(&gameModel -> dino);
         printf("Dino moved up!\n");
     }
     /* Moves dino down */
     else if (key == 's')
     {
-        gameModel->dino.vert_velocity = 5;
-        gameModel->dino.vert_direction = 1; /* Changes dino direction to down */
-        move_dino(&gameModel->dino);
+        gameModel -> dino.vert_velocity = 5;
+        gameModel -> dino.vert_direction = 1; /* Changes dino direction to down */
+        move_dino(&gameModel -> dino);
         printf("Dino moved down!\n");
     }
 }
@@ -178,7 +178,7 @@ void read_quit_req(Model *gameModel, char key)
 {
     if (key == 'q')
     {
-        gameModel->game_state.dead_flag = TRUE;
+        gameModel -> game_state.dead_flag = TRUE;
         printf("Game ended by user.\n");
     }
 }
@@ -215,7 +215,7 @@ void reflect_dino_death(Model *gameModel)
 {   
     /* Will need to add dino bitmap update to dino_dead_bitmap() */
 
-    gameModel->dino.vert_direction = 1; /* Changes dino direction to down */
-    gameModel->dino.vert_velocity = gameModel->dino.vert_velocity*2;
-    move_dino(&gameModel->dino);
+    gameModel -> dino.vert_direction = 1; /* Changes dino direction to down */
+    gameModel -> dino.vert_velocity = gameModel -> dino.vert_velocity*2;
+    move_dino(&gameModel -> dino);
 }
