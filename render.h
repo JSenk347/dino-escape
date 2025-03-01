@@ -1,4 +1,4 @@
-const#ifndef RENDER_H
+#ifndef RENDER_H
 #define RENDER_H
 
 #include "raster.h"
@@ -7,8 +7,8 @@ const#ifndef RENDER_H
 #include "bitmaps.h"
 
 
-void render (const Model *model , UINT32 *base );
-void render_sceen(const Model *model , UINT32 *base);
+void render_game(const Model *model , UINT32 *base );
+void render_sceen(UINT16 *base);
 void render_dino(const Model *model , UINT32 *base);
 void render_score(const Model *model , UINT32 *base);
 void render_start(const Model *model , UINT32 *base);

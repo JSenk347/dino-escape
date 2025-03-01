@@ -9,9 +9,7 @@
  SUMMARY: Contains functions for all rendering game graphics
 *******************************************************************************/
 
-void render(const Model *model , UINT32 *base){
-    clear_screen((UINT32 *)base, 0);
-    render_sceen(model, base);
+void render_game(const Model *model , UINT32 *base){
     render_dino(model, base);
     render_obs(model, base);
     render_score(model, base);
@@ -19,8 +17,20 @@ void render(const Model *model , UINT32 *base){
 
 
 }
-void render_sceen(const Model *model , UINT32 *base){}
+void render_sceen(UINT16 *base){
+    clear_screen(base, 0);
+    plot_borders();
+}
 void render_dino(const Model *model , UINT32 *base){}
 void render_score(const Model *model , UINT32 *base){}
-void render_start(const Model *model , UINT32 *base){}
+void render_start(const Model *model , UINT32 *base){
+    plot_top_start_button((UINT32 *)base, lt_top_start_bitmap,
+			mid_lt_top_start_bitmap, mid_rt_top_start_bitmap,
+			rt_top_start_bitmap);
+	plot_bottom_start_button((UINT32 *)base, lt_bottom_start_bitmap,
+			mid_lt_bottom_start_bitmap, mid_rt_bottom_start_bitmap,
+			rt_bottom_start_bitmap);
+    return 0;
+}
 void render_obs(const Model *model , UINT32 *base){}
+ 
