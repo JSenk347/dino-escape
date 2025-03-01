@@ -1,13 +1,14 @@
-#include "render.h"
-#include "model.h"
 /*******************************************************************************
- AUTHORS: Anna Running Rabbit, Jordan Senko, Joseph Mills
- COURSE: COMP2659-001
- INSTRUCTOR: Tim Reimer
- DATE: Feb.24, 2025
+ AUTHORS:      Anna Running Rabbit, Jordan Senko, Joseph Mills
+ COURSE:       COMP2659-001
+ INSTRUCTOR:   Tim Reimer
+ DATE:         Mar.2, 2025
 
+ FILE: render.c
  SUMMARY: Contains functions for all rendering game graphics
 *******************************************************************************/
+#include "render.h"
+#include "model.h"
 
 void render_game(const Model *model , UINT32 *base){
     render_dino(model, base);
