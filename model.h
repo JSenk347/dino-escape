@@ -13,7 +13,7 @@ typedef unsigned int bool;
 
 /* STRUCTURE DEFINITIONS */
 typedef struct {
-    unsigned int x, y;
+    int x, y;
 } Vertex;
 
 typedef struct {
@@ -37,6 +37,7 @@ typedef struct {
     Obs bottom;
     bool been_passed;
     unsigned int gap_y;
+    unsigned int hor_velocity;
 } Obs_wall;
 
 typedef struct
@@ -76,6 +77,7 @@ typedef struct {
 void move_dino(Dino *dino);
 void init_obs_wall(Obs_wall *wall, unsigned int gap_y);
 unsigned int gap_y();
-void move_obstacles(Obs_wall *wall, unsigned int velocity);
+void move_obstacles(Model *game);
+void reset_obs(Model *game);
 void update_score(Model *game);
 #endif

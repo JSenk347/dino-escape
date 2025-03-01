@@ -50,6 +50,8 @@ void move_dino(Dino *dino) {
 	OUTPUT: N/A
 *******************************************************************************/
 void init_obs_wall(Obs_wall *wall, unsigned int gap_y) {
+	printf("In init_obs_wall");
+
 	/* Bottom Obstacle */
 	wall -> bottom.top_left.x = R_BORDER_X;
 	wall -> bottom.top_left.y = gap_y + HALF_GAP;
@@ -73,29 +75,53 @@ void init_obs_wall(Obs_wall *wall, unsigned int gap_y) {
 	wall -> top.bot_right.y = gap_y - HALF_GAP;
 }
 
+/*******************************************************************************
+	PURPOSE: 
+	INPUT: 	
+	OUTPUT: N/A
+*******************************************************************************/
 unsigned int gap_y(){
 	srand(time(0));
 	/* returning a random int from 50 - 291 (inclusive)*/
 	return rand() % 242 + 50;
 }
 
+/*******************************************************************************
+	PURPOSE: 
+	INPUT: 	
+	OUTPUT: N/A
+*******************************************************************************/
+void move_obstacles(Model *game){
+	game -> wall.bottom.bot_left.x -= game -> wall.hor_velocity;
+	game -> wall.bottom.bot_right.x -= game -> wall.hor_velocity;
+	game -> wall.bottom.top_left.x -= game -> wall.hor_velocity;
+	game -> wall.bottom.top_right.x -= game -> wall.hor_velocity;
+	
+	game -> wall.top.bot_left.x -= game -> wall.hor_velocity;
+	game -> wall.top.bot_right.x -= game -> wall.hor_velocity;
+	game -> wall.top.top_left.x -= game -> wall.hor_velocity;
+	game -> wall.top.top_right.x -= game -> wall.hor_velocity;
 
-void move_obstacles(Obs_wall *wall, unsigned int velocity){
-	if (wall -> bottom.bot_right.x < L_BORDER_X && wall -> top.top_right.x < L_BORDER_X){
-		init_obs_wall(wall, gap_y());
-		printf("Obstacle reset with new gap");
+	/* Checks if reset is needed */
+	if (game -> wall.bottom.bot_right.x <= L_BORDER_X && game -> wall.top.top_right.x <= L_BORDER_X){
+		printf("In reset if ");
+		reset_obs(game);
+		/* init_obs_wall(wall, gap_y());
+		printf("Obstacle reset with new gap"); */
 		return;
 	}
-	
-	wall -> bottom.bot_left.x -= velocity;
-	wall -> bottom.bot_right.x -= velocity;
-	wall -> bottom.top_left.x -= velocity;
-	wall -> bottom.top_right.x -= velocity;
-	
-	wall -> top.bot_left.x -= velocity;
-	wall -> top.bot_right.x -= velocity;
-	wall -> top.top_left.x -= velocity;
-	wall -> top.top_right.x -= velocity;
+}
+
+void reset_obs(Model *game){
+	/* Resets obstacle to right side of screen */
+	init_obs_wall(&game -> wall, gap_y());
+
+	/* Increase obstacle velocity if next level reached */
+	if (game -> score.value % 50 == 0){
+		game -> wall.hor_velocity += 1;
+	}
+
+	printf("Obstacle reset with new gap");
 }
 
 void update_score(Model *game){
