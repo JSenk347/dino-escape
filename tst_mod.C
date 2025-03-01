@@ -8,15 +8,9 @@
             dino, obs_wall, and score variables for now)
 *******************************************************************************/
 #include <stdio.h>
+#include "tst_mod.h"
 #include "model.h"
 #include "events.h"
-
-#define SCREEN_WIDTH 640
-#define GAP_CENTER   200
-#define OBS_START_SPEED 3
-#define TRUE 1
-#define FALSE 0
-#define X 1
 
 int main() {
     int i;
@@ -39,10 +33,10 @@ int main() {
         check_score(&new_game); 
         printf("Been Passed: %u\n", (int) new_game.wall.been_passed);
         printf("Score: %u\n", (int) new_game.score.value);
-        printf("Dino Y: %u | ", new_game.dino.top_left.y);
-        printf("Top Obs Bot Left X: %u | ", new_game.wall.top.bot_left.x);
-        printf("Top Obs Bot Right X: %u | ", new_game.wall.top.bot_right.x);
-        printf("Top Obs Bot Left Y: %u\n", new_game.wall.top.bot_left.y);
+        printf("Dino Top Lt Y: %u\n", new_game.dino.top_left.y);
+        printf("Top Obs Bot Lt X: %u | ", new_game.wall.top.bot_left.x);
+        printf("Top Obs Bot Rt X: %u | ", new_game.wall.top.bot_right.x);
+        printf("Top Obs Bot Lt Y: %u\n", new_game.wall.top.bot_left.y);
         move_obstacle(&new_game);
         if (new_game.game_state.dead_flag) {
             printf("Game Over!\n");
