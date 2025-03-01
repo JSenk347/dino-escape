@@ -50,8 +50,6 @@ void move_dino(Dino *dino) {
 	OUTPUT: N/A
 *******************************************************************************/
 void init_obs_wall(Obs_wall *wall, unsigned int gap_y) {
-	printf("In init_obs_wall");
-
 	/* Bottom Obstacle */
 	wall -> bottom.top_left.x = R_BORDER_X;
 	wall -> bottom.top_left.y = gap_y + HALF_GAP;
@@ -104,10 +102,7 @@ void move_obstacles(Model *game){
 
 	/* Checks if reset is needed */
 	if (game -> wall.bottom.bot_right.x <= L_BORDER_X && game -> wall.top.top_right.x <= L_BORDER_X){
-		printf("In reset if ");
 		reset_obs(game);
-		/* init_obs_wall(wall, gap_y());
-		printf("Obstacle reset with new gap"); */
 		return;
 	}
 }
