@@ -65,7 +65,7 @@ void check_conditions(Model *gameModel)
         d -> bot_left.y > top_obs -> top_left.y)
     {
         reflect_dino_death(gameModel);
-        gameModel -> game_state.lost_flag = TRUE;
+        gameModel -> game_state.dead_flag = TRUE;
         gameModel -> game_state.start_flag = FALSE;
         printf("Collision with top obstacle!\n");
     }
@@ -77,7 +77,7 @@ void check_conditions(Model *gameModel)
         d -> bot_left.y > bottom_obs -> top_left.y)
     {
         reflect_dino_death(gameModel);
-        gameModel -> game_state.lost_flag = TRUE;
+        gameModel -> game_state.dead_flag = TRUE;
         gameModel -> game_state.start_flag = FALSE;
         printf("Collision with bottom obstacle!\n");
     }
