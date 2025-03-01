@@ -192,17 +192,19 @@ void read_quit_req(Model *gameModel, char key)
     OUTPUT: N/A
 ******************************************************************************************/
 void check_score(Model *game){
-    Dino *dino = &(game -> dino);
-    Obs_wall *wall = &(game -> wall);
+    Dino *dino = &(game->dino);
+    Obs_wall *wall = &(game->wall);
 
-    printf("dino -> bot_left.x > wall -> bottom.top_right.x: %i\n", wall -> bottom.bot_right.x < dino -> bot_left.x);
+    printf("Checking score: Dino X: %u, Obstacle Right X: %u, Been Passed: %d\n",
+           dino->bot_left.x, wall->bottom.bot_right.x, wall->been_passed);
 
-    if ((wall -> bottom.bot_right.x < dino -> bot_left.x) && (wall->been_passed == FALSE)){
-
+    if ((wall->bottom.bot_right.x < dino->bot_left.x) && !wall->been_passed){
         update_score(game);
-        wall -> been_passed = TRUE;
+        wall->been_passed = TRUE;
+        printf("Score updated. New score: %d\n", game->score.value);
     }
 }
+
 
 /* play_point_sound() */
 

@@ -71,6 +71,7 @@ void init_obs_wall(Obs_wall *wall, unsigned int gap_y) {
 	wall -> top.bot_left.y = gap_y - HALF_GAP;
 	wall -> top.bot_right.x = R_BORDER_X + 31;
 	wall -> top.bot_right.y = gap_y - HALF_GAP;
+	wall -> been_passed = FALSE;
 }
 
 /*******************************************************************************
@@ -101,7 +102,7 @@ void move_obstacles(Model *game){
 	game -> wall.top.top_right.x -= game -> wall.hor_velocity;
 
 	/* Checks if reset is needed */
-	if (game -> wall.bottom.bot_right.x <= L_BORDER_X && game -> wall.top.top_right.x <= L_BORDER_X){
+	if (game -> wall.bottom.bot_right.x < L_BORDER_X && game -> wall.top.top_right.x < L_BORDER_X){
 		reset_obs(game);
 		return;
 	}

@@ -35,11 +35,13 @@ int main() {
     wait_for_game_start(&new_game);
     init_obs_wall(&new_game.wall, gap_y());
     while (!new_game.game_state.dead_flag) {
-        handle_events(&new_game);  
+        handle_events(&new_game); 
+        check_score(&new_game); 
         printf("Been Passed: %u\n", (int) new_game.wall.been_passed);
         printf("Score: %u\n", (int) new_game.score.value);
         printf("Dino Y: %u | ", new_game.dino.top_left.y);
         printf("Top Obs Bot Left X: %u | ", new_game.wall.top.bot_left.x);
+        printf("Top Obs Bot Right X: %u | ", new_game.wall.top.bot_right.x);
         printf("Top Obs Bot Left Y: %u\n", new_game.wall.top.bot_left.y);
         move_obstacle(&new_game);
         if (new_game.game_state.dead_flag) {
