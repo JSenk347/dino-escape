@@ -36,16 +36,15 @@ int main() {
     init_obs_wall(&new_game.wall, gap_y());
     while (!new_game.game_state.dead_flag) {
         handle_events(&new_game);  
+        printf("Been Passed: %u\n", (int) new_game.wall.been_passed);
+        printf("Score: %u\n", (int) new_game.score.value);
+        printf("Dino Y: %u | ", new_game.dino.top_left.y);
+        printf("Top Obs Bot Left X: %u | ", new_game.wall.top.bot_left.x);
+        printf("Top Obs Bot Left Y: %u\n", new_game.wall.top.bot_left.y);
         move_obstacle(&new_game);
         if (new_game.game_state.dead_flag) {
             printf("Game Over!\n");
         }
-        printf("Dino Y: %u | Bottom Obstacle Top-Left Y: %u "
-            "| Top Obstacle Top-Left Y: %u | Score: %u\n",
-            new_game.dino.top_right.y,
-            new_game.wall.bottom.top_left.y,
-            new_game.wall.top.bot_left.y,
-            new_game.score.value);
-        }
+    }
     return 0;
 }

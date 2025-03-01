@@ -122,7 +122,7 @@ void reset_obs(Model *game){
 void update_score(Model *game){
     int value;
 
-    Score *score = &(game -> game_state.score);
+    Score *score = &(game -> score);
 
     if (score -> value < score -> max_value){
         (score -> value)++;

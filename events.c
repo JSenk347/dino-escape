@@ -195,7 +195,10 @@ void check_score(Model *game){
     Dino *dino = &(game -> dino);
     Obs_wall *wall = &(game -> wall);
 
-    if ((dino -> bot_left.x > wall -> bottom.top_right.x)  && (wall -> been_passed == FALSE)){
+    printf("dino -> bot_left.x > wall -> bottom.top_right.x: %i\n", wall -> bottom.bot_right.x < dino -> bot_left.x);
+
+    if ((wall -> bottom.bot_right.x < dino -> bot_left.x) && (wall->been_passed == FALSE)){
+
         update_score(game);
         wall -> been_passed = TRUE;
     }

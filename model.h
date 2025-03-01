@@ -63,7 +63,6 @@ typedef struct {
     bool start_flag;
     bool lost_flag;
     bool dead_flag;
-    Score score;
 } Context;
 
 typedef struct {
