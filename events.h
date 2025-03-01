@@ -4,6 +4,7 @@
 #include "model.h"  /* Include Model definition for access */
 #define SPEED_INCREMENT 1
 #define SCORE_THRESHOLD 1000
+#define DEAD_VELOCITY 10
 
 void handle_events(Model *gameModel);  /* Handles user input and synchronous events */
 /* Synchronous events */

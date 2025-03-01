@@ -27,18 +27,18 @@ void move_dino(Dino *dino) {
 	dino->bot_right.y += (dino->vert_velocity*dino->vert_direction);
 
 	/* Limits dino movement to top border of gamescreen */
-	if (dino->top_left.y <= T_BORDER_Y && dino->vert_direction == -1) {
+	if (dino->top_left.y <= T_BORDER_Y && dino->vert_direction == UP) {
 		dino->vert_velocity = 0;
 		dino->top_left.y = T_BORDER_Y + 1;
 		dino->top_right.y = T_BORDER_Y + 1;
-		dino->bot_left.y = T_BORDER_Y + (DINO_HEIGHT + 1);
-		dino->bot_right.y = T_BORDER_Y + (DINO_HEIGHT + 1);
+		dino->bot_left.y = T_BORDER_Y + DINO_HEIGHT;
+		dino->bot_right.y = T_BORDER_Y + DINO_HEIGHT;
 	}
 	/* Limits dino movement to bottom border of gamescreen */
-	if (dino->bot_left.y >= B_BORDER_Y && dino->vert_direction == 1){
+	if (dino->bot_left.y >= B_BORDER_Y && dino->vert_direction == DOWN){
 		dino->vert_velocity = 0;
-		dino->top_left.y = B_BORDER_Y - (DINO_HEIGHT + 1);
-		dino->top_right.y = B_BORDER_Y - (DINO_HEIGHT + 1);
+		dino->top_left.y = B_BORDER_Y - DINO_HEIGHT;
+		dino->top_right.y = B_BORDER_Y - DINO_HEIGHT;
 		dino->bot_left.y = B_BORDER_Y - 1;
 		dino->bot_right.y = B_BORDER_Y - 1;
 	}
@@ -90,11 +90,10 @@ unsigned int gap_y(){
 	INPUT: 	
 	OUTPUT: N/A
 *******************************************************************************/
-void move_obstacles(Model *game){
+void move_obstacles(Model *game) {
 	/* Checks if first initialization needed */
-	if (game -> wall.bottom.bot_right.x < L_BORDER_X && game -> wall.top.top_right.x < L_BORDER_X){
-		reset_obs(game);
-		return;
+	if (game -> wall.bottom.top_left.y >= B_BORDER_Y | game -> wall.top.bot_left.y <= T_BORDER_Y) {
+		init_obs_wall(&game -> wall, gap_y());
 	}
 
 	game -> wall.bottom.bot_left.x -= game -> wall.hor_velocity;
@@ -108,30 +107,30 @@ void move_obstacles(Model *game){
 	game -> wall.top.top_right.x -= game -> wall.hor_velocity;
 
 	/* Checks if reset is needed */
-	if (game -> wall.bottom.bot_right.x < L_BORDER_X && game -> wall.top.top_right.x < L_BORDER_X){
+	if (game -> wall.bottom.bot_right.x < L_BORDER_X && game -> wall.top.top_right.x < L_BORDER_X) {
 		reset_obs(game);
 		return;
 	}
 }
 
-void reset_obs(Model *game){
+void reset_obs(Model *game) {
 	/* Resets obstacle to right side of screen */
 	init_obs_wall(&game -> wall, gap_y());
 
 	/* Increase obstacle velocity if next level reached */
-	if (game -> score.value % 50 == 0){
+	if (game -> score.value % 50 == 0) {
 		game -> wall.hor_velocity += 1;
 	}
 
 	printf("Obstacle reset with new gap");
 }
 
-void update_score(Model *game){
+void update_score(Model *game) {
     int value;
 
     Score *score = &(game -> score);
 
-    if (score -> value < score -> max_value){
+    if (score -> value < score -> max_value) {
         (score -> value)++;
         value = score -> value;
         (score -> digits)[0].value = (value / 1000) % 10;
