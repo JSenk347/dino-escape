@@ -71,10 +71,10 @@ int main()
     plot_bitmap_32((UINT32 *)front_buffer, 407, 359, three_bitmap, HEIGHT_32, 1);
     plot_bitmap_32((UINT32 *)front_buffer, 439, 359, four_bitmap, HEIGHT_32, 1);
     plot_bitmap_32((UINT32 *)front_buffer, 471, 359, five_bitmap, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)front_buffer, 503, 359, six_bitmap, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)front_buffer, 535, 359, seven_bitmap, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)front_buffer, 567, 359, eight_bitmap, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)front_buffer, 599, 359, nine_bitmap, HEIGHT_32, 1);
+    plot_bitmap_32((UINT32 *)front_buffer, 503, 359, zero_bitmap HEIGHT_32, 1);
+    plot_bitmap_32((UINT32 *)front_buffer, 535, 359, zero_bitmap HEIGHT_32, 1);
+    plot_bitmap_32((UINT32 *)front_buffer, 567, 359, zero_bitmap, HEIGHT_32, 1);
+    plot_bitmap_32((UINT32 *)front_buffer, 599, 359, zero_bitmap, HEIGHT_32, 1);
 
     /* Initialize obstacles */
     init_obs_wall(&new_game.wall, gap_y());
@@ -102,7 +102,7 @@ int main()
         /* Wait for Vsync AFTER rendering */
         Vsync();
     }
-
+    if(new_game.game.score)
 
    /* render_sceen((UINT16 *)base);
     render_game(&new_game, base); */

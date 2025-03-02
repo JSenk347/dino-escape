@@ -7,7 +7,7 @@
 
 typedef unsigned long UINT32;
 typedef unsigned int UINT16;
-void clear_rect(UINT32 *base, int x, int y, int width, int height);
+void clear_rect(UINT16 *base, int x, int y, int width, int height);
 void overwrite_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, int height);
 void plot_bitmap_16(UINT16 *base, int x, int y, 
         const UINT16 *bitmap, unsigned int height);
