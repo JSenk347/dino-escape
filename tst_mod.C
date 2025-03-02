@@ -17,32 +17,54 @@ int main() {
     int i;
     /* Initialize Model with Dino at (16, 184) */
     Model new_game = {
-        {{16,184},{47,184},{16,215},{47,215},0,0},                                              /* Dino variables */
-        {{{0,0},{0,0},{0,0},{0,0}}, {{0,0},{0,0},{0,0},{0,0}}, FALSE, 278, OBS_START_SPEED},    /* Obs variables */
+        {{16,184},{47,184},{16,215},{47,215},0,0}, /* Dino variables */
+        { 
+            {{{640,50},{672,50},{640,200},{672,200}}, {{640,251},{672,251},{640,351},{672,351}}, TRUE, FALSE, 278, OBS_START_SPEED}, /* wall 1 */
+            {{{640,50},{672,50},{640,200},{672,200}}, {{640,251},{672,251},{640,351},{672,351}}, FALSE, FALSE, 278, OBS_START_SPEED}, /* wall 2 */
+            {{{640,50},{672,50},{640,200},{672,200}}, {{640,251},{672,251},{640,351},{672,351}}, FALSE, FALSE, 278, OBS_START_SPEED}, /* wall 3 */
+            {{{640,50},{672,50},{640,200},{672,200}}, {{640,251},{672,251},{640,351},{672,351}}, FALSE, FALSE, 278, OBS_START_SPEED}  /* wall 4 */
+        }, 
+
+        {{{0,0},{0,0},{0,0},{0,0}}, {{0,0},{0,0},{0,0},{0,0}}, TRUE, FALSE, 278, OBS_START_SPEED},    /* Obs_wall variables */
         {{505,359},{632,359},{505,390},{632,390},                                               /* Score variables */
             {{{505,359},{536,359},{505,390},{536,390},0},
             {{537,359},{568,359},{537,390},{568,390},0},
             {{569,359},{600,359},{568,390},{600,390},0},
             {{601,359},{632,359},{601,390},{632,390},0}},5000,0},
-        {0,FALSE,FALSE},                                                                        /* Context variables */
+        {FALSE,FALSE,FALSE},                                                                        /* Context variables */
     }; 
 
     wait_for_game_start(&new_game);
     /* init_obs_wall(&new_game.wall, gap_y()); already initialized above and at beginning of move_obstacles*/
+
+    /* \033E clears the screen */
+    printf("\033E");
+    fflush(stdout);
+
     while (!new_game.game_state.dead_flag) {
         move_obstacle(&new_game); /* Happens first to prevent obstacle from moving after collision has occured */
         handle_events(&new_game); 
         check_score(&new_game); 
-        printf("Been Passed: %u\n", (int) new_game.wall.been_passed);
+
+        printf("\033H"); /* moves the cursor to the top left of the page*/
+
         printf("Score: %u\n", (int) new_game.score.value);
-        printf("Dino Top Lt Y: %u | ", new_game.dino.top_left.y);
-        printf("Dino Top Rt X: %u\n", new_game.dino.top_right.x);
-        printf("Top Obs Bot Lt X: %u | ", new_game.wall.top.bot_left.x);
-        printf("Top Obs Bot Rt X: %u | ", new_game.wall.top.bot_right.x);
-        printf("Top Obs Bot Lt Y: %u\n", new_game.wall.top.bot_left.y);
+        printf("Dino Top Left (x,y): %3u,%3u\n", new_game.dino.top_left.x, new_game.dino.top_left.y);
+        printf("WALL 1:\n");
+        printf("Top Obs Bottom Right (x,y): %3u,%3u\n", new_game.walls[0].top.bot_right.x, new_game.walls[0].top.bot_right.y);
+        printf("WALL 2:\n");
+        printf("Top Obs Bottom Right (x,y): %3u,%3u\n", new_game.walls[1].top.bot_right.x, new_game.walls[1].top.bot_right.y);
+        printf("WALL 3:\n");
+        printf("Top Obs Bottom Right (x,y): %3u,%3u\n", new_game.walls[2].top.bot_right.x, new_game.walls[2].top.bot_right.y);
+        printf("WALL 4:\n");
+        printf("Top Obs Bottom Right (x,y): %3u,%3u\n", new_game.walls[3].top.bot_right.x, new_game.walls[3].top.bot_right.y);
+
+        fflush(stdout);
+
         if (new_game.game_state.lost_flag) {
             printf("Game Over!\n");
         }
     }
+    
     return 0;
 }

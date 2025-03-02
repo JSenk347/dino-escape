@@ -5,6 +5,7 @@ typedef unsigned int bool;
 #define TRUE 1
 #define FALSE 0
 #define HALF_GAP 25
+#define WIN_WIDTH 640
 #define T_BORDER_Y 49
 #define B_BORDER_Y 352
 #define R_BORDER_X 639
@@ -37,6 +38,7 @@ typedef struct{
 typedef struct {
     Obs top;
     Obs bottom;
+    bool is_moving;
     bool been_passed;
     unsigned int gap_y;
     unsigned int hor_velocity;
@@ -69,6 +71,7 @@ typedef struct {
 
 typedef struct {
     Dino dino;
+    Obs_wall walls[4];
     Obs_wall wall;
     Score score;
     Context game_state;
@@ -76,9 +79,11 @@ typedef struct {
 
 /* FUNCTION DECLARATIONS */
 void move_dino(Dino *dino);
-void init_obs_wall(Obs_wall *wall, unsigned int gap_y);
+void init_wall(Obs_wall *wall, unsigned int gap_y);
+void init_walls(Model *game);
 unsigned int gap_y();
-void move_obstacles(Model *game);
-void reset_obs(Model *game);
+void move_wall(Model *game);
+void move_walls(Model *game);
+void reset_wall(Model *game, Obs_wall *wall);
 void update_score(Model *game);
 #endif

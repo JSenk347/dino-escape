@@ -40,8 +40,7 @@ void handle_events(Model *gameModel) {
 *******************************************************************************/
 void move_obstacle(Model *gameModel) {
     /* Just call the model behavior function each tick */
-    move_obstacles(gameModel);
-    printf("Obstacle moving... Current X: %u\n", gameModel -> wall.bottom.top_left.x);
+    move_walls(gameModel);
 }
 
 /*******************************************************************************
@@ -52,10 +51,11 @@ void move_obstacle(Model *gameModel) {
     OUTPUT: N/A
 *******************************************************************************/
 void check_conditions(Model *gameModel) {
+
     Obs *top_obs = &gameModel -> wall.top;
     Obs *bottom_obs = &gameModel -> wall.bottom;
     Dino *d = &gameModel -> dino;
-
+    
     /*Collision with TOP obstacle*/
     if (d -> top_left.x < top_obs -> top_right.x &&
         d -> top_right.x > top_obs -> top_left.x &&
@@ -80,6 +80,15 @@ void check_conditions(Model *gameModel) {
         }
 }
 
+/*
+void move_walls(Model *game){
+    Obs_wall *walls[] = &(game -> walls);
+
+    
+}
+*/
+
+
 /* ASYNCHRONUS EVENTS */
 /*******************************************************************************
     PURPOSE: 
@@ -89,6 +98,9 @@ void check_conditions(Model *gameModel) {
 *******************************************************************************/
 void wait_for_game_start(Model *gameModel) {
     printf("Press ENTER to start the game...\n");
+
+    init_walls(gameModel);
+    printf("WALLS INITIAILIZED\n");
 
     while (!gameModel -> game_state.start_flag) {
         if (Cconis()) {
@@ -139,14 +151,12 @@ void read_dino_input(Model *gameModel, char key) {
         gameModel -> dino.vert_velocity = 5;
         gameModel -> dino.vert_direction = UP;
         move_dino(&gameModel -> dino);
-        printf("Dino moved up!\n");
     }
     /* Moves dino down */
     else if (key == 's') {
         gameModel -> dino.vert_velocity = 5;
         gameModel -> dino.vert_direction = DOWN;
         move_dino(&gameModel -> dino);
-        printf("Dino moved down!\n");
     }
 }
 
@@ -176,13 +186,9 @@ void check_score(Model *game) {
     Dino *dino = &(game->dino);
     Obs_wall *wall = &(game->wall);
 
-    printf("Checking score: Dino X: %u, Obstacle Right X: %u, Been Passed: %d\n",
-           dino->bot_left.x, wall->bottom.bot_right.x, wall->been_passed);
-
     if ((wall->bottom.bot_right.x < dino->bot_left.x) && !wall->been_passed) {
         update_score(game);
         wall->been_passed = TRUE;
-        printf("Score updated. New score: %d\n", game->score.value);
     }
 }
 
