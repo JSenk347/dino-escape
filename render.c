@@ -45,18 +45,22 @@ void render_screen(UINT16 *base){
 void render_dino(const Model *game, UINT32 *base) {
     UINT32 *bitmap;
     Dino *dino = &(game->dino);
-    /* Select new Dino sprite */
+    
+    /* Select new Dino sprite - flaps dino wings */
     UINT32 *bitmap;
     if (dino->frame_counter % 2 == 0) {
-        bitmap = dino_wdown_bitmap; 
+        bitmap = dino_wdown_bitmap;
+        /*clear_square_32(base, dino -> prev_top_lt.x, dino -> prev_top_lt.y, 0, HEIGHT_32); /* clears previous dino bitmap */ 
         /*overwrite_bitmap_32(base, dino->top_left.x, dino->top_left.y, dino_wup_bitmap, HEIGHT_32);*/ 
     } else {
-        bitmap = dino_wup_bitmap;  
+        bitmap = dino_wup_bitmap;
+        /*clear_square_32(base, dino -> prev_top_lt.x, dino -> prev_top_lt.y, 0, HEIGHT_32); /* clears previous dino bitmap */   
         /*overwrite_bitmap_32(base, dino->top_left.x, dino->top_left.y, dino_wdown_bitmap, HEIGHT_32);*/
     }
 
     /* Draw new Dino frame */
-    plot_bitmap_32(base, dino->top_left.x, dino->top_left.y, bitmap, HEIGHT_32, 1); /* 1 = draw mode */
+    clear_square_32(base, dino -> prev_top_lt.x, dino -> prev_top_lt.y, 0, HEIGHT_32); /* clears previous dino bitmap */ 
+    plot_bitmap_32(base, dino -> top_left.x, dino -> top_left.y, bitmap, HEIGHT_32, 1); /* 1 = draw mode */
 
     /* Increment frame counter */
     dino->frame_counter++;
@@ -101,11 +105,10 @@ void render_score(const Model *model , UINT32 *base){
         zero_bitmap, one_bitmap, two_bitmap, three_bitmap, four_bitmap,
         five_bitmap, six_bitmap, seven_bitmap, eight_bitmap, nine_bitmap
     };
-        int ones_digit = model->score.value % 10;
-        plot_bitmap_32((UINT32 *)base, 599, 359, digit_bitmaps[ones_digit], HEIGHT_32, 0);
-        plot_bitmap_32((UINT32 *)base, 599, 359, digit_bitmaps[ones_digit], HEIGHT_32, 1);
-
-    }
+    int ones_digit = model -> score.value % 10;
+    plot_bitmap_32((UINT32 *)base, 599, 359, digit_bitmaps[ones_digit], HEIGHT_32, 0);
+    /*clear_square_32(base, model -> score.digits[0].top_left.x, model -> score.digits[0].top_left.y, 1, HEIGHT_32); /* clears previous one's digit bitmap */
+    plot_bitmap_32((UINT32 *)base, 599, 359, digit_bitmaps[ones_digit], HEIGHT_32, 1);
 }
 
 /*******************************************************************************

@@ -22,13 +22,13 @@ int main()
     int i;
 	void *base = Physbase();
     Model new_game = {
-        {{16,184},{47,184},{16,215},{47,215},0,0,0},                    /* Dino variables */
-        {{{0,0},{0,0},{0,0},{0,0}}, {{0,0},{0,0},{0,0},{0,0}}, FALSE, 278, OBS_START_SPEED},  /* Obs variables */
+        {{16,184},{47,184},{16,215},{47,215},{16,184},0,0,0},                    /* Dino variables */
+        {{{0,0},{0,0},{0,0},{0,0},{0,0}}, {{0,0},{0,0},{0,0},{0,0},{0,0}}, FALSE, 278, OBS_START_SPEED},  /* Obs_wall variables */
         {{505,359},{632,359},{505,390},{632,390},                     /* Score variables */
-            {{{505,359},{536,359},{505,390},{536,390},0},
-            {{537,359},{568,359},{537,390},{568,390},0},
+            {{{601,359},{632,359},{601,390},{632,390},0},
             {{569,359},{600,359},{568,390},{600,390},0},
-            {{601,359},{632,359},{601,390},{632,390},0}},5000,0},
+            {{537,359},{568,359},{537,390},{568,390},0},
+            {{505,359},{536,359},{505,390},{536,390},0}},5000,0},
         {0,0,0},                                                            /* Context variables */
     };
     
@@ -36,11 +36,26 @@ int main()
 
     linea0(); /*needed to call any plot line functions*/
 	disable_cursor();
-    /* 1. Show screen for ststtart page */
+    /* 1. Show screen for start page */
     render_screen((UINT16 *)base);
     plot_borders();
     render_dino(&new_game, (UINT32 *)base);
-    plot_bitmap_32((UINT32 *)base, 311, 359, zero_bitmap, HEIGHT_32, 1);
+    /* Plot starting score as 0000 (only need spots for 4 digits because max score is 5000)*/
+    /*int one_x = new_game.score.digits[0].top_left.x;
+    int one_y = new_game.score.digits[0].top_left.y;
+    int ten_x = new_game.score.digits[1].top_left.x;
+    int ten_y = new_game.score.digits[1].top_left.y;
+    int hund_x = new_game.score.digits[2].top_left.x;
+    int hund_y = new_game.score.digits[2].top_left.y;
+    int thous_x = new_game.score.digits[3].top_left.x;
+    int thous_y = new_game.score.digits[3].top_left.y; NOT WORKING FOR SOME REASON*/
+
+    plot_bitmap_32((UINT32 *)base, 601, 359, zero_bitmap, HEIGHT_32, 1); /* Ones digit */
+    plot_bitmap_32((UINT32 *)base, 569, 359, zero_bitmap, HEIGHT_32, 1); /* Tens digit */
+    plot_bitmap_32((UINT32 *)base, 537, 359, zero_bitmap, HEIGHT_32, 1); /* Hundreds digit */
+    plot_bitmap_32((UINT32 *)base, 505, 359, zero_bitmap, HEIGHT_32, 1); /* Thousandss digit */
+
+    /* plot_bitmap_32((UINT32 *)base, 311, 359, zero_bitmap, HEIGHT_32, 1);
     plot_bitmap_32((UINT32 *)base, 343, 359, one_bitmap, HEIGHT_32, 1);
     plot_bitmap_32((UINT32 *)base, 375, 359, two_bitmap, HEIGHT_32, 1);
     plot_bitmap_32((UINT32 *)base, 407, 359, three_bitmap, HEIGHT_32, 1);
@@ -49,7 +64,7 @@ int main()
     plot_bitmap_32((UINT32 *)base, 503, 359, six_bitmap, HEIGHT_32, 1);
     plot_bitmap_32((UINT32 *)base, 535, 359, seven_bitmap, HEIGHT_32, 1);
     plot_bitmap_32((UINT32 *)base, 567, 359, eight_bitmap, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 599, 359, white, HEIGHT_32, 1);
+    plot_bitmap_32((UINT32 *)base, 599, 359, white_bitmap, HEIGHT_32, 1); */
     
 
     render_start(&new_game, (UINT32 *)base);
@@ -57,7 +72,12 @@ int main()
 /* 2. Game has been started rerender without start */
     render_screen((UINT16 *)base);
     plot_borders();
-    plot_bitmap_32((UINT32 *)base, 311, 359, black, HEIGHT_32, 1);
+    /* Block out score area in border (only need spots for 4 digits because max score is 5000)*/
+    plot_bitmap_32((UINT32 *)base, 569, 359, black, HEIGHT_32, 1); /* Blacks out tens spot */
+    plot_bitmap_32((UINT32 *)base, 537, 359, black, HEIGHT_32, 1); /* Blacks out hundreds spot */
+    plot_bitmap_32((UINT32 *)base, 505, 359, black, HEIGHT_32, 1); /* Blacks out thousands spot */
+
+    /* plot_bitmap_32((UINT32 *)base, 311, 359, black, HEIGHT_32, 1);
     plot_bitmap_32((UINT32 *)base, 343, 359, black, HEIGHT_32, 1);
     plot_bitmap_32((UINT32 *)base, 375, 359, black, HEIGHT_32, 1);
     plot_bitmap_32((UINT32 *)base, 407, 359, black, HEIGHT_32, 1);
@@ -66,7 +86,7 @@ int main()
     plot_bitmap_32((UINT32 *)base, 503, 359, black, HEIGHT_32, 1);
     plot_bitmap_32((UINT32 *)base, 535, 359, black, HEIGHT_32, 1);
     plot_bitmap_32((UINT32 *)base, 567, 359, black, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 599, 359, white, HEIGHT_32, 1);
+    plot_bitmap_32((UINT32 *)base, 599, 359, white_bitmap, HEIGHT_32, 1); */
     init_obs_wall(&new_game.wall, gap_y());
     while (!new_game.game_state.dead_flag) {
         render_game(&new_game, (UINT32 *)base);
@@ -75,7 +95,8 @@ int main()
         check_conditions(&new_game); 
         move_obstacle(&new_game);
         
-        clear_rect((UINT16 *)base, 0, 50, 640, 300); 
+        /*clear_square_32(base, new_game.dino.prev_top_lt.x, new_game.dino.prev_top_lt.y, 0, HEIGHT_32); /* clears previous dino bitmap */
+        /*clear_rect((UINT16 *)base, 0, 50, 640, 300); */
         Vsync();
         if (new_game.game_state.dead_flag) {
             printf("Game Over!\n");

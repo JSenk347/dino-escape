@@ -25,7 +25,7 @@ int main()
     };
     linea0(); /*needed to call any plot line functions*/
 	disable_cursor();
-    /* 1. Show screen for ststtart page */
+    /* 1. Show screen for start page */
     render_screen((UINT16 *)base);
     plot_borders();
     render_dino(&new_game, (UINT32 *)base);

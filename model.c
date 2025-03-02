@@ -21,10 +21,13 @@
     OUTPUT: N/A
 *******************************************************************************/
 void move_dino(Dino *dino) {
-	dino->top_left.y += (dino->vert_velocity*dino->vert_direction);
-	dino->top_right.y += (dino->vert_velocity*dino->vert_direction);
-	dino->bot_left.y += (dino->vert_velocity*dino->vert_direction);
-	dino->bot_right.y += (dino->vert_velocity*dino->vert_direction);
+	/* Store previous top left y vertex coordinates */
+	dino -> prev_top_lt = dino -> top_left;
+
+	dino -> top_left.y += (dino->vert_velocity*dino->vert_direction);
+	dino -> top_right.y += (dino->vert_velocity*dino->vert_direction);
+	dino -> bot_left.y += (dino->vert_velocity*dino->vert_direction);
+	dino -> bot_right.y += (dino->vert_velocity*dino->vert_direction);
 
 	/* Limits dino movement to top border of gamescreen */
 	if (dino->top_left.y <= T_BORDER_Y && dino->vert_direction == -1) {
@@ -50,7 +53,11 @@ void move_dino(Dino *dino) {
 	INPUT: 	
 	OUTPUT: N/A
 *******************************************************************************/
-void init_obs_wall(Obs_wall *wall, unsigned int gap_y) {
+void init_obs_wall(Obs_wall *wall, unsigned int gap_y) {	
+	/* Store previous top left y vertex coordinates */
+	wall -> bottom.prev_top_lt = wall -> bottom.top_left;
+	wall -> top.prev_top_lt = wall -> top.top_left;
+
 	/* Bottom Obstacle */
 	wall -> bottom.top_left.x = R_BORDER_X;
 	wall -> bottom.top_left.y = gap_y + HALF_GAP;
