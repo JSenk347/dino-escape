@@ -1,3 +1,12 @@
+/*******************************************************************************
+ AUTHORS: Anna Running Rabbit, Jordan Senko, Joseph Mills
+ COURSE: COMP2659-001
+ INSTRUCTOR: Tim Reimer
+ DATE: Mar. 2, 2025
+
+ FILE: tst_ren.c
+ SUMMARY: Source file for the test driver program.
+*******************************************************************************/
 #include "render.h"
 #include "events.h"
 #include "model.h"
@@ -7,6 +16,7 @@
 #include <stdio.h>
 #include <osbind.h>
 #include <linea.h>
+
 int main()
 {
     int i;

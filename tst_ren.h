@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <osbind.h>
 #include <linea.h>
+
 int main()
 {
     UINT32 *front_buffer = Physbase();  /* Current screen buffer */
