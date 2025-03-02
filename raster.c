@@ -203,26 +203,19 @@ void plot_borders()
 		plot_gline(311, i, 631, i, XOR);
 	}
 }
-void clear_rect(UINT32 *base, int x, int y, int width, int height) {
+void clear_rect(UINT16 *base, int x, int y, int width, int height) {
     int row, col;
-    int word_offset = (x >> 5) + (y * 20); /* Word-aligned base offset */
-    int bit_shift = x & 31; /* Offset within the 32-bit word */
+    int screen_words_per_row = 640 / 16;  
 
-    for (row = 0; row < height; row++) {
-        UINT32 *pixel_addr = base + word_offset + (20 * row);
-
-        if (bit_shift == 0) {
-            /* Clear pixels perfectly aligned on 32-bit boundary */
-            for (col = 0; col < (width >> 5); col++) {
-                pixel_addr[col] = 0; /* Set to background color (black) */
-            }
-        } else {
-            /* Clear pixels that are misaligned */
-            pixel_addr[0] &= ~(0xFFFFFFFF >> bit_shift); /* First part */
-            pixel_addr[1] &= ~(0xFFFFFFFF << (32 - bit_shift)); /* Next word */
+    for (row = y; row < y + height; row++) {
+        UINT16 *pixel_addr = base + (row * screen_words_per_row);
+        
+        for (col = 0; col < (width >> 4); col++) { 
+            pixel_addr[col] = 0; 
         }
     }
 }
+
 
 /*******************************************************************************
 	PURPOSE: Plots an upper and lower 32x32 bitmap side by side across the

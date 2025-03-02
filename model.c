@@ -93,11 +93,6 @@ unsigned int gap_y(){
 	OUTPUT: N/A
 *******************************************************************************/
 void move_obstacles(Model *game){
-	/* Checks if first initialization needed */
-	if (game -> wall.bottom.bot_right.x < L_BORDER_X && game -> wall.top.top_right.x < L_BORDER_X){
-		reset_obs(game);
-		return;
-	}
 
 	game -> wall.bottom.bot_left.x -= game -> wall.hor_velocity;
 	game -> wall.bottom.bot_right.x -= game -> wall.hor_velocity;

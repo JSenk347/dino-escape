@@ -22,10 +22,10 @@
     INPUT:	- 
     OUTPUT: 
 *******************************************************************************/
-void render_game(const Model *model , UINT32 *base){
-    render_dino(model, base);
-    render_score(model, base);
-    render_start(model, base);
+void render_game(const Model *new_game , UINT32 *base){
+    render_dino(new_game, base);
+    render_obs(new_game,base);
+    render_score(new_game,base);
 }
 
 /*******************************************************************************
@@ -95,7 +95,18 @@ void render_dino_dead(const Model *game, UINT32 *base) {
     INPUT:	- 
     OUTPUT: 
 *******************************************************************************/
-void render_score(const Model *model , UINT32 *base){}
+void render_score(const Model *model , UINT32 *base){
+
+    UINT32 *digit_bitmaps[] = {
+        zero_bitmap, one_bitmap, two_bitmap, three_bitmap, four_bitmap,
+        five_bitmap, six_bitmap, seven_bitmap, eight_bitmap, nine_bitmap
+    };
+        int ones_digit = model->score.value % 10;
+        plot_bitmap_32((UINT32 *)base, 599, 359, digit_bitmaps[ones_digit], HEIGHT_32, 0);
+        plot_bitmap_32((UINT32 *)base, 599, 359, digit_bitmaps[ones_digit], HEIGHT_32, 1);
+
+    }
+}
 
 /*******************************************************************************
     PURPOSE: 
@@ -114,6 +125,6 @@ void render_start(const Model *model , UINT32 *base){
 *******************************************************************************/
 void render_obs(const Model *model , UINT32 *base){
     plot_obstacles(base, model->wall.top.top_left.x, model->wall.gap_y);
-    /*plot_top_obs(base, model->wall.top.top_left.x, model->wall.gap_y);
+    /*plot_top_obs(base, model->wall.top.top_left.x, model->wall.gap_y);s
     plot_bottom_obs(base, model->wall.bottom.top_left.x, model->wall.gap_y); */
 }
