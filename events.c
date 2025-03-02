@@ -20,7 +20,8 @@
                 instance
     OUTPUT: N/A
 *******************************************************************************/
-void handle_events(Model *gameModel) {
+void handle_events(Model *gameModel)
+{
     /* 1) Asynchronous key presses */
     read_input(gameModel);
 
@@ -38,20 +39,20 @@ void handle_events(Model *gameModel) {
                 instance
     OUTPUT: N/A
 *******************************************************************************/
-void move_obstacle(Model *gameModel) {
+void move_obstacle(Model *gameModel)
+{
     /* Just call the model behavior function each tick */
     move_obstacles(gameModel);
-    printf("Obstacle moving... Current X: %u\n", gameModel -> wall.bottom.top_left.x);
 }
 
 /*******************************************************************************
     PURPOSE: 
     INPUT:  - gameModel: pointer to the Model object, aka the current game
-
                 instance
     OUTPUT: N/A
 *******************************************************************************/
-void check_conditions(Model *gameModel) {
+void check_conditions(Model *gameModel)
+{
     Obs *top_obs = &gameModel -> wall.top;
     Obs *bottom_obs = &gameModel -> wall.bottom;
     Dino *d = &gameModel -> dino;
@@ -60,24 +61,25 @@ void check_conditions(Model *gameModel) {
     if (d -> top_left.x < top_obs -> top_right.x &&
         d -> top_right.x > top_obs -> top_left.x &&
         d -> top_left.y < top_obs -> bot_left.y &&
-        d -> bot_left.y > top_obs -> top_left.y) {
-            printf("Collision with top obstacle!\n");
-            reflect_dino_death(gameModel);
-            gameModel -> game_state.dead_flag = TRUE;
-            gameModel -> game_state.start_flag = FALSE;
-            return;
+        d -> bot_left.y > top_obs -> top_left.y)
+    {
+        reflect_dino_death(gameModel);
+        gameModel -> game_state.dead_flag = TRUE;
+        gameModel -> game_state.start_flag = FALSE;
+        printf("Collision with top obstacle!\n");
     }
 
     /*Collision with BOTTOM obstacle*/
     if (d -> top_left.x < bottom_obs -> top_right.x &&
         d -> top_right.x > bottom_obs -> top_left.x &&
         d -> top_left.y < bottom_obs -> bot_left.y &&
-        d -> bot_left.y > bottom_obs -> top_left.y) {
-            printf("Collision with bottom obstacle!\n");
-            reflect_dino_death(gameModel);
-            gameModel -> game_state.dead_flag = TRUE;
-            gameModel -> game_state.start_flag = FALSE;
-        }
+        d -> bot_left.y > bottom_obs -> top_left.y)
+    {
+        reflect_dino_death(gameModel);
+        gameModel -> game_state.dead_flag = TRUE;
+        gameModel -> game_state.start_flag = FALSE;
+        printf("Collision with bottom obstacle!\n");
+    }
 }
 
 /* ASYNCHRONUS EVENTS */
@@ -87,16 +89,18 @@ void check_conditions(Model *gameModel) {
                 instance
     OUTPUT: N/A
 *******************************************************************************/
-void wait_for_game_start(Model *gameModel) {
-    printf("Press ENTER to start the game...\n");
+void wait_for_game_start(Model *gameModel)
+{
 
-    while (!gameModel -> game_state.start_flag) {
-        if (Cconis()) {
+    while (!gameModel -> game_state.start_flag)
+    {
+        if (Cconis())
+        {
             char key = Cnecin();
 
-            if (key == '\r') {
+            if (key == '\r')
+            {
                 gameModel -> game_state.start_flag = TRUE;
-                printf("Game started by user!\n");
             }
         }
     }
@@ -108,22 +112,29 @@ void wait_for_game_start(Model *gameModel) {
                 instance
     OUTPUT: N/A
 *******************************************************************************/
-void read_input(Model *gameModel) {
+void read_input(Model *gameModel)
+{
 
-    if (Cconis()) {
+    if (Cconis()) 
+    {
         char key = Cnecin(); 
-            while (Cconis()) {
+            while (Cconis()) 
+            {
                 Cnecin(); 
             }
 
-            if (key == 'w' || key == 's') {
+            if (key == 'w' || key == 's')
+            {
                 read_dino_input(gameModel, key);
             }
 
-            if (key == 'q') {
+        
+            if (key == 'q')
+            {
                 read_quit_req(gameModel, key);
             }
-        } 
+        }
+    
 }
 
 /*******************************************************************************
@@ -133,20 +144,23 @@ void read_input(Model *gameModel) {
             -  
     OUTPUT: N/A
 *******************************************************************************/
-void read_dino_input(Model *gameModel, char key) {
+void read_dino_input(Model *gameModel, char key)
+{
     /* Moves dino up */
-    if (key == 'w') {
+    if (key == 'w')
+    {
         gameModel -> dino.vert_velocity = 5;
-        gameModel -> dino.vert_direction = UP;
+        gameModel -> dino.vert_direction = -1; /* Changes dino direction to up */
         move_dino(&gameModel -> dino);
-        printf("Dino moved up!\n");
+        
     }
     /* Moves dino down */
-    else if (key == 's') {
+    else if (key == 's')
+    {
         gameModel -> dino.vert_velocity = 5;
-        gameModel -> dino.vert_direction = DOWN;
+        gameModel -> dino.vert_direction = 1; /* Changes dino direction to down */
         move_dino(&gameModel -> dino);
-        printf("Dino moved down!\n");
+        
     }
 }
 
@@ -157,10 +171,13 @@ void read_dino_input(Model *gameModel, char key) {
             -  
     OUTPUT: N/A
 *******************************************************************************/
-void read_quit_req(Model *gameModel, char key) {
-    if (key == 'q') {
+void read_quit_req(Model *gameModel, char key)
+{
+    if (key == 'q')
+    {
         gameModel -> game_state.dead_flag = TRUE;
         printf("Game ended by user.\n");
+
     }
 }
 
@@ -172,17 +189,16 @@ void read_quit_req(Model *gameModel, char key) {
     INPUT:  - game The model of the game
     OUTPUT: N/A
 ******************************************************************************************/
-void check_score(Model *game) {
+void check_score(Model *game){
     Dino *dino = &(game->dino);
     Obs_wall *wall = &(game->wall);
 
-    printf("Checking score: Dino X: %u, Obstacle Right X: %u, Been Passed: %d\n",
-           dino->bot_left.x, wall->bottom.bot_right.x, wall->been_passed);
+    
 
-    if ((wall->bottom.bot_right.x < dino->bot_left.x) && !wall->been_passed) {
+    if ((wall->bottom.bot_right.x < dino->bot_left.x) && !wall->been_passed){
         update_score(game);
         wall->been_passed = TRUE;
-        printf("Score updated. New score: %d\n", game->score.value);
+        
     }
 }
 
@@ -197,25 +213,11 @@ void check_score(Model *game) {
                 instance 
     OUTPUT: N/A
 *******************************************************************************/
-void reflect_dino_death(Model *gameModel) {   
+void reflect_dino_death(Model *gameModel)
+{   
     /* Will need to add dino bitmap update to dino_dead_bitmap() */
 
-    /* gameModel -> dino.vert_direction = 1; /* Changes dino direction to down 
-    gameModel -> dino.vert_velocity = gameModel -> dino.vert_velocity*2; */
-
-    printf("Dino has died.\n");
-
-    while(gameModel -> dino.bot_left.y < B_BORDER_Y - 1) {
-        gameModel -> dino.vert_direction = DOWN;
-        gameModel -> dino.vert_velocity = DEAD_VELOCITY;
-        move_dino(&gameModel -> dino);
-        printf("Top Lt Y: %u | ", gameModel -> dino.top_left.y);
-        printf("Top Rt Y: %u | ", gameModel -> dino.top_right.y);
-        printf("Bot Lt Y: %u | ", gameModel -> dino.bot_left.y);
-        printf("Bot Rt Y: %u\n", gameModel -> dino.bot_right.y);
-        /* printf("Dino direction: %u | ", gameModel -> dino.vert_direction);
-        printf("Dino velocity: %u\n", gameModel -> dino.vert_velocity); */
-    }
-
-    gameModel -> game_state.lost_flag = TRUE;
+    gameModel -> dino.vert_direction = 1; /* Changes dino direction to down */
+    gameModel -> dino.vert_velocity = gameModel -> dino.vert_velocity*2;
+    move_dino(&gameModel -> dino);
 }
