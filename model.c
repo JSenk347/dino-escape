@@ -56,10 +56,9 @@ void move_dino(Dino *dino)
 *******************************************************************************/
 void init_wall(Obs_wall *wall, int gap)
 {
-	int gap;
 	Obs *bottom = &(wall->bottom);
 	Obs *top = &(wall->top);
-	gap = gap_y();
+	wall -> gap_y = gap;
 
 	/* Bottom Obstacle */
 	bottom->top_left.x = R_BORDER_X;
