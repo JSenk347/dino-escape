@@ -23,8 +23,7 @@ void plot_top_obs(UINT32 *base, int x, int gap_y);
 void plot_bottom_obs(UINT32 *base, int x, int gap_y);
 void plot_obstacles(UINT32 *base, int x, int gap_y);          
 void plot_borders();
-void plot_triangle_border(UINT32 *base, const UINT32 *bitmap_top,
-                const UINT32 *bitmap_bottom);
+void plot_borders_raster();
 void plot_top_start_button(UINT32 *base, const UINT32 *lt_top_start_bitmap,
 	        const UINT32 *mid_lt_top_start_bitmap, const UINT32 *mid_rt_top_start_bitmap,
 	        const UINT32 *rt_top_start_bitmap);

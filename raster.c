@@ -267,6 +267,29 @@ void plot_borders()
 }
 
 /*******************************************************************************
+	PURPOSE: 	To plot the upper and lower borders of the game, excluding the 
+				ground and roof triangles (rocks). FOR PHASE 2 ONLY.
+	INPUT: 	N/A
+	OUTPUT: N/A
+*******************************************************************************/
+void plot_borders_raster()
+{
+	int i;
+
+	/* plots the upper and lower border lines with plot_hline()*/
+	for (i = 0; i < 50; i++){
+		plot_hline(i, XOR);
+		plot_hline(399 - i, XOR);
+	}
+
+	/*  plots lines to cancel out lines covering the score. will be implemented
+		in scoring function later in development*/
+	for (i = 390; i > 358; i--){
+		plot_gline(312, i, 631, i, XOR);
+	}
+}
+
+/*******************************************************************************
 	PURPOSE: 	
 	INPUT: 	N/A
 	OUTPUT: N/A
@@ -282,32 +305,6 @@ void clear_rect(UINT16 *base, int x, int y, int width, int height) {
             pixel_addr[col] = 0; 
         }
     }
-}
-
-
-/*******************************************************************************
-	PURPOSE: Plots an upper and lower 32x32 bitmap side by side across the
-				screen to create the stalactite and stalagmite boarders on the
-				top and bottom of the gameplay screen using plot_bitmap_32()
-	INPUT: 	- *base	pointer to the frame buffer
-			- *bitmap pointer to the uppper bitmap you'd like to plot
-			- *bitmap pointer to the lower bitmap you'd like to plot
-	OUTPUT:	N/A
-*******************************************************************************/
-void plot_triangle_border(UINT32 *base, const UINT32 *bitmap_top,
-	const UINT32 *bitmap_bottom)
-{
-	int i;
-	
-	/* plots the upper border triangle line with plot_bitmap_32()*/
-	for (i = 0; i < 640; i+=32){
-		plot_bitmap_32((UINT32 *)base, i, 50, bitmap_top, HEIGHT_32, 1);
-	}
-
-	/* plots the lower border triangle line with plot_bitmap_32()*/
-	for (i = 0; i < 640; i+=32){
-		plot_bitmap_32((UINT32 *)base, i, 314, bitmap_bottom, HEIGHT_32, 1);
-	}
 }
 
 /*******************************************************************************

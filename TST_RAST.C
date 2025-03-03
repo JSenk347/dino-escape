@@ -26,28 +26,24 @@ int main()
 	clear_screen((UINT16 *)base, 0);
 
 	/* LINE PLOTTING */
-	plot_borders();
-
-	/* TRIANGLE BORDER BITMAPS */
-	plot_triangle_border((UINT32 *)base, top_triangle_bitmap,
-			bottom_triangle_bitmap);
+	plot_borders_raster();
 	
 	/* DINOSAUR BITMAPS */
-	plot_bitmap_32((UINT32 *)base, 16, 184, dino_wdown_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 48, 184, dino_wup_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 80, 184, dino_dead_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 16, 184, dino_wdown_bitmap, HEIGHT_32, 1);
+	plot_bitmap_32((UINT32 *)base, 48, 184, dino_wup_bitmap, HEIGHT_32, 1);
+	plot_bitmap_32((UINT32 *)base, 80, 184, dino_dead_bitmap, HEIGHT_32, 1);
 
 	/* NUMBER BITMAPS */
-	plot_bitmap_32((UINT32 *)base, 311, 359, zero_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 343, 359, one_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 375, 359, two_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 407, 359, three_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 439, 359, four_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 471, 359, five_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 503, 359, six_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 535, 359, seven_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 567, 359, eight_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 599, 359, nine_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 311, 359, zero_bitmap, HEIGHT_32, 1);
+	plot_bitmap_32((UINT32 *)base, 343, 359, one_bitmap, HEIGHT_32, 1);
+	plot_bitmap_32((UINT32 *)base, 375, 359, two_bitmap, HEIGHT_32, 1);
+	plot_bitmap_32((UINT32 *)base, 407, 359, three_bitmap, HEIGHT_32, 1);
+	plot_bitmap_32((UINT32 *)base, 439, 359, four_bitmap, HEIGHT_32, 1);
+	plot_bitmap_32((UINT32 *)base, 471, 359, five_bitmap, HEIGHT_32, 1);
+	plot_bitmap_32((UINT32 *)base, 503, 359, six_bitmap, HEIGHT_32, 1);
+	plot_bitmap_32((UINT32 *)base, 535, 359, seven_bitmap, HEIGHT_32, 1);
+	plot_bitmap_32((UINT32 *)base, 567, 359, eight_bitmap, HEIGHT_32, 1);
+	plot_bitmap_32((UINT32 *)base, 599, 359, nine_bitmap, HEIGHT_32, 1);
 
 	/* OBSTACLE PLOTTING */
 	/*
