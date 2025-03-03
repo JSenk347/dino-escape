@@ -334,9 +334,8 @@ void plot_bottom_obs(UINT32 *base, int x, int gap_y, int mode)
     INPUT:  - base: 32 bit base address of the screen
 			- x: x coordinate to plot horizontal position of each obstacle
 				bitmap
-			- gap_y: y value to represent the gap between the top and bottom 
-				edges of the obstacle (must be between 279 and 107)
-			- mode: bitmap plot mode (either 1 or 0)
+			- gap_y: the gap associated to the wall
+		   - mode: the write/delete mode for plot_bitmap_32()
     OUTPUT: - N/A
 *******************************************************************************/
 void plot_obstacles(UINT32 *base, int x, int gap_y, int mode){
