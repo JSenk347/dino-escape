@@ -4,11 +4,8 @@
 #include "events.h"
 #include "model.h"
 
-#define SCREEN_WIDTH 640
-#define GAP_CENTER   200
-#define OBS_START_SPEED 3
+#define GAP_CENTER 200
+#define OBS_START_SPEED 2
 #define TRUE 1
 #define FALSE 0
-#define X 1
-
 #endif
