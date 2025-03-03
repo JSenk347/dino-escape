@@ -48,7 +48,7 @@ void render_dino(const Model *game, UINT32 *base) {
     
     /* Select new Dino sprite - flaps dino wings */
     UINT32 *bitmap;
-    if (dino->frame_counter % 4 < 2) {
+    if (dino->frame_counter % 2 == 0) {
         bitmap = dino_wdown_bitmap;
         /*clear_square_32(base, dino -> prev_top_lt.x, dino -> prev_top_lt.y, 0, HEIGHT_32); /* clears previous dino bitmap */ 
         /*overwrite_bitmap_32(base, dino->top_left.x, dino->top_left.y, dino_wup_bitmap, HEIGHT_32);*/ 
