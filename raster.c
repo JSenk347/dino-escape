@@ -46,34 +46,6 @@ void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned i
             pixel_addr[1] |= bitmap[i] << (32 - bit_shift); /* Remaining part in next word */
         }
     }
-
-	/*int i;
-    int word_offset = (x >> 5) + (y * 20); /* Word-aligned base offset 
-    int bit_shift = x & 31; /* Offset within the 32-bit word 
-
-    for (i = 0; i < height; i++) {
-        UINT32 *pixel_addr = base + word_offset + (20 * i);
-
-        if (bit_shift == 0) {
-            if (mode == 1) {  
-                /* Draw mode: Set bits 
-                *pixel_addr |= bitmap[i];
-        } else { 
-                /* Erase mode: Clear bits 
-                *pixel_addr &= ~bitmap[i];
-            }
-        } else {
-            if (mode == 1) {  
-                /* Draw mode: Bitmap split across two words 
-                pixel_addr[0] |= bitmap[i] >> bit_shift;
-                pixel_addr[1] |= bitmap[i] << (32 - bit_shift);
-            } else {  
-        /* Erase mode: Clear bits in both words 
-                pixel_addr[0] &= ~(bitmap[i] >> bit_shift);
-                pixel_addr[1] &= ~(bitmap[i] << (32 - bit_shift));
-            }
-        }
-    } */
 }
 
 /******************************************************************************
@@ -115,16 +87,6 @@ void clear_square_32(UINT32 *base, int x, int y, int colour, int sqr_length) {
     }
 }
 
-/******************************************************************************
-	PURPOSE: 
-	INPUT: 	
-	OUTPUT: N/A
-******************************************************************************/
-void overwrite_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, int height) {
-    /* Erase the previous bitmap by calling plot_bitmap_32 in erase mode */
-    plot_bitmap_32(base, x, y, bitmap, height, 0); /* 0 = erase mode */
-}
-
 /*******************************************************************************
 	PURPOSE: To plot 16 bit bitmaps at specified x and y coordinates
 	INPUT: 	- *base	pointer to the frame buffer
@@ -154,7 +116,6 @@ void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned i
 	}
 };
 
-
 /******************************************************************************
 	PURPOSE: To clear the screen and display all white
 	INPUT: 	- *base pointer to the frame buffer
@@ -170,9 +131,6 @@ void clear_screen(UINT16 *base, int pattern)
 			*(loc++) = pattern;
 		}
 }
-
-
-
 
 /******************************************************************************
 	PURPOSE: To plot a horizontal line at a specified y coordinate
@@ -290,24 +248,6 @@ void plot_borders_raster()
 }
 
 /*******************************************************************************
-	PURPOSE: 	
-	INPUT: 	N/A
-	OUTPUT: N/A
-*******************************************************************************/
-void clear_rect(UINT16 *base, int x, int y, int width, int height) {
-    int row, col;
-    int screen_words_per_row = 640 / 16;  
-
-    for (row = y; row < y + height; row++) {
-        UINT16 *pixel_addr = base + (row * screen_words_per_row);
-        
-        for (col = 0; col < (width >> 4); col++) { 
-            pixel_addr[col] = 0; 
-        }
-    }
-}
-
-/*******************************************************************************
 	PURPOSE: Plots the top three 32x32 bitmaps to create the top half of the 
 				start button
 	INPUT:	- *base	pointer to the frame buffer
@@ -359,60 +299,34 @@ void disable_cursor()
 }
 
 /*******************************************************************************
-	PURPOSE: Plots the obstacles for the game using plot_bitmap_32() to create upper and lower 
-	stalagtites and stalagmites for the bird to pass through or collide with.
-	INPUT:	- *base	pointer to the frame buffer
-			- x - x coordinate to plot the obstacle at
-			- gap_y - y coordinate to plot the gap at
-			- gap_height size of the gap between top and bottom obstacles
-	OUTPUT:	N/A
+	PURPOSE: To plot the top obstacle of the wall object
+	INPUT: - base: pointer to the first longword address of the frame buffer
+		   - x: the top left x of the obstacle
+		   - y: the top left y of the obstacle
+		   - gap_y: the gap associated to the wall
+		   - mode: the write/delete mode for plot_bitmap_32()
+	OUTPUT: N/A
 *******************************************************************************/
-/*
-void plot_obstacle(UINT32 *base, int x, int gap_y, int gap_height)
-{
-    
-	plot_bitmap_32(base, x, gap_y + gap_height, obs_bitmap, 32);
-	plot_bitmap_32(base, x, gap_y + gap_height + 32, obs_bitmap, 32);
-	plot_bitmap_32(base, x, gap_y + gap_height + 64, obs_bitmap, 32);
-
-	plot_bitmap_32(base, x, gap_y + gap_height - 172, obs_bitmap, 32);
-     Plot the 32x32 bitmap on top of the bottom pipe 
-    plot_bitmap_32(base, x, gap_y + gap_height - 32, obs_top_edge_bitmap, 32);
-
-     Plot the 32x32 bitmap at the bottom of the top pipe 
-    plot_bitmap_32(base, x, gap_y, obs_bottom_edge_bitmap, 32);
-	
-}
-*/
-
 void plot_top_obs(UINT32 *base, int x, int gap_y, int mode)
 {
 	int edge_y = gap_y - HALF_GAP; 
-
-    /* Draw the top of the obstacle using the bitmap */
     plot_bitmap_32(base, x, edge_y - HEIGHT_32, obs_bottom_edge_bitmap, HEIGHT_32, mode);
-
-    /* Connect the bitmap to the top border with a vertical line */
-    /*plot_gline(x, edge_y, x, T_BORDER_Y, XOR);
-    plot_gline(x + 1, edge_y, x + 1, T_BORDER_Y, XOR);
-    plot_gline(x + 30, edge_y, x + 30, T_BORDER_Y, XOR);
-    plot_gline(x + 31, edge_y, x + 31, T_BORDER_Y, XOR); */
 
 }
 
+/*******************************************************************************
+	PURPOSE: To plot the bottom obstacle of the wall object
+	INPUT: - base: pointer to the first longword address of the frame buffer
+		   - x: the top left x of the obstacle
+		   - y: the top left y of the obstacle
+		   - gap_y: the gap associated to the wall
+		   - mode: the write/delete mode for plot_bitmap_32()
+	OUTPUT: N/A
+*******************************************************************************/
 void plot_bottom_obs(UINT32 *base, int x, int gap_y, int mode)
 {
 	int edge_y = gap_y + HALF_GAP; 
-
-    /* Draw the top of the obstacle using the bitmap */
     plot_bitmap_32(base, x, edge_y, obs_top_edge_bitmap, HEIGHT_32, mode);
-
-    /* Connect the bitmap to the bottom border with a vertical line */
-    /*plot_gline(x, edge_y, x, B_BORDER_Y, XOR);       
-    plot_gline(x + 1, edge_y, x + 1, B_BORDER_Y, XOR);
-    plot_gline(x + 30, edge_y, x + 30, B_BORDER_Y, XOR);
-    plot_gline(x + 31, edge_y, x + 31, B_BORDER_Y, XOR); */
-
 }
 
 /*
