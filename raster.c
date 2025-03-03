@@ -370,7 +370,6 @@ void disable_cursor()
 			- gap_height size of the gap between top and bottom obstacles
 	OUTPUT:	N/A
 *******************************************************************************/
-
 /*
 void plot_obstacle(UINT32 *base, int x, int gap_y, int gap_height)
 {

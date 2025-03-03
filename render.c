@@ -155,7 +155,10 @@ void render_obs(const Model *model , UINT32 *base){
     clear_square_32(base, model -> wall.top.prev_top_lt.x, model -> wall.top.prev_top_lt.y, 0, HEIGHT_32);
     clear_square_32(base, model -> wall.bottom.prev_top_lt.x, model -> wall.bottom.prev_top_lt.y, 0, HEIGHT_32);
     
-    plot_obstacles(base, model->wall.top.top_left.x, model->wall.gap_y);
+    plot_bitmap_32(base, model -> wall.top.top_left.x, model -> wall.top.top_left.y, obs_bottom_edge_bitmap, HEIGHT_32, 1);
+    plot_bitmap_32(base, model -> wall.bottom.top_left.x, model -> wall.bottom.top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1);
+
+    /* plot_obstacles(base, model->wall.top.top_left.x, model->wall.gap_y);
     /*plot_top_obs(base, model->wall.top.top_left.x, model->wall.gap_y);s
     plot_bottom_obs(base, model->wall.bottom.top_left.x, model->wall.gap_y); */
 }
