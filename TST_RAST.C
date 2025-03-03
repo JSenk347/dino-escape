@@ -49,7 +49,7 @@ int main()
 	/*
 	plot_obstacle((UINT32 *)Physbase(), 400, 100, 140);
 	*/
-	plot_obstacles((UINT32 *)base, 96, 279);
+	plot_obstacles((UINT32 *)base, 96, 279, 1);
 	
 	/* START BUTTON PLOTTING */
 	plot_top_start_button((UINT32 *)base, lt_top_start_bitmap,
