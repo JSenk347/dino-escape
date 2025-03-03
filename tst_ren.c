@@ -39,7 +39,7 @@ int main()
     } /* Render outside of while loop so just one frame is rendered*/
     render_screen((UINT16 *)base);
     render_game(&new_game, (UINT32 *)base);  
-    Cconin();
+    Cconin(); /* Pause so user can see fully rendered screen*/
     return 0;
 }
 
