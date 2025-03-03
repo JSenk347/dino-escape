@@ -151,6 +151,10 @@ void render_start(const Model *model , UINT32 *base){
     OUTPUT: 
 *******************************************************************************/
 void render_obs(const Model *model , UINT32 *base){
+    /* Clears top and bottom obs before plotting new position */
+    clear_square_32(base, model -> wall.top.prev_top_lt.x, model -> wall.top.prev_top_lt.y, 0, HEIGHT_32);
+    clear_square_32(base, model -> wall.bottom.prev_top_lt.x, model -> wall.bottom.prev_top_lt.y, 0, HEIGHT_32);
+    
     plot_obstacles(base, model->wall.top.top_left.x, model->wall.gap_y);
     /*plot_top_obs(base, model->wall.top.top_left.x, model->wall.gap_y);s
     plot_bottom_obs(base, model->wall.bottom.top_left.x, model->wall.gap_y); */

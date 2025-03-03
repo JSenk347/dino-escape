@@ -101,6 +101,9 @@ unsigned int gap_y(){
 *******************************************************************************/
 void move_obstacles(Model *game){
 
+	game -> wall.bottom.prev_top_lt = game -> wall.bottom.top_left;
+	game -> wall.top.prev_top_lt = game -> wall.top.top_left;
+
 	game -> wall.bottom.bot_left.x -= game -> wall.hor_velocity;
 	game -> wall.bottom.bot_right.x -= game -> wall.hor_velocity;
 	game -> wall.bottom.top_left.x -= game -> wall.hor_velocity;
