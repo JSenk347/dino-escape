@@ -18,13 +18,25 @@
  SUMMARY: Contains functions for all rendering game graphics
 *******************************************************************************/
 
+/*******************************************************************************
+    PURPOSE: Calls the functions to render the obstacles in the game,
+    the dino, and the score when updated
+    INPUT:	- model: Game model
+            - base: Base address of the screen
+    OUTPUT: - N/A
+*******************************************************************************/
 void render_game(const Model *new_game , UINT32 *base){
     render_obs(new_game,base);
     render_dino(new_game, base);
-    /*render_score(new_game,base); */
+    render_score(new_game,base); 
     plot_bitmap_32((UINT32 )base, 0, 0, black, HEIGHT_32, 1);
 }
-
+/*******************************************************************************
+    PURPOSE: Calls the functions to set up for the
+    start of the game, render the basic screen, score and borders
+    INPUT:  - base: 16 bit base address of the screen
+    OUTPUT: - N/A
+*******************************************************************************/
 void render_screen(UINT16 *base){
     disable_cursor();
     clear_screen((UINT16 *)base, 0);
@@ -34,6 +46,13 @@ void render_screen(UINT16 *base){
     plot_bitmap_32((UINT32)base, 537, 359, zero_bitmap, HEIGHT_32, 1); /* Hundreds digit */
     plot_bitmap_32((UINT32)base, 505, 359, zero_bitmap, HEIGHT_32, 1); /* Thousands digit */
 }
+
+/*******************************************************************************
+    PURPOSE: Calls the functions to render the obstacles in the game
+    INPUT:	- model: Game model
+            - base: Base address of the screen
+    OUTPUT: - N/A
+*******************************************************************************/
 void render_dino(const Model *game, UINT32 *base) {
     UINT32 *bitmap;
     Dino *dino = &(game->dino);
@@ -55,7 +74,12 @@ void render_dino(const Model *game, UINT32 *base) {
     /* Increment frame counter */
     dino->frame_counter++;
 }
-
+/*******************************************************************************
+    PURPOSE: Calls the functions to render the dead dino in the game over screen
+    INPUT:	- model: Game model
+            - base: Base address of the screen
+    OUTPUT: - N/A
+*******************************************************************************/
 void render_dino_dead(const Model *game, UINT32 *base) {
     UINT32 *bitmap;
     Dino *dino = &(game->dino);
@@ -64,9 +88,10 @@ void render_dino_dead(const Model *game, UINT32 *base) {
     (dino->frame_counter) += 1;
 }
 /*******************************************************************************
-    PURPOSE: 
-    INPUT:	- 
-    OUTPUT: 
+    PURPOSE: Calls the functions to render the game over screen
+    INPUT:	- model: Game model
+            - base: Base address of the screen
+    OUTPUT: - N/A
 *******************************************************************************/
 void render_score(const Model *model , UINT32 *base) {
     UINT32 *digit_bitmaps[] = {
@@ -104,14 +129,21 @@ void render_score(const Model *model , UINT32 *base) {
 }
 
 /*******************************************************************************
-    PURPOSE: 
-    INPUT:	- 
-    OUTPUT: 
+    PURPOSE: Calls the functions to render the start screen
+    INPUT:	- model: Game model
+            - base: Base address of the screen
+    OUTPUT: - N/A
 *******************************************************************************/
 void render_start(const Model *model , UINT32 *base){
     plot_top_start_button((UINT32 *)base, lt_top_start_bitmap, mid_lt_top_start_bitmap, mid_rt_top_start_bitmap, rt_top_start_bitmap);
 	plot_bottom_start_button((UINT32 *)base, lt_bottom_start_bitmap, mid_lt_bottom_start_bitmap, mid_rt_bottom_start_bitmap, rt_bottom_start_bitmap);
 }
+/*******************************************************************************
+    PURPOSE: To render the obstacles on the screen in acordance to the model
+    INPUT:	- model: Game model
+            - base: Base address of the screen
+    OUTPUT: - N/A
+*******************************************************************************/
 void render_obs(const Model *model , UINT32 *base){
 /* Clears top and bottom obs before plotting new position */
     int i;

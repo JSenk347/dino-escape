@@ -4,6 +4,7 @@
         "ANIMATE.C": "cpp",
         "FILL.C": "cpp",
         "TST_MODEL.C": "cpp",
-        "tst_mod.C": "cpp"
+        "tst_mod.C": "cpp",
+        "model.h": "c"
     }
 }
