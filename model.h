@@ -74,7 +74,6 @@ typedef struct {
 typedef struct {
     Dino dino;
     Obs_wall walls[4];
-    Obs_wall wall;
     Score score;
     Context game_state;
 } Model;
@@ -83,6 +82,5 @@ typedef struct {
 void move_dino(Dino *dino);
 void init_wall(Obs_wall *wall, int gap);
 unsigned int gap_y();
-void move_wall(Model *game);
 void reset_wall(Model *game, Obs_wall *wall);
 #endif
