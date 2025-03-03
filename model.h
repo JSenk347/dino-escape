@@ -60,6 +60,7 @@ typedef struct {
     Digit digits[4];
     unsigned int max_value;
     unsigned int value;
+    unsigned int prev_value;
 } Score;
 
 typedef struct {

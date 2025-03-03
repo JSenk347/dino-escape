@@ -128,17 +128,18 @@ void reset_obs(Model *game){
 	}
 }
 
-void update_score(Model *game){
-    int value;
+void update_score(Model *game){	
+	int value;
 
     Score *score = &(game -> score);
+	score -> prev_value = score -> value;
 
     if (score -> value < score -> max_value){
         (score -> value)++;
         value = score -> value;
-        (score -> digits)[0].value = (value / 1000) % 10;
-        (score -> digits)[1].value = (value / 100) % 10;
-        (score -> digits)[2].value = (value / 10) % 10;
-        (score -> digits)[3].value = value % 10;
+        (score -> digits)[3].value = (value / 1000) % 10; 	/* thousands digit */
+        (score -> digits)[2].value = (value / 100) % 10;  	/* hundreds digit */
+        (score -> digits)[1].value = (value / 10) % 10;   	/* tens digit */
+        (score -> digits)[0].value = value % 10;			/* ones digit */
     }
 }

@@ -53,7 +53,7 @@ int main()
     plot_bitmap_32((UINT32 *)base, 601, 359, zero_bitmap, HEIGHT_32, 1); /* Ones digit */
     plot_bitmap_32((UINT32 *)base, 569, 359, zero_bitmap, HEIGHT_32, 1); /* Tens digit */
     plot_bitmap_32((UINT32 *)base, 537, 359, zero_bitmap, HEIGHT_32, 1); /* Hundreds digit */
-    plot_bitmap_32((UINT32 *)base, 505, 359, zero_bitmap, HEIGHT_32, 1); /* Thousandss digit */
+    plot_bitmap_32((UINT32 *)base, 505, 359, zero_bitmap, HEIGHT_32, 1); /* Thousands digit */
 
     /* plot_bitmap_32((UINT32 *)base, 311, 359, zero_bitmap, HEIGHT_32, 1);
     plot_bitmap_32((UINT32 *)base, 343, 359, one_bitmap, HEIGHT_32, 1);
@@ -72,9 +72,16 @@ int main()
 /* 2. Game has been started rerender without start */
     render_screen((UINT16 *)base);
     plot_borders();
-    /* Block out score area in border (only need spots for 4 digits because max score is 5000)*/
-    plot_bitmap_32((UINT32 *)base, 569, 359, black, HEIGHT_32, 1); /* Blacks out tens spot */
-    plot_bitmap_32((UINT32 *)base, 537, 359, black, HEIGHT_32, 1); /* Blacks out hundreds spot */
+
+    /* easier to just leave as zeros ?*/
+    plot_bitmap_32((UINT32 *)base, 601, 359, zero_bitmap, HEIGHT_32, 1); /* Ones digit */
+    plot_bitmap_32((UINT32 *)base, 569, 359, zero_bitmap, HEIGHT_32, 1); /* Tens digit */
+    plot_bitmap_32((UINT32 *)base, 537, 359, zero_bitmap, HEIGHT_32, 1); /* Hundreds digit */
+    plot_bitmap_32((UINT32 *)base, 505, 359, zero_bitmap, HEIGHT_32, 1); /* Thousands digit */
+    
+    /* Block out score area in border (only need spots for 4 digits because max score is 5000)
+    plot_bitmap_32((UINT32 *)base, 569, 359, black, HEIGHT_32, 1); /* Blacks out tens spot
+    plot_bitmap_32((UINT32 *)base, 537, 359, black, HEIGHT_32, 1); /* Blacks out hundreds spot
     plot_bitmap_32((UINT32 *)base, 505, 359, black, HEIGHT_32, 1); /* Blacks out thousands spot */
 
     /* plot_bitmap_32((UINT32 *)base, 311, 359, black, HEIGHT_32, 1);

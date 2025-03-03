@@ -38,25 +38,42 @@ void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned i
         UINT32 *pixel_addr = base + word_offset + (20 * i);
 
         if (bit_shift == 0) {
+            /* Perfectly aligned on a 32-bit boundary */
+            *pixel_addr |= bitmap[i];
+        } else {
+            /* Bitmap is split across two 32-bit words */
+            pixel_addr[0] |= bitmap[i] >> bit_shift; /* First part in current word */
+            pixel_addr[1] |= bitmap[i] << (32 - bit_shift); /* Remaining part in next word */
+        }
+    }
+
+	/*int i;
+    int word_offset = (x >> 5) + (y * 20); /* Word-aligned base offset 
+    int bit_shift = x & 31; /* Offset within the 32-bit word 
+
+    for (i = 0; i < height; i++) {
+        UINT32 *pixel_addr = base + word_offset + (20 * i);
+
+        if (bit_shift == 0) {
             if (mode == 1) {  
-                /* Draw mode: Set bits */
+                /* Draw mode: Set bits 
                 *pixel_addr |= bitmap[i];
-            } else {  
-                /* Erase mode: Clear bits */
+            } else { 
+                /* Erase mode: Clear bits 
                 *pixel_addr &= ~bitmap[i];
             }
         } else {
             if (mode == 1) {  
-                /* Draw mode: Bitmap split across two words */
+                /* Draw mode: Bitmap split across two words 
                 pixel_addr[0] |= bitmap[i] >> bit_shift;
                 pixel_addr[1] |= bitmap[i] << (32 - bit_shift);
             } else {  
-                /* Erase mode: Clear bits in both words */
+                /* Erase mode: Clear bits in both words 
                 pixel_addr[0] &= ~(bitmap[i] >> bit_shift);
                 pixel_addr[1] &= ~(bitmap[i] << (32 - bit_shift));
             }
         }
-    }
+    } */
 }
 
 /******************************************************************************
