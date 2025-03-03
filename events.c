@@ -4,8 +4,8 @@
  INSTRUCTOR:   Tim Reimer
  DATE:         Feb.10, 2025
 
- FILE:          events.c
- PURPOSE:
+ FILE:         events.c
+ PURPOSE:      Holds all synchronous, asynchronous, conditional event functions
 *******************************************************************************/
 #include <stdio.h>
 #include <osbind.h>
@@ -216,8 +216,7 @@ void read_quit_req(Model *gameModel, char key)
     }
 }
 
-/******************************** CONDITION BASED EVENTS *********************************/
-
+/* CONDITION BASED EVENTS */
 /******************************************************************************************
     PURPOSE: To check whether the dino has passed a barrier or not, and then update the
              score with update_score(Model *model)
