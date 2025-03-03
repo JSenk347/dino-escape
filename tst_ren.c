@@ -1,12 +1,3 @@
-/*******************************************************************************
- AUTHORS:      Anna Running Rabbit, Jordan Senko, Joseph Mills
- COURSE:       COMP2659-001
- INSTRUCTOR:   Tim Reimer
- DATE:         Feb.10, 2025
-
- FILE:         tst_ren.c
- PURPOSE:      Test driver for rendering a snapshot of the dino escape gameplay
-*******************************************************************************/
 #include "render.h"
 #include "events.h"
 #include "model.h"
@@ -16,7 +7,6 @@
 #include <stdio.h>
 #include <osbind.h>
 #include <linea.h>
-
 
 int main()
 {
@@ -37,17 +27,16 @@ int main()
         {FALSE,FALSE,FALSE},                                                                        /* Context variables */
       }; 
     linea0();
-    while (i != 250) {
+    while (i != 250) { /* Find a random position during the game to show what it will look like when played */
         move_walls(&new_game); /* Happens first to prevent obstacle from moving after collision has occured */
-        read_input(&new_game); 
-        check_collisions(&new_game);
+        read_input(&new_game); /* Read user input */
+        check_collisions(&new_game); /* */
         check_score(&new_game); 
         i++;
         if (new_game.game_state.dead_flag) {
             printf("Game Over!\n");
         }
-    }  
-    
+    } /* Render outside of while loop so just one frame is rendered*/
     render_screen((UINT16 *)base);
     render_game(&new_game, (UINT32 *)base);  
     Cconin();
