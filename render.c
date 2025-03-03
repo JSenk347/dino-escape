@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <osbind.h>
 #include <linea.h>
+#define XOR 2
 
 /*******************************************************************************
  AUTHORS: Anna Running Rabbit, Jordan Senko, Joseph Mills
@@ -113,15 +114,24 @@ void render_start(const Model *model , UINT32 *base){
 }
 void render_obs(const Model *model , UINT32 *base){
 /* Clears top and bottom obs before plotting new position */
+    int i;
     clear_square_32(base, model -> walls[0].top.prev_top_lt.x, model -> walls[0].top.prev_top_lt.y, 0, HEIGHT_32);
     clear_square_32(base, model -> walls[0].bottom.prev_top_lt.x, model -> walls[0].bottom.prev_top_lt.y, 0, HEIGHT_32); 
-    
-    plot_bitmap_32(base, model -> walls[0].top.top_left.x, model -> walls[0].top.top_left.y, obs_bottom_edge_bitmap, HEIGHT_32, 1);
-    plot_bitmap_32(base, model -> walls[0].bottom.top_left.x, model -> walls[0].bottom.top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1); 
-    plot_bitmap_32(base, model -> walls[1].top.top_left.x, model -> walls[1].top.top_left.y, obs_bottom_edge_bitmap, HEIGHT_32, 1);
-    plot_bitmap_32(base, model -> walls[1].bottom.top_left.x, model -> walls[1].bottom.top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1); 
-    plot_bitmap_32(base, model -> walls[2].top.top_left.x, model -> walls[2].top.top_left.y, obs_bottom_edge_bitmap, HEIGHT_32, 1);
-    plot_bitmap_32(base, model -> walls[2].bottom.top_left.x, model -> walls[2].bottom.top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1); 
+    for (i = 0; i < NUM_WALLS; i++) {    
+        plot_bitmap_32(base, model -> walls[i].top.top_left.x, model -> walls[i].top.top_left.y, obs_bottom_edge_bitmap, HEIGHT_32, 1);
+        plot_bitmap_32(base, model -> walls[i].bottom.top_left.x, model -> walls[i].bottom.top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1); 
+        plot_bitmap_32(base, model -> walls[i].top.top_left.x, model -> walls[i].top.top_left.y, obs_bottom_edge_bitmap, HEIGHT_32, 1);
+        plot_bitmap_32(base, model -> walls[i].bottom.top_left.x, model -> walls[i].bottom.top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1); 
+        plot_bitmap_32(base, model -> walls[i].top.top_left.x, model -> walls[i].top.top_left.y, obs_bottom_edge_bitmap, HEIGHT_32, 1);
+        plot_bitmap_32(base, model -> walls[i].bottom.top_left.x, model -> walls[i].bottom.top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1); 
+        
+        plot_gline(model -> walls[i].bottom.top_left.x, model -> walls[i].bottom.top_left.y+31, model -> walls[i].bottom.bot_left.x, B_BORDER_Y-1, XOR);       
+        plot_gline(model -> walls[i].bottom.top_left.x + 1, model -> walls[i].bottom.top_left.y+32, model -> walls[i].bottom.bot_left.x + 1, B_BORDER_Y-1, XOR);
+        plot_gline(model -> walls[i].bottom.top_left.x+31, model -> walls[i].bottom.top_left.y+31, model -> walls[i].bottom.bot_left.x+31, B_BORDER_Y-1, XOR);       
+        plot_gline(model -> walls[i].bottom.top_left.x + 32, model -> walls[i].bottom.top_left.y+32, model -> walls[i].bottom.bot_left.x + 32, B_BORDER_Y-1, XOR);
+    }
+
+
     /* plot_obstacles(base, model->wall.top.top_left.x, model->wall.gap_y);*/
     /*plot_top_obs(base, model->wall.top.top_left.x, model->wall.gap_y);s
     plot_bottom_obs(base, model->wall.bottom.top_left.x, model->wall.gap_y); */
