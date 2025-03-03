@@ -28,7 +28,7 @@ int main()
         {FALSE,FALSE,FALSE},                                                                        /* Context variables */
       }; 
     linea0();
-    while (i != 100) {
+    while (i != 250) {
         move_walls(&new_game); /* Happens first to prevent obstacle from moving after collision has occured */
         read_input(&new_game); 
         check_collisions(&new_game);

@@ -118,7 +118,10 @@ void render_obs(const Model *model , UINT32 *base){
     
     plot_bitmap_32(base, model -> walls[0].top.top_left.x, model -> walls[0].top.top_left.y, obs_bottom_edge_bitmap, HEIGHT_32, 1);
     plot_bitmap_32(base, model -> walls[0].bottom.top_left.x, model -> walls[0].bottom.top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1); 
-
+    plot_bitmap_32(base, model -> walls[1].top.top_left.x, model -> walls[1].top.top_left.y, obs_bottom_edge_bitmap, HEIGHT_32, 1);
+    plot_bitmap_32(base, model -> walls[1].bottom.top_left.x, model -> walls[1].bottom.top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1); 
+    plot_bitmap_32(base, model -> walls[2].top.top_left.x, model -> walls[2].top.top_left.y, obs_bottom_edge_bitmap, HEIGHT_32, 1);
+    plot_bitmap_32(base, model -> walls[2].bottom.top_left.x, model -> walls[2].bottom.top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1); 
     /* plot_obstacles(base, model->wall.top.top_left.x, model->wall.gap_y);*/
     /*plot_top_obs(base, model->wall.top.top_left.x, model->wall.gap_y);s
     plot_bottom_obs(base, model->wall.bottom.top_left.x, model->wall.gap_y); */

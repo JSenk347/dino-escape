@@ -26,7 +26,7 @@ int main()
     render_screen((UINT16 *)base);
     plot_borders();
     init_obs_wall(&new_game.wall, gap_y());
-    while (i != 100) {
+    while (i != 200) {
         read_input(&new_game);
         check_score(&new_game); 
         check_conditions(&new_game); 
