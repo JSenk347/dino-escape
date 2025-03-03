@@ -12,7 +12,7 @@ typedef unsigned int bool;
 #define R_BORDER_X 639
 #define L_BORDER_X 0
 #define DINO_HEIGHT 32
-#define NUM_WALLS 4
+#define NUM_WALLS 3
 #define UP -1
 #define DOWN 1
 
@@ -77,7 +77,7 @@ typedef struct {
 
 typedef struct {
     Dino dino;
-    Obs_wall walls[4];
+    Obs_wall walls[3];
     Score score;
     Context game_state;
 } Model;
