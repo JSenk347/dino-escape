@@ -4,7 +4,7 @@
  INSTRUCTOR:   Tim Reimer
  DATE:         Feb.10, 2025
 
- FILE: model.c
+ FILE: 	model.c
  PURPOSE: Contains the data structures and related functions for the game model.
 *******************************************************************************/
 #include "model.h"

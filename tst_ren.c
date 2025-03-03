@@ -1,3 +1,12 @@
+/*******************************************************************************
+ AUTHORS:      Anna Running Rabbit, Jordan Senko, Joseph Mills
+ COURSE:       COMP2659-001
+ INSTRUCTOR:   Tim Reimer
+ DATE:         Feb.10, 2025
+
+ FILE:         tst_ren.c
+ PURPOSE:      Test driver for rendering a snapshot of the dino escape gameplay
+*******************************************************************************/
 #include "render.h"
 #include "events.h"
 #include "model.h"
