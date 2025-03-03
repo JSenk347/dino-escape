@@ -26,8 +26,10 @@ typedef struct {
     Vertex top_right;
     Vertex bot_left;
     Vertex bot_right;
+    Vertex prev_top_lt;     /* For clearing render when moving the Dino */
     int vert_velocity;
     int vert_direction;
+    unsigned int frame_counter;
 } Dino;
 
 typedef struct{
@@ -35,6 +37,7 @@ typedef struct{
     Vertex top_right;
     Vertex bot_left;
     Vertex bot_right;
+    Vertex prev_top_lt;     /* For clearing render when moving the Obs */
 } Obs;
 
 typedef struct {
@@ -63,6 +66,7 @@ typedef struct {
     Digit digits[4];
     unsigned int max_value;
     unsigned int value;
+    unsigned int prev_value;
 } Score;
 
 typedef struct {

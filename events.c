@@ -26,7 +26,6 @@ void move_walls(Model *game){
 	unsigned int h_vel;
 
 	Obs_wall *walls = game->walls;
-
 	for (i = 0; i < NUM_WALLS; i++){
 		Obs_wall *wall = &walls[i];
 
@@ -135,8 +134,8 @@ void wait_for_game_start(Model *gameModel)
 
             if (key == '\r')
             {
-                gameModel->game_state.start_flag = TRUE;
-                printf("Game started by user!\n");
+              gameModel->game_state.start_flag = TRUE;
+              printf("Game started by user!\n");
             }
         }
     }
@@ -152,7 +151,6 @@ void wait_for_game_start(Model *gameModel)
 *******************************************************************************/
 void read_input(Model *gameModel)
 {
-
     if (Cconis())
     {
         char key = Cnecin();
@@ -188,7 +186,7 @@ void read_dino_input(Model *gameModel, char key)
     if (key == 'w')
     {
         gameModel->dino.vert_velocity = 5;
-        gameModel->dino.vert_direction = UP;
+        gameModel->dino.vert_direction = UP; /* Changes dino direction to up */
         move_dino(&gameModel->dino);
     }
     /* Moves dino down */
@@ -197,7 +195,7 @@ void read_dino_input(Model *gameModel, char key)
         gameModel->dino.vert_velocity = 5;
         gameModel->dino.vert_direction = DOWN;
         move_dino(&gameModel->dino);
-    }
+      }
 }
 
 /*******************************************************************************
@@ -212,8 +210,9 @@ void read_quit_req(Model *gameModel, char key)
 {
     if (key == 'q')
     {
-        gameModel->game_state.dead_flag = TRUE;
+        gameModel -> game_state.dead_flag = TRUE
         printf("Game ended by user.\n");
+
     }
 }
 
@@ -225,13 +224,11 @@ void read_quit_req(Model *gameModel, char key)
     INPUT:  - game The model of the game
     OUTPUT: N/A
 ******************************************************************************************/
-void check_score(Model *game)
-{
+  void check_score(Model *game) {
     int i;
     Dino *dino = &(game->dino);
     Obs_wall *walls = game -> walls;
-
-    for (i = 0; i < NUM_WALLS; i++){
+    for (i = 0; i < NUM_WALLS; i++) {
         Obs_wall *wall = &walls[i];
 
         if ((wall->bottom.bot_right.x < dino->bot_left.x) && !wall->been_passed)
@@ -239,8 +236,7 @@ void check_score(Model *game)
             update_score(game);
             wall->been_passed = TRUE;
         }
-    }
-
+      }
 }
 
 /******************************************************************************************
@@ -277,7 +273,7 @@ void update_score(Model *game)
     OUTPUT: N/A
 *******************************************************************************/
 void reflect_dino_death(Model *gameModel)
-{
+  {
     /* Will need to add dino bitmap update to dino_dead_bitmap() */
 
     /* gameModel -> dino.vert_direction = 1; /* Changes dino direction to down

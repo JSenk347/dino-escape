@@ -4,6 +4,9 @@
 #define HEIGHT_32 32
 #define HEIGHT_16 16
 
+extern const UINT32 white_bitmap[HEIGHT_32];
+extern const UINT32 black[HEIGHT_32];
+extern const UINT32 empty_bitmap[HEIGHT_32];
 extern const UINT32 dino_wdown_bitmap[HEIGHT_32];
 extern const UINT32 dino_wup_bitmap[HEIGHT_32];
 extern const UINT32 dino_dead_bitmap[HEIGHT_32];

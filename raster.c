@@ -11,22 +11,25 @@
 #include <linea.h>
 #include <osbind.h>
 #include "bitmaps.h"
+#include "model.h"
+#include "events.h"
 
 #define XOR 2
 #define HALF_GAP 25
 
 
 /*******************************************************************************
-	PURPOSE: To plot 32 bit bitmaps at specified x and y coordinates
+	PURPOSE: To plot 32 bit bitmaps at specified x and y coordinates (top left)
 	INPUT: 	- *base	pointer to the frame buffer
 			- x	x coordinate you'd like to plot the bitmap at
 			- y y coordinate you'd like to plot the bitmap at
 			- *bitmap pointer to the bitmap you'd like to plot
 			- height height of the bitmap you are plotting
+			- mode .... not done?
 	OUTPUT: N/A
 *******************************************************************************/
-void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height)
-{
+
+void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height, int mode) {
     int i;
     int word_offset = (x >> 5) + (y * 20); /* Word-aligned base offset */
     int bit_shift = x & 31; /* Offset within the 32-bit word */
@@ -43,6 +46,83 @@ void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned i
             pixel_addr[1] |= bitmap[i] << (32 - bit_shift); /* Remaining part in next word */
         }
     }
+
+	/*int i;
+    int word_offset = (x >> 5) + (y * 20); /* Word-aligned base offset 
+    int bit_shift = x & 31; /* Offset within the 32-bit word 
+
+    for (i = 0; i < height; i++) {
+        UINT32 *pixel_addr = base + word_offset + (20 * i);
+
+        if (bit_shift == 0) {
+            if (mode == 1) {  
+                /* Draw mode: Set bits 
+                *pixel_addr |= bitmap[i];
+            } else { 
+                /* Erase mode: Clear bits 
+                *pixel_addr &= ~bitmap[i];
+            }
+        } else {
+            if (mode == 1) {  
+                /* Draw mode: Bitmap split across two words 
+                pixel_addr[0] |= bitmap[i] >> bit_shift;
+                pixel_addr[1] |= bitmap[i] << (32 - bit_shift);
+            } else {  
+                /* Erase mode: Clear bits in both words 
+                pixel_addr[0] &= ~(bitmap[i] >> bit_shift);
+                pixel_addr[1] &= ~(bitmap[i] << (32 - bit_shift));
+            }
+        }
+    } */
+}
+
+/******************************************************************************
+	PURPOSE: Clears the 32x32 block given by the x,y cordinates by calling
+				plot_bitmap_32 to overwrite the block with either all white or
+				all black
+	INPUT: 	- *base	pointer to the frame buffer
+			- x	x coordinate you'd like to plot the bitmap at
+			- y y coordinate you'd like to plot the bitmap at
+			- colour either 1 (black) or 0 (white)
+			- sqr_length integer of the height/width of the square to clear
+	OUTPUT: N/A
+******************************************************************************/
+void clear_square_32(UINT32 *base, int x, int y, int colour, int sqr_length) {
+    int row, col;
+    int screen_longs_per_row = 640 / 32;
+	int word_offset = x >> 5; /* Calculate the initial word offset */
+    int bit_shift = x & 31;   /* Calculate the bit shift within the first word */
+
+    for (row = y; row < y + sqr_length; row++) {
+        UINT32 *pixel_addr = base + (row * screen_longs_per_row) + word_offset;
+        
+        for (col = 0; col < ((sqr_length + bit_shift + 31) >> 5); col++) { 
+			/* First partial word (if any) */
+			if (col == 0 && bit_shift != 0) {
+                UINT32 mask = ~((1 << bit_shift) - 1); 
+                pixel_addr[col] = (pixel_addr[col] & mask) | (colour & ~mask);
+            }
+			/* Second partial word (if any) */
+			else if (col == ((sqr_length + bit_shift + 31) >> 5) - 1 && (sqr_length + bit_shift) % 32 != 0) {
+				UINT32 mask = (1 << (32 - (sqr_length + bit_shift) % 32)) - 1;
+                pixel_addr[col] = (pixel_addr[col] & ~mask) | (colour & mask);
+			}
+			/* Full words */
+			else {
+				pixel_addr[col] = colour;
+			}
+        }
+    }
+}
+
+/******************************************************************************
+	PURPOSE: 
+	INPUT: 	
+	OUTPUT: N/A
+******************************************************************************/
+void overwrite_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, int height) {
+    /* Erase the previous bitmap by calling plot_bitmap_32 in erase mode */
+    plot_bitmap_32(base, x, y, bitmap, height, 0); /* 0 = erase mode */
 }
 
 /*******************************************************************************
@@ -74,6 +154,7 @@ void plot_bitmap_16(UINT16 *base, int x, int y, const UINT16 *bitmap, unsigned i
 	}
 };
 
+
 /******************************************************************************
 	PURPOSE: To clear the screen and display all white
 	INPUT: 	- *base pointer to the frame buffer
@@ -90,16 +171,7 @@ void clear_screen(UINT16 *base, int pattern)
 		}
 }
 
-void clear_screen(UINT32 *base, UINT32 pattern)
-{
-    register int i = 0;
-    register UINT32 *loc = base;
 
-
-    while (i++ < (BYTES_PER_SCREEN) / 4) {  
-        *(loc++) = pattern;
-    }
-}
 
 
 /******************************************************************************
@@ -190,9 +262,28 @@ void plot_borders()
 	/*  plots lines to cancel out lines covering the score. will be implemented
 		in scoring function later in development*/
 	for (i = 390; i > 358; i--){
-		plot_gline(311, i, 631, i, XOR);
+		plot_gline(505, i, 631, i, XOR);
 	}
 }
+
+/*******************************************************************************
+	PURPOSE: 	
+	INPUT: 	N/A
+	OUTPUT: N/A
+*******************************************************************************/
+void clear_rect(UINT16 *base, int x, int y, int width, int height) {
+    int row, col;
+    int screen_words_per_row = 640 / 16;  
+
+    for (row = y; row < y + height; row++) {
+        UINT16 *pixel_addr = base + (row * screen_words_per_row);
+        
+        for (col = 0; col < (width >> 4); col++) { 
+            pixel_addr[col] = 0; 
+        }
+    }
+}
+
 
 /*******************************************************************************
 	PURPOSE: Plots an upper and lower 32x32 bitmap side by side across the
@@ -210,12 +301,12 @@ void plot_triangle_border(UINT32 *base, const UINT32 *bitmap_top,
 	
 	/* plots the upper border triangle line with plot_bitmap_32()*/
 	for (i = 0; i < 640; i+=32){
-		plot_bitmap_32((UINT32 *)base, i, 50, bitmap_top, HEIGHT_32);
+		plot_bitmap_32((UINT32 *)base, i, 50, bitmap_top, HEIGHT_32, 1);
 	}
 
 	/* plots the lower border triangle line with plot_bitmap_32()*/
 	for (i = 0; i < 640; i+=32){
-		plot_bitmap_32((UINT32 *)base, i, 314, bitmap_bottom, HEIGHT_32);
+		plot_bitmap_32((UINT32 *)base, i, 314, bitmap_bottom, HEIGHT_32, 1);
 	}
 }
 
@@ -233,10 +324,10 @@ void plot_top_start_button(UINT32 *base, const UINT32 *lt_top_start_bitmap,
 	const UINT32 *mid_lt_top_start_bitmap, const UINT32 *mid_rt_top_start_bitmap,
 	const UINT32 *rt_top_start_bitmap)
 {
-	plot_bitmap_32((UINT32 *)base, 256, 168, lt_top_start_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 288, 168, mid_lt_top_start_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 320, 168, mid_rt_top_start_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 352, 168, rt_top_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 256, 168, lt_top_start_bitmap, HEIGHT_32, 1);
+	plot_bitmap_32((UINT32 *)base, 288, 168, mid_lt_top_start_bitmap, HEIGHT_32, 1);
+	plot_bitmap_32((UINT32 *)base, 320, 168, mid_rt_top_start_bitmap, HEIGHT_32, 1);
+	plot_bitmap_32((UINT32 *)base, 352, 168, rt_top_start_bitmap, HEIGHT_32, 1);
 }
 
 /*******************************************************************************
@@ -253,10 +344,10 @@ void plot_bottom_start_button(UINT32 *base, const UINT32 *lt_bottom_start_bitmap
 	const UINT32 *mid_lt_bottom_start_bitmap, const UINT32 *mid_rt_bottom_start_bitmap,
 	const UINT32 *rt_bottom_start_bitmap)
 {
-	plot_bitmap_32((UINT32 *)base, 256, 200, lt_bottom_start_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 288, 200, mid_lt_bottom_start_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 320, 200, mid_rt_bottom_start_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 352, 200, rt_bottom_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 256, 200, lt_bottom_start_bitmap, HEIGHT_32, 1);
+	plot_bitmap_32((UINT32 *)base, 288, 200, mid_lt_bottom_start_bitmap, HEIGHT_32, 1);
+	plot_bitmap_32((UINT32 *)base, 320, 200, mid_rt_bottom_start_bitmap, HEIGHT_32, 1);
+	plot_bitmap_32((UINT32 *)base, 352, 200, rt_bottom_start_bitmap, HEIGHT_32, 1);
 }
 
 /*******************************************************************************
@@ -279,7 +370,6 @@ void disable_cursor()
 			- gap_height size of the gap between top and bottom obstacles
 	OUTPUT:	N/A
 *******************************************************************************/
-
 /*
 void plot_obstacle(UINT32 *base, int x, int gap_y, int gap_height)
 {
@@ -300,42 +390,32 @@ void plot_obstacle(UINT32 *base, int x, int gap_y, int gap_height)
 
 void plot_top_obs(UINT32 *base, int x, int gap_y)
 {
-	int edge_y = gap_y - HALF_GAP - 32; /* - 32 to account for height of bitmap */ 
-	int base_y;
-	
-	plot_bitmap_32(base, x, edge_y, obs_bottom_edge_bitmap, HEIGHT_32);
+	int edge_y = gap_y - HALF_GAP; 
 
-	if (edge_y >= 50 && edge_y <= 82){
-		base_y = edge_y - 32;
-		plot_bitmap_32(base, x, base_y, obs_bitmap, HEIGHT_32);
-	} else if (edge_y > 82){
-		plot_bitmap_32(base, x, 50, obs_bitmap, HEIGHT_32);
-		plot_gline(x, 82, x, edge_y, XOR);
-		plot_gline(x + 1, 82, x + 1, edge_y, XOR);
-		plot_gline(x + 30, 82, x + 30, edge_y, XOR);
-		plot_gline(x + 31, 82, x + 31, edge_y, XOR);
-	}
+    /* Draw the top of the obstacle using the bitmap */
+    plot_bitmap_32(base, x, edge_y - HEIGHT_32, obs_bottom_edge_bitmap, HEIGHT_32, 1);
+
+    /* Connect the bitmap to the top border with a vertical line */
+    /*plot_gline(x, edge_y, x, T_BORDER_Y, XOR);
+    plot_gline(x + 1, edge_y, x + 1, T_BORDER_Y, XOR);
+    plot_gline(x + 30, edge_y, x + 30, T_BORDER_Y, XOR);
+    plot_gline(x + 31, edge_y, x + 31, T_BORDER_Y, XOR); */
+
 }
 
 void plot_bottom_obs(UINT32 *base, int x, int gap_y)
 {
-	/* edge_y must be less than 298 so gap must be less than 279*/
 	int edge_y = gap_y + HALF_GAP; 
-	int base_y;
-	int cover_y1;
-	int cover_y2;
-	
-	plot_bitmap_32(base, x, edge_y, obs_top_edge_bitmap, HEIGHT_32);
-	plot_bitmap_32(base, x, 314, obs_bitmap, HEIGHT_32);
 
-	if (edge_y >= 303){
-		printf("ERROR IN: gap out of bounds");
-	} else if (edge_y < 282){
-		plot_gline(x, 313, x, edge_y + 31, XOR);
-		plot_gline(x + 1, 313, x + 1, edge_y + 31, XOR);
-		plot_gline(x + 30, 313, x + 30, edge_y + 31, XOR);
-		plot_gline(x + 31, 313, x + 31, edge_y + 31, XOR);
-	}
+    /* Draw the top of the obstacle using the bitmap */
+    plot_bitmap_32(base, x, edge_y, obs_top_edge_bitmap, HEIGHT_32, 1);
+
+    /* Connect the bitmap to the bottom border with a vertical line */
+    /*plot_gline(x, edge_y, x, B_BORDER_Y, XOR);       
+    plot_gline(x + 1, edge_y, x + 1, B_BORDER_Y, XOR);
+    plot_gline(x + 30, edge_y, x + 30, B_BORDER_Y, XOR);
+    plot_gline(x + 31, edge_y, x + 31, B_BORDER_Y, XOR); */
+
 }
 
 /*

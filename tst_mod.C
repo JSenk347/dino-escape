@@ -1,10 +1,9 @@
 /*******************************************************************************
- AUTHORS:      Anna Running Rabbit, Jordan Senko, Joseph Mills
- COURSE:       COMP2659-001
- INSTRUCTOR:   Tim Reimer
- DATE:         Mar.2, 2025
+ AUTHORS: Anna Running Rabbit, Jordan Senko, Joseph Mills
+ COURSE: COMP2659-001
+ INSTRUCTOR: Tim Reimer
+ DATE: Feb.24, 2025
 
- FILE: tst_mod.c
  SUMMARY: Tests all functions in model.c (incomplete, only initializes Models
             dino, obs_wall, and score variables for now)
 *******************************************************************************/
@@ -19,19 +18,19 @@ int main() {
 
 
     Model new_game = {
-        {{16,184},{47,184},{16,215},{47,215},0,0}, /* Dino variables */
+      {{16,184},{47,184},{16,215},{47,215},0,0}, /* Dino variables */
         { 
             {{{640,50},{672,50},{640,200},{672,200}}, {{640,251},{672,251},{640,351},{672,351}}, TRUE, FALSE, 200, OBS_START_SPEED}, /* wall 1 */
             {{{640,50},{672,50},{640,200},{672,200}}, {{640,251},{672,251},{640,351},{672,351}}, FALSE, FALSE, 200, OBS_START_SPEED}, /* wall 2 */
             {{{640,50},{672,50},{640,200},{672,200}}, {{640,251},{672,251},{640,351},{672,351}}, FALSE, FALSE, 200, OBS_START_SPEED}, /* wall 3 */
             {{{640,50},{672,50},{640,200},{672,200}}, {{640,251},{672,251},{640,351},{672,351}}, FALSE, FALSE, 200, OBS_START_SPEED}  /* wall 4 */
         }, 
-        {{505,359},{632,359},{505,390},{632,390},                                               /* Score variables */
+        {{505,359},{632,359},{505,390},{632,390}, 
             {{{505,359},{536,359},{505,390},{536,390},0},
             {{537,359},{568,359},{537,390},{568,390},0},
             {{569,359},{600,359},{568,390},{600,390},0},
             {{601,359},{632,359},{601,390},{632,390},0}},5000,0},
-        {FALSE,FALSE,FALSE},                                                                        /* Context variables */
+      {FALSE,FALSE,FALSE},                                                                        /* Context variables */
     }; 
 
     wait_for_game_start(&new_game);

@@ -7,19 +7,20 @@
 
 typedef unsigned long UINT32;
 typedef unsigned int UINT16;
-
+void clear_rect(UINT16 *base, int x, int y, int width, int height);
+void clear_square_32(UINT32 *base, int x, int y, int colour, int sqr_length);
+void overwrite_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, int height);
 void plot_bitmap_16(UINT16 *base, int x, int y, 
         const UINT16 *bitmap, unsigned int height);
-void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap,
-                unsigned int height);
+void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height, int mode);
 void clear_screen(UINT16 *base, int pattern);
 void plot_hline(unsigned short y, short mode);
 void plot_vline(unsigned short x, short mode);
 void plot_gline(unsigned short x1, unsigned short y1,
                 unsigned short x2, unsigned short y2,
                 short mode);
-void plot_top_obstacle(UINT32 *base, int x, int gap_y);
-void plot_bottom_obstacle(UINT32 *base, int x, int gap_y);
+void plot_top_obs(UINT32 *base, int x, int gap_y);
+void plot_bottom_obs(UINT32 *base, int x, int gap_y);
 void plot_obstacles(UINT32 *base, int x, int gap_y);          
 void plot_borders();
 void plot_triangle_border(UINT32 *base, const UINT32 *bitmap_top,

@@ -33,18 +33,19 @@ void move_dino(Dino *dino)
 		dino->vert_velocity = 0;
 		dino->top_left.y = T_BORDER_Y + 1;
 		dino->top_right.y = T_BORDER_Y + 1;
-		dino->bot_left.y = T_BORDER_Y + DINO_HEIGHT;
-		dino->bot_right.y = T_BORDER_Y + DINO_HEIGHT;
+		dino->bot_left.y = T_BORDER_Y + (DINO_HEIGHT + 1);
+		dino->bot_right.y = T_BORDER_Y + (DINO_HEIGHT + 1);
 	}
 	/* Limits dino movement to bottom border of gamescreen */
-	if (dino->bot_left.y >= B_BORDER_Y && dino->vert_direction == DOWN)
+  if (dino->bot_left.y >= B_BORDER_Y && dino->vert_direction == DOWN)
 	{
 		dino->vert_velocity = 0;
-		dino->top_left.y = B_BORDER_Y - DINO_HEIGHT;
-		dino->top_right.y = B_BORDER_Y - DINO_HEIGHT;
+		dino->top_left.y = B_BORDER_Y - (DINO_HEIGHT + 1);
+		dino->top_right.y = B_BORDER_Y - (DINO_HEIGHT + 1);
 		dino->bot_left.y = B_BORDER_Y - 1;
 		dino->bot_right.y = B_BORDER_Y - 1;
 	}
+
 }
 
 /*******************************************************************************
@@ -71,7 +72,7 @@ void init_wall(Obs_wall *wall, int gap)
 	bottom->bot_right.x = R_BORDER_X + 31;
 	bottom->bot_right.y = B_BORDER_Y - 1;
 
-	/* Top Obstacle */
+  /* Top Obstacle */
 	top->top_left.x = R_BORDER_X;
 	top->top_left.y = T_BORDER_Y + 1;
 	top->top_right.x = R_BORDER_X + 31;
@@ -112,12 +113,27 @@ void reset_wall(Model *game, Obs_wall *wall)
 	wall->been_passed = FALSE;
 
 	/* Increase obstacle velocity if next level reached */
-	
-	if (game->score.value % 50 == 0)
+  if (game->score.value % 50 == 0)
 	{
 		Obs_wall (*walls)[4] = &(game->walls);
 		for (i = 0; i < NUM_WALLS; i++){
 			walls[i] -> hor_velocity += 2;
 		}
 	}
+
+
+void update_score(Model *game){	
+	int value;
+
+    Score *score = &(game -> score);
+	score -> prev_value = score -> value;
+
+    if (score -> value < score -> max_value){
+        (score -> value)++;
+        value = score -> value;
+        (score -> digits)[3].value = (value / 1000) % 10; 	/* thousands digit */
+        (score -> digits)[2].value = (value / 100) % 10;  	/* hundreds digit */
+        (score -> digits)[1].value = (value / 10) % 10;   	/* tens digit */
+        (score -> digits)[0].value = value % 10;			      /* ones digit */
+    }
 }
