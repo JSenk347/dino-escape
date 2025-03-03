@@ -1,3 +1,12 @@
+/*******************************************************************************
+ AUTHORS: Anna Running Rabbit, Jordan Senko, Joseph Mills
+ COURSE: COMP2659-001
+ INSTRUCTOR: Tim Reimer
+ DATE: Mar.2, 2025
+
+ FILE: render.c
+ SUMMARY: Contains functions for all rendering game graphics
+*******************************************************************************/
 #include "render.h"
 #include "events.h"
 #include "model.h"
@@ -7,16 +16,6 @@
 #include <stdio.h>
 #include <osbind.h>
 #include <linea.h>
-#define XOR 2
-
-/*******************************************************************************
- AUTHORS: Anna Running Rabbit, Jordan Senko, Joseph Mills
- COURSE: COMP2659-001
- INSTRUCTOR: Tim Reimer
- DATE: Feb.24, 2025
-
- SUMMARY: Contains functions for all rendering game graphics
-*******************************************************************************/
 
 /*******************************************************************************
     PURPOSE: Calls the functions to render the obstacles in the game,
@@ -25,19 +24,20 @@
             - base: Base address of the screen
     OUTPUT: - N/A
 *******************************************************************************/
-void render_game(const Model *new_game , UINT32 *base){
+void render_game(const Model *new_game , UINT32 *base) {
     render_obs(new_game,base);
     render_dino(new_game, base);
     render_score(new_game,base); 
     plot_bitmap_32((UINT32 )base, 0, 0, black, HEIGHT_32, 1);
 }
+
 /*******************************************************************************
     PURPOSE: Calls the functions to set up for the
     start of the game, render the basic screen, score and borders
     INPUT:  - base: 16 bit base address of the screen
     OUTPUT: - N/A
 *******************************************************************************/
-void render_screen(UINT16 *base){
+void render_screen(UINT16 *base) {
     disable_cursor();
     clear_screen((UINT16 *)base, 0);
     plot_borders();
@@ -74,6 +74,7 @@ void render_dino(const Model *game, UINT32 *base) {
     /* Increment frame counter */
     dino->frame_counter++;
 }
+
 /*******************************************************************************
     PURPOSE: Calls the functions to render the dead dino in the game over screen
     INPUT:	- model: Game model
@@ -87,6 +88,7 @@ void render_dino_dead(const Model *game, UINT32 *base) {
     plot_bitmap_32((UINT32 *)base, dino->top_left.x, dino->top_left.y, bitmap, HEIGHT_32, 1);
     (dino->frame_counter) += 1;
 }
+
 /*******************************************************************************
     PURPOSE: Calls the functions to render the game over screen
     INPUT:	- model: Game model
@@ -134,17 +136,18 @@ void render_score(const Model *model , UINT32 *base) {
             - base: Base address of the screen
     OUTPUT: - N/A
 *******************************************************************************/
-void render_start(const Model *model , UINT32 *base){
+void render_start(const Model *model , UINT32 *base) {
     plot_top_start_button((UINT32 *)base, lt_top_start_bitmap, mid_lt_top_start_bitmap, mid_rt_top_start_bitmap, rt_top_start_bitmap);
 	plot_bottom_start_button((UINT32 *)base, lt_bottom_start_bitmap, mid_lt_bottom_start_bitmap, mid_rt_bottom_start_bitmap, rt_bottom_start_bitmap);
 }
+
 /*******************************************************************************
     PURPOSE: To render the obstacles on the screen in acordance to the model
     INPUT:	- model: Game model
             - base: Base address of the screen
     OUTPUT: - N/A
 *******************************************************************************/
-void render_obs(const Model *model , UINT32 *base){
+void render_obs(const Model *model , UINT32 *base) {
 /* Clears top and bottom obs before plotting new position */
     int i;
     clear_square_32(base, model -> walls[0].top.prev_top_lt.x, model -> walls[0].top.prev_top_lt.y, 0, HEIGHT_32);

@@ -1,5 +1,6 @@
 #ifndef RENDER_H
 #define RENDER_H
+#define XOR 2
 
 #include "raster.h"
 #include "events.h"
