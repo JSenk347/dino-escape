@@ -18,17 +18,20 @@
 *******************************************************************************/
 
 void render_game(const Model *new_game , UINT32 *base){
-    render_dino(new_game, base);
     render_obs(new_game,base);
-    render_score(new_game,base);
+    render_dino(new_game, base);
+    /*render_score(new_game,base); */
+    plot_bitmap_32((UINT32 )base, 0, 0, black, HEIGHT_32, 1);
 }
 
 void render_screen(UINT16 *base){
+    disable_cursor();
     clear_screen((UINT16 *)base, 0);
     plot_borders();
-    plot_bitmap_32((UINT32 *)base, 503, 359, black, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 535, 359, black, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 567, 359, black, HEIGHT_32, 1);
+    plot_bitmap_32((UINT32 )base, 601, 359, zero_bitmap, HEIGHT_32, 1); /* Ones digit */
+    plot_bitmap_32((UINT32)base, 569, 359, zero_bitmap, HEIGHT_32, 1); /* Tens digit */
+    plot_bitmap_32((UINT32)base, 537, 359, zero_bitmap, HEIGHT_32, 1); /* Hundreds digit */
+    plot_bitmap_32((UINT32)base, 505, 359, zero_bitmap, HEIGHT_32, 1); /* Thousands digit */
 }
 void render_dino(const Model *game, UINT32 *base) {
     UINT32 *bitmap;
@@ -110,11 +113,11 @@ void render_start(const Model *model , UINT32 *base){
 }
 void render_obs(const Model *model , UINT32 *base){
 /* Clears top and bottom obs before plotting new position */
-    clear_square_32(base, model -> wall.top.prev_top_lt.x, model -> wall.top.prev_top_lt.y, 0, HEIGHT_32);
-    clear_square_32(base, model -> wall.bottom.prev_top_lt.x, model -> wall.bottom.prev_top_lt.y, 0, HEIGHT_32);
+    clear_square_32(base, model -> walls[0].top.prev_top_lt.x, model -> walls[0].top.prev_top_lt.y, 0, HEIGHT_32);
+    clear_square_32(base, model -> walls[0].bottom.prev_top_lt.x, model -> walls[0].bottom.prev_top_lt.y, 0, HEIGHT_32); 
     
-    plot_bitmap_32(base, model -> wall.top.top_left.x, model -> wall.top.top_left.y, obs_bottom_edge_bitmap, HEIGHT_32, 1);
-    plot_bitmap_32(base, model -> wall.bottom.top_left.x, model -> wall.bottom.top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1);
+    plot_bitmap_32(base, model -> walls[0].top.top_left.x, model -> walls[0].top.top_left.y, obs_bottom_edge_bitmap, HEIGHT_32, 1);
+    plot_bitmap_32(base, model -> walls[0].bottom.top_left.x, model -> walls[0].bottom.top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1); 
 
     /* plot_obstacles(base, model->wall.top.top_left.x, model->wall.gap_y);*/
     /*plot_top_obs(base, model->wall.top.top_left.x, model->wall.gap_y);s

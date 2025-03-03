@@ -1,12 +1,3 @@
-/*******************************************************************************
- AUTHORS: Anna Running Rabbit, Jordan Senko, Joseph Mills
- COURSE: COMP2659-001
- INSTRUCTOR: Tim Reimer
- DATE: Mar. 2, 2025
-
- FILE: tst_ren.c
- SUMMARY: Source file for the test driver program.
-*******************************************************************************/
 #include "render.h"
 #include "events.h"
 #include "model.h"
@@ -17,101 +8,40 @@
 #include <osbind.h>
 #include <linea.h>
 
+
 int main()
 {
     int i;
 	void *base = Physbase();
     Model new_game = {
-        {{16,184},{47,184},{16,215},{47,215},{16,184},0,0,0},                    /* Dino variables */
-        {{{0,0},{0,0},{0,0},{0,0},{0,0}}, {{0,0},{0,0},{0,0},{0,0},{0,0}}, FALSE, 278, OBS_START_SPEED},  /* Obs_wall variables */
-        {{505,359},{632,359},{505,390},{632,390},                     /* Score variables */
-            {{{601,359},{632,359},{601,390},{632,390},0},
-            {{569,359},{600,359},{568,390},{600,390},0},
-            {{537,359},{568,359},{537,390},{568,390},0},
-            {{505,359},{536,359},{505,390},{536,390},0}},5000,0},
-        {0,0,0},                                                            /* Context variables */
-    };
-    
-    
-
-    linea0(); /*needed to call any plot line functions*/
-	disable_cursor();
-    /* 1. Show screen for start page */
-    render_screen((UINT16 *)base);
-    plot_borders();
-    render_dino(&new_game, (UINT32 *)base);
-    /* Plot starting score as 0000 (only need spots for 4 digits because max score is 5000)*/
-    /*int one_x = new_game.score.digits[0].top_left.x;
-    int one_y = new_game.score.digits[0].top_left.y;
-    int ten_x = new_game.score.digits[1].top_left.x;
-    int ten_y = new_game.score.digits[1].top_left.y;
-    int hund_x = new_game.score.digits[2].top_left.x;
-    int hund_y = new_game.score.digits[2].top_left.y;
-    int thous_x = new_game.score.digits[3].top_left.x;
-    int thous_y = new_game.score.digits[3].top_left.y; NOT WORKING FOR SOME REASON*/
-
-    plot_bitmap_32((UINT32 *)base, 601, 359, zero_bitmap, HEIGHT_32, 1); /* Ones digit */
-    plot_bitmap_32((UINT32 *)base, 569, 359, zero_bitmap, HEIGHT_32, 1); /* Tens digit */
-    plot_bitmap_32((UINT32 *)base, 537, 359, zero_bitmap, HEIGHT_32, 1); /* Hundreds digit */
-    plot_bitmap_32((UINT32 *)base, 505, 359, zero_bitmap, HEIGHT_32, 1); /* Thousands digit */
-
-    /* plot_bitmap_32((UINT32 *)base, 311, 359, zero_bitmap, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 343, 359, one_bitmap, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 375, 359, two_bitmap, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 407, 359, three_bitmap, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 439, 359, four_bitmap, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 471, 359, five_bitmap, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 503, 359, six_bitmap, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 535, 359, seven_bitmap, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 567, 359, eight_bitmap, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 599, 359, white_bitmap, HEIGHT_32, 1); */
-    
-
-    render_start(&new_game, (UINT32 *)base);
-    wait_for_game_start(&new_game);
-/* 2. Game has been started rerender without start */
-    render_screen((UINT16 *)base);
-    plot_borders();
-
-    /* easier to just leave as zeros ?*/
-    plot_bitmap_32((UINT32 *)base, 601, 359, zero_bitmap, HEIGHT_32, 1); /* Ones digit */
-    plot_bitmap_32((UINT32 *)base, 569, 359, zero_bitmap, HEIGHT_32, 1); /* Tens digit */
-    plot_bitmap_32((UINT32 *)base, 537, 359, zero_bitmap, HEIGHT_32, 1); /* Hundreds digit */
-    plot_bitmap_32((UINT32 *)base, 505, 359, zero_bitmap, HEIGHT_32, 1); /* Thousands digit */
-    
-    /* Block out score area in border (only need spots for 4 digits because max score is 5000)
-    plot_bitmap_32((UINT32 *)base, 569, 359, black, HEIGHT_32, 1); /* Blacks out tens spot
-    plot_bitmap_32((UINT32 *)base, 537, 359, black, HEIGHT_32, 1); /* Blacks out hundreds spot
-    plot_bitmap_32((UINT32 *)base, 505, 359, black, HEIGHT_32, 1); /* Blacks out thousands spot */
-
-    /* plot_bitmap_32((UINT32 *)base, 311, 359, black, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 343, 359, black, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 375, 359, black, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 407, 359, black, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 439, 359, black, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 471, 359, black, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 503, 359, black, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 535, 359, black, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 567, 359, black, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 599, 359, white_bitmap, HEIGHT_32, 1); */
-    init_obs_wall(&new_game.wall, gap_y());
-    while (!new_game.game_state.dead_flag) {
-        render_game(&new_game, (UINT32 *)base);
-        read_input(&new_game);
+        {{16,184},{47,184},{16,215},{47,215},0,0}, /* Dino variables */
+          { 
+              {{{640,50},{672,50},{640,200},{672,200}}, {{640,251},{672,251},{640,351},{672,351}}, TRUE, FALSE, 200, OBS_START_SPEED}, /* wall 1 */
+              {{{640,50},{672,50},{640,200},{672,200}}, {{640,251},{672,251},{640,351},{672,351}}, FALSE, FALSE, 200, OBS_START_SPEED}, /* wall 2 */
+              {{{640,50},{672,50},{640,200},{672,200}}, {{640,251},{672,251},{640,351},{672,351}}, FALSE, FALSE, 200, OBS_START_SPEED}, /* wall 3 */
+          }, 
+          {{505,359},{632,359},{505,390},{632,390}, 
+              {{{505,359},{536,359},{505,390},{536,390},0},
+              {{537,359},{568,359},{537,390},{568,390},0},
+              {{569,359},{600,359},{568,390},{600,390},0},
+              {{601,359},{632,359},{601,390},{632,390},0}},5000,0},
+        {FALSE,FALSE,FALSE},                                                                        /* Context variables */
+      }; 
+    linea0();
+    while (i != 100) {
+        move_walls(&new_game); /* Happens first to prevent obstacle from moving after collision has occured */
+        read_input(&new_game); 
+        check_collisions(&new_game);
         check_score(&new_game); 
-        check_conditions(&new_game); 
-        move_obstacle(&new_game);
-        
-        /*clear_square_32(base, new_game.dino.prev_top_lt.x, new_game.dino.prev_top_lt.y, 0, HEIGHT_32); /* clears previous dino bitmap */
-        /*clear_rect((UINT16 *)base, 0, 50, 640, 300); */
-        Vsync();
+        i++;
         if (new_game.game_state.dead_flag) {
             printf("Game Over!\n");
         }
-    }
+    }  
     
-   /* render_sceen((UINT16 *)base);
-    render_game(&new_game, base); */
+    render_screen((UINT16 *)base);
+    render_game(&new_game, (UINT32 *)base);  
+    Cconin();
     return 0;
 }
 
