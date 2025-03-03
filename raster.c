@@ -42,7 +42,7 @@ void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned i
                 *pixel_addr |= bitmap[i];
             } else {  
                 /* Erase mode: Clear bits */
-                *pixel_addr &= ~bitmap[i];
+                *pixel_addr &= bitmap[i];
             }
         } else {
             if (mode == 1) {  
@@ -51,8 +51,8 @@ void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned i
                 pixel_addr[1] |= bitmap[i] << (32 - bit_shift);
             } else {  
                 /* Erase mode: Clear bits in both words */
-                pixel_addr[0] &= ~(bitmap[i] >> bit_shift);
-                pixel_addr[1] &= ~(bitmap[i] << (32 - bit_shift));
+                pixel_addr[0] &= (bitmap[i] >> bit_shift);
+                pixel_addr[1] &= (bitmap[i] << (32 - bit_shift));
             }
         }
     }
@@ -200,7 +200,7 @@ void plot_borders()
 	/*  plots lines to cancel out lines covering the score. will be implemented
 		in scoring function later in development*/
 	for (i = 390; i > 358; i--){
-		plot_gline(311, i, 631, i, XOR);
+		plot_gline(505, i, 631, i, XOR);
 	}
 }
 void clear_rect(UINT16 *base, int x, int y, int width, int height) {
@@ -321,12 +321,12 @@ void plot_obstacle(UINT32 *base, int x, int gap_y, int gap_height)
 }
 */
 
-void plot_top_obs(UINT32 *base, int x, int gap_y)
+void plot_top_obs(UINT32 *base, int x, int gap_y, int mode)
 {
 	int edge_y = gap_y - HALF_GAP; 
 
     /* Draw the top of the obstacle using the bitmap */
-    plot_bitmap_32(base, x, edge_y - HEIGHT_32, obs_bottom_edge_bitmap, HEIGHT_32, 1);
+    plot_bitmap_32(base, x, edge_y - HEIGHT_32, obs_bottom_edge_bitmap, HEIGHT_32, mode);
 
     /* Connect the bitmap to the top border with a vertical line */
     /*plot_gline(x, edge_y, x, T_BORDER_Y, XOR);
@@ -336,12 +336,12 @@ void plot_top_obs(UINT32 *base, int x, int gap_y)
 
 }
 
-void plot_bottom_obs(UINT32 *base, int x, int gap_y)
+void plot_bottom_obs(UINT32 *base, int x, int gap_y, int mode)
 {
 	int edge_y = gap_y + HALF_GAP; 
 
     /* Draw the top of the obstacle using the bitmap */
-    plot_bitmap_32(base, x, edge_y, obs_top_edge_bitmap, HEIGHT_32, 1);
+    plot_bitmap_32(base, x, edge_y, obs_top_edge_bitmap, HEIGHT_32, mode);
 
     /* Connect the bitmap to the bottom border with a vertical line */
     /*plot_gline(x, edge_y, x, B_BORDER_Y, XOR);       
@@ -354,7 +354,7 @@ void plot_bottom_obs(UINT32 *base, int x, int gap_y)
 /*
 	GAP_Y must be between 279 and 107
 */
-void plot_obstacles(UINT32 *base, int x, int gap_y){
-	plot_top_obs(base, x, gap_y);
-	plot_bottom_obs(base, x, gap_y);
+void plot_obstacles(UINT32 *base, int x, int gap_y, int mode){
+	plot_top_obs(base, x, gap_y, mode);
+	plot_bottom_obs(base, x, gap_y, mode);
 }
