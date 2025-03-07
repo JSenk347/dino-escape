@@ -25,8 +25,13 @@ int main()
             {{{640, 50}, {672, 50}, {640, 200}, {672, 200}}, {{640, 251}, {672, 251}, {640, 351}, {672, 351}}, FALSE, FALSE, 200, OBS_START_SPEED}/*,
             {{{640, 50}, {672, 50}, {640, 200}, {672, 200}}, {{640, 251}, {672, 251}, {640, 351}, {672, 351}}, FALSE, FALSE, 200, OBS_START_SPEED}*/  /* wall 4 */
         },
-        {{505, 359}, {632, 359}, {505, 390}, {632, 390}, {{{505, 359}, {536, 359}, {505, 390}, {536, 390}, 0}, {{537, 359}, {568, 359}, {537, 390}, {568, 390}, 0}, {{569, 359}, {600, 359}, {568, 390}, {600, 390}, 0}, {{601, 359}, {632, 359}, {601, 390}, {632, 390}, 0}}, 5000, 0},
-        {FALSE, FALSE, FALSE}, /* Context variables */
+        {{505, 359}, {632, 359}, {505, 390}, {632, 390}, 
+        {{{505, 359}, {536, 359}, {505, 390}, {536, 390}, 0},
+        {{537, 359}, {568, 359}, {537, 390}, {568, 390}, 0},
+        {{569, 359}, {600, 359}, {568, 390}, {600, 390}, 0},
+        {{601, 359}, {632, 359}, {601, 390}, {632, 390}, 0}}, 
+        5000, 0},
+        {FALSE, FALSE, FALSE} /* Context variables */
     };
 
     wait_for_game_start(&new_game);
@@ -65,7 +70,7 @@ int main()
         printf("Top Obs Bottom Right (x,y): %3i,%3i\n",
                new_game.walls[2].top.bot_right.x, new_game.walls[2].top.bot_right.y);
         printf("Bottom Obs Top Right (x,y): %3i,%3i\n",
-               new_game.walls[2].top.top_right.x, new_game.walls[2].top.top_right.y);
+               new_game.walls[2].bottom.top_right.x, new_game.walls[2].bottom.top_right.y);
         
         printf("NUM WALLS: %1i\n", NUM_WALLS);
 

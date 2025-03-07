@@ -11,7 +11,7 @@
 int main()
 {
     int i;
-	void *base = Physbase();
+    void *base = Physbase();
     Model new_game = {
         {{16,184},{47,184},{16,215},{47,215},0,0}, /* Dino variables */
           { 
@@ -33,13 +33,14 @@ int main()
         check_collisions(&new_game); /* */
         check_score(&new_game); 
         i++;
+
         if (new_game.game_state.dead_flag) {
             printf("Game Over!\n");
         }
-    } /* Render outside of while loop so just one frame is rendered*/
+    } 
+    /* Render outside of while loop so just one frame is rendered*/
     render_screen((UINT16 *)base);
-    render_game(&new_game, (UINT32 *)base);  
-    Cconin(); /* Pause so user can see fully rendered screen*/
+    render_game(&new_game, (UINT32 *)base);
     return 0;
 }
 

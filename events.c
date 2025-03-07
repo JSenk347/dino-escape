@@ -22,6 +22,7 @@
     OUTPUT: N/A
 *******************************************************************************/
 void move_walls(Model *game){
+    /* NOT AN ISSUE WITH MOVE WALLS */
 	int i;
 	unsigned int h_vel;
 
@@ -53,7 +54,6 @@ void move_walls(Model *game){
 			top->bot_right.x -= h_vel;
 			top->top_left.x -= h_vel;
 			top->top_right.x -= h_vel;
-		
 			/* Checks if reset is needed */
 
 			if (bottom->bot_right.x < L_BORDER_X && top->top_right.x < L_BORDER_X)
