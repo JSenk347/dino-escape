@@ -26,9 +26,10 @@
 *******************************************************************************/
 void render_game(const Model *new_game , UINT32 *base) {
     render_obs(new_game,base);
-    render_dino(new_game, base);
-    render_score(new_game,base); 
+    
+    render_dino(new_game, base); /* creates white rectangle at to left */
     plot_bitmap_32((UINT32*)base, 0, 0, black, HEIGHT_32, 1);
+    render_score(new_game,base); 
 }
 
 /*******************************************************************************
@@ -37,14 +38,18 @@ void render_game(const Model *new_game , UINT32 *base) {
     INPUT:  - base: 16 bit base address of the screen
     OUTPUT: - N/A
 *******************************************************************************/
-void render_screen(UINT16 *base) {
+void init_screen(const Model *game, UINT16 *base) {
+    int i;
+
+    Digit *digits = game -> score.digits;
+
     disable_cursor();
     clear_screen((UINT16 *)base, 0);
     plot_borders();
-    plot_bitmap_32((UINT32*)base, 601, 359, zero_bitmap, HEIGHT_32, 1); /* Ones digit */
-    plot_bitmap_32((UINT32*)base, 569, 359, zero_bitmap, HEIGHT_32, 1); /* Tens digit */
-    plot_bitmap_32((UINT32*)base, 537, 359, zero_bitmap, HEIGHT_32, 1); /* Hundreds digit */
-    plot_bitmap_32((UINT32*)base, 505, 359, zero_bitmap, HEIGHT_32, 1); /* Thousands digit */
+
+    for (i = 0; i < 4; i++){
+        plot_bitmap_32((UINT32*)base, digits[i].top_left.x, digits[i].top_left.y, zero_bitmap, HEIGHT_32, 1);    
+    }
 }
 
 /*******************************************************************************
