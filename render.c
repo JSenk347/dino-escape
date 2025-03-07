@@ -28,7 +28,7 @@ void render_game(const Model *new_game , UINT32 *base) {
     render_obs(new_game,base);
     render_dino(new_game, base);
     render_score(new_game,base); 
-    plot_bitmap_32((UINT32 )base, 0, 0, black, HEIGHT_32, 1);
+    plot_bitmap_32((UINT32*)base, 0, 0, black, HEIGHT_32, 1);
 }
 
 /*******************************************************************************
@@ -41,10 +41,10 @@ void render_screen(UINT16 *base) {
     disable_cursor();
     clear_screen((UINT16 *)base, 0);
     plot_borders();
-    plot_bitmap_32((UINT32 )base, 601, 359, zero_bitmap, HEIGHT_32, 1); /* Ones digit */
-    plot_bitmap_32((UINT32)base, 569, 359, zero_bitmap, HEIGHT_32, 1); /* Tens digit */
-    plot_bitmap_32((UINT32)base, 537, 359, zero_bitmap, HEIGHT_32, 1); /* Hundreds digit */
-    plot_bitmap_32((UINT32)base, 505, 359, zero_bitmap, HEIGHT_32, 1); /* Thousands digit */
+    plot_bitmap_32((UINT32*)base, 601, 359, zero_bitmap, HEIGHT_32, 1); /* Ones digit */
+    plot_bitmap_32((UINT32*)base, 569, 359, zero_bitmap, HEIGHT_32, 1); /* Tens digit */
+    plot_bitmap_32((UINT32*)base, 537, 359, zero_bitmap, HEIGHT_32, 1); /* Hundreds digit */
+    plot_bitmap_32((UINT32*)base, 505, 359, zero_bitmap, HEIGHT_32, 1); /* Thousands digit */
 }
 
 /*******************************************************************************
@@ -150,22 +150,30 @@ void render_start(const Model *model , UINT32 *base) {
 void render_obs(const Model *model , UINT32 *base) {
 /* Clears top and bottom obs before plotting new position */
     int i;
+    /*
     clear_square_32(base, model -> walls[0].top.prev_top_lt.x, model -> walls[0].top.prev_top_lt.y, 0, HEIGHT_32);
     clear_square_32(base, model -> walls[0].bottom.prev_top_lt.x, model -> walls[0].bottom.prev_top_lt.y, 0, HEIGHT_32); 
-    for (i = 0; i < NUM_WALLS; i++) {    
-        plot_bitmap_32(base, model -> walls[i].top.top_left.x, model -> walls[i].top.top_left.y, obs_bottom_edge_bitmap, HEIGHT_32, 1);
-        plot_bitmap_32(base, model -> walls[i].bottom.top_left.x, model -> walls[i].bottom.top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1); 
-        plot_bitmap_32(base, model -> walls[i].top.top_left.x, model -> walls[i].top.top_left.y, obs_bottom_edge_bitmap, HEIGHT_32, 1);
-        plot_bitmap_32(base, model -> walls[i].bottom.top_left.x, model -> walls[i].bottom.top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1); 
-        plot_bitmap_32(base, model -> walls[i].top.top_left.x, model -> walls[i].top.top_left.y, obs_bottom_edge_bitmap, HEIGHT_32, 1);
-        plot_bitmap_32(base, model -> walls[i].bottom.top_left.x, model -> walls[i].bottom.top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1); 
-        
-        plot_gline(model -> walls[i].bottom.top_left.x, model -> walls[i].bottom.top_left.y+31, model -> walls[i].bottom.bot_left.x, B_BORDER_Y-1, XOR);       
-        plot_gline(model -> walls[i].bottom.top_left.x + 1, model -> walls[i].bottom.top_left.y+32, model -> walls[i].bottom.bot_left.x + 1, B_BORDER_Y-1, XOR);
-        plot_gline(model -> walls[i].bottom.top_left.x+31, model -> walls[i].bottom.top_left.y+31, model -> walls[i].bottom.bot_left.x+31, B_BORDER_Y-1, XOR);       
-        plot_gline(model -> walls[i].bottom.top_left.x + 32, model -> walls[i].bottom.top_left.y+32, model -> walls[i].bottom.bot_left.x + 32, B_BORDER_Y-1, XOR);
-    }
 
+    */
+    for (i = 0; i < NUM_WALLS; i++) {
+        Obs_wall *wall = &model -> walls[i];
+        Obs *top = &wall->top;
+        Obs *bottom = &wall->bottom;
+
+        plot_bitmap_32(base, top -> bot_left.x, (top -> bot_left.y) - 31, obs_bottom_edge_bitmap, HEIGHT_32, 1);
+        plot_bitmap_32(base, bottom -> top_left.x, bottom -> top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1);
+        
+        plot_gline(top -> top_left.x, T_BORDER_Y + 1, top -> top_left.x, (top -> bot_left.y) - 31, XOR);       
+        plot_gline((top -> top_left.x) + 1, T_BORDER_Y + 1, (top -> top_left.x) + 1, (top -> bot_left.y) - 31, XOR);
+        plot_gline(top -> top_right.x, top -> top_right.y, top -> bot_right.x, (top -> bot_right.y) - 31, XOR);       
+        plot_gline((top -> top_right.x) - 1, top -> top_right.y, (top -> bot_right.x) - 1, (top -> bot_right.y) - 31, XOR);
+
+        plot_gline(bottom -> top_left.x, bottom -> top_left.y+31, bottom -> bot_left.x, B_BORDER_Y-2, XOR);       
+        plot_gline(bottom -> top_left.x + 1, bottom -> top_left.y+32, bottom -> bot_left.x + 1, B_BORDER_Y-2, XOR);
+        plot_gline(bottom -> top_left.x+31, bottom -> top_left.y+31, bottom -> bot_left.x+31, B_BORDER_Y-2, XOR);       
+        plot_gline(bottom -> top_left.x + 32, bottom -> top_left.y+32, bottom -> bot_left.x + 32, B_BORDER_Y-2, XOR);
+    
+    }
 
     /* plot_obstacles(base, model->wall.top.top_left.x, model->wall.gap_y);*/
     /*plot_top_obs(base, model->wall.top.top_left.x, model->wall.gap_y);s

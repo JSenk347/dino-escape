@@ -57,6 +57,7 @@ void move_dino(Dino *dino)
 *******************************************************************************/
 void init_wall(Obs_wall *wall, int gap)
 {
+	/* NOT AN ISSUE WITH INIT*/
 	Obs *bottom = &(wall->bottom);
 	Obs *top = &(wall->top);
 	wall -> gap_y = gap;
@@ -82,6 +83,8 @@ void init_wall(Obs_wall *wall, int gap)
 	top->bot_left.y = gap - HALF_GAP;
 	top->bot_right.x = R_BORDER_X + 31;
 	top->bot_right.y = gap - HALF_GAP;
+
+	
 }
 
 /*******************************************************************************
@@ -94,7 +97,7 @@ unsigned int gap_y()
 {
 	srand(time(0));
 	/* returning a random int from 74 - 326 (inclusive). 75 - HALF_GAP = 50 = T_BORDER + 1; 326 + HALF_GAP = 351 = B_BORDER - 1*/
-	return rand() % 253 + 74;
+	return rand() % 185 + 108;
 }
 
 /*******************************************************************************
