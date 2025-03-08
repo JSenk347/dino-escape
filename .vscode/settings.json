@@ -6,6 +6,9 @@
         "TST_MODEL.C": "cpp",
         "tst_mod.C": "cpp",
         "model.h": "c",
-        "CONSOLE.C": "cpp"
+        "CONSOLE.C": "cpp",
+        "raster.h": "c",
+        "bitmaps.h": "c",
+        "events.h": "c"
     }
 }

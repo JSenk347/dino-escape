@@ -7,13 +7,13 @@
  FILE: raster.c
  SUMMARY: Contains functions for all game raster graphics
 *******************************************************************************/
-#include "raster.h" 
+#include "raster.h"
+#include "bitmaps.h"
+#include "model.h"
+#include "events.h" 
 #include <stdio.h>
 #include <linea.h>
 #include <osbind.h>
-#include "bitmaps.h"
-#include "model.h"
-#include "events.h"
 
 #define XOR 2
 #define HALF_GAP 25
