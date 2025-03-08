@@ -1,16 +1,22 @@
-#include "render.h"
-#include "events.h"
+/*******************************************************************************
+ AUTHORS: Anna Running Rabbit, Jordan Senko, Joseph Mills
+ COURSE: COMP2659-001
+ INSTRUCTOR: Tim Reimer
+ DATE: Mar.21, 2025
+
+ FILE: dino_esc.c
+ SUMMARY: Contains the main game module for Dino Escape
+*******************************************************************************/
 #include "model.h"
-#include "raster.h"
-#include "tst_mod.h"
-#include "bitmaps.h"
+#include "events.h"
+#include "render.h"
 #include <stdio.h>
 #include <osbind.h>
 #include <linea.h>
 
 int main()
 {
-    int i;
+    /* INITIALIZE MODEL */
     void *base = Physbase();
     Model new_game = {
         {{16, 184}, {47, 184}, {16, 215}, {47, 215}, {16, 184}, 0, 0, 0}, /* Dino variables */
@@ -28,45 +34,25 @@ int main()
         {FALSE, FALSE, FALSE}, /* Context variables */
     };
     linea0();
-    /*
-    while (i != 250) {
-        move_walls(&new_game);
-        read_input(&new_game);
-        check_collisions(&new_game);
-        check_score(&new_game);
-        i++;
+    disable_cursor();
 
-        if (new_game.game_state.dead_flag) {
-            printf("Game Over!\n");
+    /* RENDER FIRST FRAME OF MODEL */
+    render_game(&new_game, (UINT32 *)base);
+
+    unsigned int game_over = FALSE;
+    
+    /* RUN GAME UNTIL GAME OVER */
+    while (game_over == FALSE) {
+        /*if input is pending
+            process async event
+        if clock has ticked
+            process sync events
+            render model (next frame)*/
+        
+        if (new_game.game_state.lost_flag == TRUE) {
+            game_over = TRUE;
         }
     }
-    */
-
-    init_screen(&new_game, (UINT16 *)base);
-    while (i != 250)
-    {
-        render_game(&new_game, (UINT32 *)base);
-        move_walls(&new_game);
-        read_input(&new_game);
-        check_collisions(&new_game);
-        check_score(&new_game);
-        i++;
-    }
-    /*
-    render_game(&new_game, (UINT32 *)base);
-    Cconin();
-
-    move_walls(&new_game);
-    read_input(&new_game);
-    check_collisions(&new_game);
-    check_score(&new_game);
-
-    render_game(&new_game, (UINT32 *)base);
-
-    */
     
-    Cconin();
-
-    /* Render outside of while loop so just one frame is rendered*/
     return 0;
 }
