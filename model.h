@@ -58,11 +58,7 @@ typedef struct
     unsigned int value;
 } Digit;
 
-typedef struct {
-    Vertex top_left;
-    Vertex top_right;
-    Vertex bot_left;
-    Vertex bot_right;
+typedef struct {    
     Digit digits[4];
     unsigned int max_value;
     unsigned int value;
