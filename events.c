@@ -223,7 +223,7 @@ void read_quit_req(Model *gameModel, char key)
     INPUT:  - game The model of the game
     OUTPUT: N/A
 ******************************************************************************************/
-  void check_score(Model *game) {
+void check_score(Model *game) {
     int i;
     Dino *dino = &(game->dino);
     Obs_wall *walls = game -> walls;
@@ -284,10 +284,13 @@ void reflect_dino_death(Model *gameModel)
         gameModel->dino.vert_direction = DOWN;
         gameModel->dino.vert_velocity = DEAD_VELOCITY;
         move_dino(&gameModel->dino);
+        /*
         printf("Top Lt Y: %u | ", gameModel->dino.top_left.y);
         printf("Top Rt Y: %u | ", gameModel->dino.top_right.y);
         printf("Bot Lt Y: %u | ", gameModel->dino.bot_left.y);
         printf("Bot Rt Y: %u\n", gameModel->dino.bot_right.y);
+        */
+        
         /* printf("Dino direction: %u | ", gameModel -> dino.vert_direction);
         printf("Dino velocity: %u\n", gameModel -> dino.vert_velocity); */
     }
