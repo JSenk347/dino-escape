@@ -47,16 +47,16 @@ int main()
 /* 2. Game has been started rerender without start */
     render_screen((UINT16 *)base);
     plot_borders();
-    plot_bitmap_32((UINT32 *)base, 311, 359, black, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 343, 359, black, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 375, 359, black, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 407, 359, black, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 439, 359, black, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 471, 359, black, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 503, 359, black, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 535, 359, black, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 567, 359, black, HEIGHT_32, 1);
-    plot_bitmap_32((UINT32 *)base, 599, 359, black, HEIGHT_32, 1);
+    plot_bitmap_32((UINT32 *)base, 311, 359, black_bitmap, HEIGHT_32, 1);
+    plot_bitmap_32((UINT32 *)base, 343, 359, black_bitmap, HEIGHT_32, 1);
+    plot_bitmap_32((UINT32 *)base, 375, 359, black_bitmap, HEIGHT_32, 1);
+    plot_bitmap_32((UINT32 *)base, 407, 359, black_bitmap, HEIGHT_32, 1);
+    plot_bitmap_32((UINT32 *)base, 439, 359, black_bitmap, HEIGHT_32, 1);
+    plot_bitmap_32((UINT32 *)base, 471, 359, black_bitmap, HEIGHT_32, 1);
+    plot_bitmap_32((UINT32 *)base, 503, 359, black_bitmap, HEIGHT_32, 1);
+    plot_bitmap_32((UINT32 *)base, 535, 359, black_bitmap, HEIGHT_32, 1);
+    plot_bitmap_32((UINT32 *)base, 567, 359, black_bitmap, HEIGHT_32, 1);
+    plot_bitmap_32((UINT32 *)base, 599, 359, black_bitmap, HEIGHT_32, 1);
     init_obs_wall(&new_game.wall, gap_y());
     while (!new_game.game_state.dead_flag) {
         unrender_game(&new_game, (UINT32 *)base);

@@ -94,7 +94,7 @@ void render_score(const Model *model , UINT32 *base){
         five_bitmap, six_bitmap, seven_bitmap, eight_bitmap, nine_bitmap
     };
         int ones_digit = model->score.value % 10;
-       /* plot_bitmap_32((UINT32 *)base, 599, 359, empty_bitmap, HEIGHT_32, 0);*/
+       /* plot_bitmap_32((UINT32 *)base, 599, 359, white_bitmap, HEIGHT_32, 0);*/
         plot_bitmap_32((UINT32 *)base, 599, 359, digit_bitmaps[ones_digit], HEIGHT_32, 1);
 
     }
