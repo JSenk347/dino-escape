@@ -28,7 +28,7 @@ void render_game(const Model *new_game, UINT32 *base)
 {
     render_obs(new_game, base); /*will dissapear borders if called twice without updating border position */
     render_dino(new_game, base);
-    /*render_score(new_game,base);*/
+    render_score(new_game,base);
 }
 
 /*******************************************************************************
@@ -101,7 +101,7 @@ void render_dino_dead(const Model *game, UINT32 *base)
 }
 
 /*******************************************************************************
-    PURPOSE: Calls the functions to render the game over screen
+    PURPOSE: Renders the current game score of the given game model
     INPUT:	- model: Game model
             - base: Base address of the screen
     OUTPUT: - N/A
@@ -112,19 +112,17 @@ void render_score(const Model *model, UINT32 *base)
     int dig_index;
 
     Digit *digits = model->score.digits;
-
     UINT32 *digit_bitmaps[] = {
         zero_bitmap, one_bitmap, two_bitmap, three_bitmap, four_bitmap,
         five_bitmap, six_bitmap, seven_bitmap, eight_bitmap, nine_bitmap};
-    if (model->score.value != model->score.prev_value)
-    {
-        for (i = 0; i < 4; i++)
-        {
-            dig_index = digits[i].value;
 
-            clear_square_32((UINT32 *)base, digits[i].top_left.x, digits[i].top_left.y, 1, HEIGHT_32); /* clears previous bitmap */
-            plot_bitmap_32((UINT32 *)base, digits[0].top_left.x, digits[0].top_left.y, digit_bitmaps[dig_index], HEIGHT_32, 1);
-        }
+    for (i = 0; i < 4; i++)
+    {
+        dig_index = digits[i].value;
+
+        /*clear_square_32((UINT32 *)base, digits[i].top_left.x, digits[i].top_left.y, 1, HEIGHT_32); /* clears previous bitmap */
+        clear_region(base, digits[i].top_left.x, digits[i].top_left.y, 0x00000000);  /* clears previous digit bitmap */
+        plot_bitmap_32((UINT32 *)base, digits[i].top_left.x, digits[i].top_left.y, digit_bitmaps[dig_index], HEIGHT_32, 1);
     }
 }
 

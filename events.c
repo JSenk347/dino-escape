@@ -256,7 +256,7 @@ void update_score(Model *game){
         (score -> digits)[3].value = (value / 1000) % 10; 	/* thousands digit */
         (score -> digits)[2].value = (value / 100) % 10;  	/* hundreds digit */
         (score -> digits)[1].value = (value / 10) % 10;   	/* tens digit */
-        (score -> digits)[0].value = value % 10;			      /* ones digit */
+        (score -> digits)[0].value = value % 10;			/* ones digit */
     }
 }
 

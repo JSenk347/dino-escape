@@ -88,6 +88,14 @@ void clear_square_32(UINT32 *base, int x, int y, int colour, int sqr_length) {
     }
 }
 
+/*******************************************************************************
+	PURPOSE: 
+	INPUT: 	- *base	pointer to the frame buffer
+			- x	x coordinate you'd like to 
+			- y y coordinate you'd like to 
+			- 
+	OUTPUT: N/A
+*******************************************************************************/
 void clear_region(UINT32 *base, int x, int y, unsigned int pattern) {
     int i;
     int word_offset = (x >> 5) + (y * 20); /* Word-aligned base offset */
