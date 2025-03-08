@@ -22,6 +22,9 @@
 *******************************************************************************/
 void move_dino(Dino *dino)
 {
+	dino -> prev_top_lt.x = dino -> top_left.x;
+	dino -> prev_top_lt.y = dino -> top_left.y;
+
 	dino->top_left.y += (dino->vert_velocity * dino->vert_direction);
 	dino->top_right.y += (dino->vert_velocity * dino->vert_direction);
 	dino->bot_left.y += (dino->vert_velocity * dino->vert_direction);

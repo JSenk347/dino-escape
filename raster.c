@@ -88,6 +88,25 @@ void clear_square_32(UINT32 *base, int x, int y, int colour, int sqr_length) {
     }
 }
 
+void clear_region(UINT32 *base, int x, int y, unsigned int pattern) {
+    int i;
+    int word_offset = (x >> 5) + (y * 20); /* Word-aligned base offset */
+    int bit_shift = x & 31; /* Offset within the 32-bit word */
+
+    for (i = 0; i < 32; i++) {
+        UINT32 *pixel_addr = base + word_offset + (20 * i);
+
+        if (bit_shift == 0) {
+            /* Perfectly aligned on a 32-bit boundary */
+            *pixel_addr = pattern;  /*Overwrite with the pattern*/ 
+        } else {
+            /* The region spans two words */
+            pixel_addr[0] = (pixel_addr[0] & ~(0xFFFFFFFF >> bit_shift)) | (pattern >> bit_shift);
+            pixel_addr[1] = (pixel_addr[1] & ~(0xFFFFFFFF << (32 - bit_shift))) | (pattern << (32 - bit_shift));
+        }
+    }
+}
+
 /*******************************************************************************
 	PURPOSE: To plot 16 bit bitmaps at specified x and y coordinates
 	INPUT: 	- *base	pointer to the frame buffer

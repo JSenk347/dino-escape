@@ -79,7 +79,7 @@ void render_dino(const Model *game, UINT32 *base)
         /*overwrite_bitmap_32(base, dino->top_left.x, dino->top_left.y, dino_wdown_bitmap, HEIGHT_32);*/
     }
     /* Draw new Dino frame */
-    clear_square_32(base, dino->prev_top_lt.x, dino->prev_top_lt.y, 0, HEIGHT_32);  /* clears previous dino bitmap */
+    clear_region(base, dino->prev_top_lt.x, dino->prev_top_lt.y, 0x00000000);  /* clears previous dino bitmap */
     plot_bitmap_32(base, dino->top_left.x, dino->top_left.y, bitmap, HEIGHT_32, 1); /* 1 = draw mode */
     /* Increment frame counter */
     dino->frame_counter++;
@@ -163,16 +163,7 @@ void render_obs(const Model *model, UINT32 *base)
         {
             Obs *top = &wall->top;
             Obs *bottom = &wall->bottom;
-
-            if (wall->bottom.bot_left.x < R_BORDER_X + 1)
-            {
-                clear_square_32(base, top->top_left.x, top->bot_left.y - 31, 0, HEIGHT_32);
-                clear_square_32(base, bottom->top_left.x, top->top_left.y, 0, HEIGHT_32);
-            }
-
-            plot_bitmap_32(base, top->bot_left.x, (top->bot_left.y) - 31, obs_bottom_edge_bitmap, HEIGHT_32, 1);
-            plot_bitmap_32(base, bottom->top_left.x, bottom->top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1);
-
+            
             plot_gline(top->top_left.x, T_BORDER_Y + 1, top->top_left.x, (top->bot_left.y) - 31, XOR);
             plot_gline(top->top_left.x + 2, T_BORDER_Y + 1, top->top_left.x + 2, (top->bot_left.y) - 31, XOR);
             plot_gline(bottom->top_left.x, bottom->top_left.y + 31, bottom->bot_left.x, B_BORDER_Y - 2, XOR);
@@ -182,6 +173,19 @@ void render_obs(const Model *model, UINT32 *base)
             plot_gline(top->top_right.x + 1, top->top_right.y, top->bot_right.x + 1, (top->bot_right.y) - 31, XOR);
             plot_gline(bottom->top_right.x - 1, bottom->top_right.y + 31, bottom->bot_right.x - 1, B_BORDER_Y - 2, XOR);
             plot_gline(bottom->top_right.x + 1, bottom->top_right.y + 31, bottom->bot_right.x + 1, B_BORDER_Y - 2, XOR);
+
+            clear_region(base, top->bot_left.x + 2, (top->bot_left.y) - 31, 0x00000000);
+            clear_region(base, bottom->top_left.x + 2, bottom->top_left.y, 0x00000000);
+
+            plot_bitmap_32(base, top->bot_left.x, (top->bot_left.y) - 31, obs_bottom_edge_bitmap, HEIGHT_32, 1);
+            plot_bitmap_32(base, bottom->top_left.x, bottom->top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1);
+
+
+            /*
+            clear_square_32(base, top->top_left.x + 31, top->bot_left.y - 31, 0, HEIGHT_32);
+            clear_square_32(base, bottom->top_left.x + 31, top->top_left.y, 0, HEIGHT_32);
+            */
+            
         }
     }
 
