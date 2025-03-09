@@ -23,5 +23,7 @@
     - To clean: make clean_render
     - To make/compile: make render
     - To run: tst_ren
-
-    
+- Phase 5:
+    - To clean: make clean_game
+    - To make/compile: make game
+    - To run: dino_esc
