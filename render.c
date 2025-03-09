@@ -191,3 +191,10 @@ void render_obs(const Model *model, UINT32 *base)
     /*plot_top_obs(base, model->wall.top.top_left.x, model->wall.gap_y);s
     plot_bottom_obs(base, model->wall.bottom.top_left.x, model->wall.gap_y); */
 }
+
+/*******************************************************************************
+    PURPOSE: Renders the current game score of the given game model
+    INPUT:	- model: Game model
+            - base: Base address of the screen
+    OUTPUT: - N/A
+*******************************************************************************/

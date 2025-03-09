@@ -137,6 +137,12 @@ void wait_for_game_start(Model *gameModel)
               gameModel->game_state.start_flag = TRUE;
               printf("Game started by user!\n");
             }
+            if (key == 'q')
+            {
+              gameModel->game_state.lost_flag = FALSE;
+              printf("Game not started by user.\n");
+              break;
+            }
         }
     }
 }
@@ -210,7 +216,7 @@ void read_quit_req(Model *gameModel, char key)
 {
     if (key == 'q')
     {
-        gameModel -> game_state.dead_flag = TRUE;
+        gameModel -> game_state.lost_flag = TRUE;
         printf("Game ended by user.\n");
 
     }
