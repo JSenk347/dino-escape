@@ -40,39 +40,18 @@ int main()
     linea0();
     disable_cursor();
 
-    /* RENDER FIRST FRAME OF MODEL */
-        init_screen((UINT16 *)base);
-        render_game(&new_game, (UINT32 *)base);
-        render_start(&new_game, (UINT32 *)base);
-        wait_for_game_start(&new_game);
-        init_screen((UINT16 *)base);
-        render_game(&new_game, (UINT32 *)base);
-
-        
-        /* RUN GAME UNTIL GAME OVER */
-        while (game_over == FALSE) {
-            read_input(&new_game);
-            check_score(&new_game); 
-            check_conditions(&new_game); 
-            /*if input is pending
-                process async event
-            if clock has ticked
-                process sync events
-                render model (next frame)*/
-            
-            if (new_game.game_state.dead_flag == TRUE || new_game.game_state.lost_flag == TRUE) {
-                game_over = TRUE;
-                while(!(dino->bot_left.y >= B_BORDER_Y)){
-                    reflect_dino_death(Model *new_game);
-                    render_dino_dead(&new_game, (UINT32 *)base);
-                }
-                /* Restarting game maybe needs a new function
-                render_start(&new_game, (UINT32 *)base);
-                wait_for_game_start(&new_game); */
-                
-                
-            }
-            
+     /* RENDER FIRST FRAME OF MODEL */
+     render_game(&new_game, (UINT32 *)base);
+     /* RUN GAME UNTIL GAME OVER */
+     while (game_over == FALSE) {
+         /*if input is pending
+             process async event
+         if clock has ticked
+             process sync events
+             render model (next frame)*/
+ 
+         if (new_game.game_state.lost_flag == TRUE) {
+             game_over = TRUE;
         }
     }
     return 0;
