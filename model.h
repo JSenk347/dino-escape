@@ -4,7 +4,7 @@
 typedef unsigned int bool;
 #define TRUE 1
 #define FALSE 0
-#define DEAD_VELOCITY 10
+#define DEAD_VELOCITY 2
 #define HALF_GAP 25
 #define WIN_WIDTH 640
 #define T_BORDER_Y 49

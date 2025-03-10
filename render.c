@@ -95,8 +95,8 @@ void render_dino_dead(const Model *game, UINT32 *base)
     UINT32 *bitmap;
     Dino *dino = &(game->dino);
     bitmap = dino_dead_bitmap;
-    plot_bitmap_32((UINT32 *)base, dino->top_left.x, dino->top_left.y, bitmap, HEIGHT_32, 1);
-    (dino->frame_counter) += 1;
+    clear_region(base, dino->prev_top_lt.x, dino->prev_top_lt.y, 0x00000000);
+    plot_bitmap_32(base, dino->top_left.x, dino->top_left.y, bitmap, HEIGHT_32, 1);
 }
 
 /*******************************************************************************

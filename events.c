@@ -90,8 +90,8 @@ void check_collisions(Model *game)
             dino -> top_left.y < top->bot_left.y &&
             dino -> bot_left.y > top->top_left.y)
         {
-            printf("Collision with top obstacle!, WALL %u\n",
-            i + 1);
+            /*printf("Collision with top obstacle!, WALL %u\n", 
+            i + 1);*/
             reflect_dino_death(game);
             game->game_state.dead_flag = TRUE;
             game->game_state.start_flag = FALSE;
@@ -104,8 +104,8 @@ void check_collisions(Model *game)
             dino -> top_left.y < bottom->bot_left.y &&
             dino -> bot_left.y > bottom->top_left.y)
         {
-            printf("Collision with bottom obstacle!, WALL %u\n",
-            i + 1);
+            /*printf("Collision with bottom obstacle!, WALL %u\n",
+            i + 1); */
             reflect_dino_death(game);
             game->game_state.dead_flag = TRUE;
             game->game_state.start_flag = FALSE;
@@ -284,10 +284,10 @@ void reflect_dino_death(Model *gameModel)
     /* gameModel -> dino.vert_direction = 1; /* Changes dino direction to down
     gameModel -> dino.vert_velocity = gameModel -> dino.vert_velocity*2; */
 
-    printf("Dino has died.\n");
+   /* printf("Dino has died.\n"); */
 
-    while (gameModel->dino.bot_left.y < B_BORDER_Y - 1)
-    {
+    /*while (gameModel->dino.bot_left.y <= (B_BORDER_Y - 1))
+    { */
         gameModel->dino.vert_direction = DOWN;
         gameModel->dino.vert_velocity = DEAD_VELOCITY;
         move_dino(&gameModel->dino);
@@ -300,7 +300,7 @@ void reflect_dino_death(Model *gameModel)
         
         /* printf("Dino direction: %u | ", gameModel -> dino.vert_direction);
         printf("Dino velocity: %u\n", gameModel -> dino.vert_velocity); */
-    }
+    /*} */
 
     gameModel->game_state.lost_flag = TRUE;
 }

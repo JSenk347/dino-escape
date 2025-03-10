@@ -54,7 +54,7 @@ int main()
     init_screen(&new_game, (UINT16 *)base);
     while (new_game.game_state.dead_flag == FALSE && new_game.game_state.lost_flag == FALSE)
     {
-        render_game(&new_game, (UINT32 *)base);
+        render_objs(&new_game, (UINT32 *)base);
         move_walls(&new_game);
         read_input(&new_game);
         check_collisions(&new_game);
@@ -64,6 +64,10 @@ int main()
             render_score(&new_game, (UINT32 *)base);
         }
         
+    }
+    while(new_game.dino.bot_left.y < (B_BORDER_Y - 1)){
+        render_dino_dead(&new_game, (UINT32 *)base);
+        reflect_dino_death(&new_game);
     }
     
     Cconin();
