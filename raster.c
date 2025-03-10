@@ -174,7 +174,7 @@ void plot_hline(unsigned short y, short mode)
 {
 	X1 = (unsigned short) 0;
 	Y1 = y;
-	X2 = (unsigned short) 639;
+	X2 = (unsigned short) 640;
 	Y2 = y;
 	LNMASK = 0xFFFF;/*Solid line style*/
 	WMODE = mode; 	/*Writing mode*/
@@ -197,7 +197,7 @@ void plot_vline(unsigned short x, short mode)
 	X1 = x;
 	Y1 = 0;
 	X2 = x;
-	Y2 = 399;
+	Y2 = 400;
 	LNMASK = 0xFFFF;
 	WMODE = mode;
 	LSTLIN = 0;
