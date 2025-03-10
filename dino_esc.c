@@ -11,7 +11,7 @@
 #include "events.h"
 #include "model.h"
 #include "raster.h"
-#include "tst_mod.h"
+#include "input.h"
 #include "bitmaps.h"
 #include <stdio.h>
 #include <osbind.h>
@@ -42,8 +42,9 @@ int main()
 
      /* RENDER FIRST FRAME OF MODEL */
      init_screen(&new_game, (UINT16 *)base);
-     render_game(&new_game, (UINT32 *)base);
+     render_objs(&new_game, (UINT32 *)base);
 
+     /* RUN GAME UNTIL GAME OVER 
      while (game_over == FALSE){
         move_walls(&new_game);
         read_input(&new_game);
@@ -53,18 +54,24 @@ int main()
         if (new_game.game_state.lost_flag == TRUE){
             game_over = TRUE;
         }
-     }
+     }*/
+
      /* RUN GAME UNTIL GAME OVER */
-     /* while (game_over == FALSE) {
-         /*if input is pending
-             process async event
-         if clock has ticked
+    while (game_over == FALSE) {
+        /* Checks for input pending */
+        read_input(&new_game);
+
+        /*if clock has ticked
              process sync events
-             render model (next frame) 
+             move_walls(&new_game);
+             check_collisions(&new_game);
+             check_score(&new_game);
+             render model (next frame)
+             render_objs(&new_game, (UINT32 *)base); 
  
          if (new_game.game_state.lost_flag == TRUE) {
              game_over = TRUE;
-        }
-    } */
+        } */
+    }
     return 0;
 }
