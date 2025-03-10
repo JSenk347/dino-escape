@@ -44,6 +44,16 @@ int main()
      init_screen(&new_game, (UINT16 *)base);
      render_game(&new_game, (UINT32 *)base);
 
+     while (game_over == FALSE){
+        move_walls(&new_game);
+        read_input(&new_game);
+        check_collisions(&new_game);
+        check_score(&new_game);
+
+        if (new_game.game_state.lost_flag == TRUE){
+            game_over = TRUE;
+        }
+     }
      /* RUN GAME UNTIL GAME OVER */
      /* while (game_over == FALSE) {
          /*if input is pending

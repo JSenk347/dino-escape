@@ -28,42 +28,43 @@ int main()
         {FALSE, FALSE, FALSE}, /* Context variables */
     };
     linea0();
+    
     /*
-    while (i != 250) {
+    init_screen(&new_game, (UINT16 *)base);
+    
+    while (i != 17) {
+        render_game(&new_game, (UINT32 *)base);
         move_walls(&new_game);
         read_input(&new_game);
         check_collisions(&new_game);
         check_score(&new_game);
+        
         i++;
 
         if (new_game.game_state.dead_flag) {
             printf("Game Over!\n");
         }
     }
-    */
 
+    */
+    
+
+    /* PLAY GAME AS NORMAL CODE BELOW */
+    
     init_screen(&new_game, (UINT16 *)base);
-    while (i != 250)
+    while (new_game.game_state.dead_flag == FALSE && new_game.game_state.lost_flag == FALSE)
     {
         render_game(&new_game, (UINT32 *)base);
         move_walls(&new_game);
         read_input(&new_game);
         check_collisions(&new_game);
-        check_score(&new_game);
-        i++;
+
+        if (point_earned(&new_game)){
+            update_score(&new_game);
+            render_score(&new_game, (UINT32 *)base);
+        }
+        
     }
-    /*
-    render_game(&new_game, (UINT32 *)base);
-    Cconin();
-
-    move_walls(&new_game);
-    read_input(&new_game);
-    check_collisions(&new_game);
-    check_score(&new_game);
-
-    render_game(&new_game, (UINT32 *)base);
-
-    */
     
     Cconin();
 

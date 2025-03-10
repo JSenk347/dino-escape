@@ -14,6 +14,6 @@ void read_quit_req(Model *gameModel, char key);
 /* Condition based events */
 void play_point_sound();                /* Placeholder for playing point sound */
 void reflect_dino_death(Model *gameModel);
-void check_score(Model *game);
+bool point_earned(Model *game);
 void update_score(Model *game);
 #endif

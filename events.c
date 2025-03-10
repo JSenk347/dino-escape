@@ -224,12 +224,12 @@ void read_quit_req(Model *gameModel, char key)
 
 /* CONDITION BASED EVENTS */
 /******************************************************************************************
-    PURPOSE: To check whether the dino has passed a barrier or not, and then update the
-             score with update_score(Model *model)
-    INPUT:  - game The model of the game
-    OUTPUT: N/A
+    PURPOSE: To check whether the dino has passed a barrier or not and update the wall's
+             been_passed status
+    INPUT:  - game: The model of the game
+    OUTPUT: - bool: the truth value of whether a point has been gained or not
 ******************************************************************************************/
-void check_score(Model *game) {
+bool point_earned(Model *game) {
     int i;
     Dino *dino = &(game->dino);
     Obs_wall *walls = game -> walls;
@@ -238,10 +238,11 @@ void check_score(Model *game) {
 
         if ((wall->bottom.bot_right.x < dino->bot_left.x) && !wall->been_passed)
         {
-            update_score(game);
-            wall->been_passed = TRUE;
+            wall -> been_passed = TRUE;
+            return TRUE;
         }
-      }
+    }
+    return FALSE;
 }
 
 /******************************************************************************************
@@ -259,10 +260,10 @@ void update_score(Model *game){
     if (score -> value < score -> max_value){
         (score -> value)++;
         value = score -> value;
-        (score -> digits)[3].value = (value / 1000) % 10; 	/* thousands digit */
-        (score -> digits)[2].value = (value / 100) % 10;  	/* hundreds digit */
-        (score -> digits)[1].value = (value / 10) % 10;   	/* tens digit */
-        (score -> digits)[0].value = value % 10;			/* ones digit */
+        (score -> digits)[0].value = (value / 1000) % 10; 	/* thousands digit */
+        (score -> digits)[1].value = (value / 100) % 10;  	/* hundreds digit */
+        (score -> digits)[2].value = (value / 10) % 10;   	/* tens digit */
+        (score -> digits)[3].value = value % 10;			/* ones digit */
     }
 }
 
