@@ -41,18 +41,20 @@ int main()
     disable_cursor();
 
      /* RENDER FIRST FRAME OF MODEL */
+     init_screen(&new_game, (UINT16 *)base);
      render_game(&new_game, (UINT32 *)base);
+
      /* RUN GAME UNTIL GAME OVER */
-     while (game_over == FALSE) {
+     /* while (game_over == FALSE) {
          /*if input is pending
              process async event
          if clock has ticked
              process sync events
-             render model (next frame)*/
+             render model (next frame) 
  
          if (new_game.game_state.lost_flag == TRUE) {
              game_over = TRUE;
         }
-    }
+    } */
     return 0;
 }

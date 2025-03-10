@@ -146,13 +146,8 @@ void render_start(const Model *model, UINT32 *base)
 *******************************************************************************/
 void render_obs(const Model *model, UINT32 *base)
 {
-    /* Clears top and bottom obs before plotting new position */
     int i;
-    /*
-    clear_square_32(base, model -> walls[0].top.prev_top_lt.x, model -> walls[0].top.prev_top_lt.y, 0, HEIGHT_32);
-    clear_square_32(base, model -> walls[0].bottom.prev_top_lt.x, model -> walls[0].bottom.prev_top_lt.y, 0, HEIGHT_32);
 
-    */
     for (i = 0; i < NUM_WALLS; i++)
     {
         Obs_wall *wall = &model->walls[i];
@@ -161,35 +156,30 @@ void render_obs(const Model *model, UINT32 *base)
         {
             Obs *top = &wall->top;
             Obs *bottom = &wall->bottom;
-            
-            plot_gline(top->top_left.x, T_BORDER_Y + 1, top->top_left.x, (top->bot_left.y) - 31, XOR);
-            plot_gline(top->top_left.x + 2, T_BORDER_Y + 1, top->top_left.x + 2, (top->bot_left.y) - 31, XOR);
-            plot_gline(bottom->top_left.x, bottom->top_left.y + 31, bottom->bot_left.x, B_BORDER_Y - 2, XOR);
-            plot_gline(bottom->top_left.x + 2, bottom->top_left.y + 31, bottom->bot_left.x + 2, B_BORDER_Y - 2, XOR);
 
-            plot_gline(top->top_right.x - 1, top->top_right.y, top->bot_right.x - 1, (top->bot_right.y) - 31, XOR);
-            plot_gline(top->top_right.x + 1, top->top_right.y, top->bot_right.x + 1, (top->bot_right.y) - 31, XOR);
-            plot_gline(bottom->top_right.x - 1, bottom->top_right.y + 31, bottom->bot_right.x - 1, B_BORDER_Y - 2, XOR);
-            plot_gline(bottom->top_right.x + 1, bottom->top_right.y + 31, bottom->bot_right.x + 1, B_BORDER_Y - 2, XOR);
+            /* Check if the wall's right edge has entered the screen */
+            if (top->top_right.x < 640)
+            {
+                /* Clear and draw the top obstacle */
+                plot_gline(top->top_left.x, T_BORDER_Y + 1, top->top_left.x, (top->bot_left.y) - 31, XOR); /* plots the top left line */
+                plot_gline(top->top_left.x + 2, T_BORDER_Y + 1, top->top_left.x + 2, (top->bot_left.y) - 31, XOR); /* clears the top left line */
+                plot_gline(top->top_right.x - 1, top->top_right.y, top->bot_right.x - 1, (top->bot_right.y) - 31, XOR); /* plots the top right line */
+                plot_gline(top->top_right.x + 1, top->top_right.y, top->bot_right.x + 1, (top->bot_right.y) - 31, XOR); /* clears the top right line */
 
-            clear_region(base, top->bot_left.x + 2, (top->bot_left.y) - 31, 0x00000000);
-            clear_region(base, bottom->top_left.x + 2, bottom->top_left.y, 0x00000000);
+                clear_region(base, top->bot_left.x + 2, (top->bot_left.y) - 31, 0x00000000);
+                plot_bitmap_32(base, top->bot_left.x, (top->bot_left.y) - 31, obs_bottom_edge_bitmap, HEIGHT_32, 1);
 
-            plot_bitmap_32(base, top->bot_left.x, (top->bot_left.y) - 31, obs_bottom_edge_bitmap, HEIGHT_32, 1);
-            plot_bitmap_32(base, bottom->top_left.x, bottom->top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1);
+                /* Clear and draw the bottom obstacle */
+                plot_gline(bottom->top_left.x, bottom->top_left.y + 31, bottom->bot_left.x, B_BORDER_Y - 2, XOR); /* plots the bottom left line */
+                plot_gline(bottom->top_left.x + 2, bottom->top_left.y + 31, bottom->bot_left.x + 2, B_BORDER_Y - 2, XOR); /* clears the bottom left line */
+                plot_gline(bottom->top_right.x - 1, bottom->top_right.y + 31, bottom->bot_right.x - 1, B_BORDER_Y - 2, XOR); /* plots the bottom right line */
+                plot_gline(bottom->top_right.x + 1, bottom->top_right.y + 31, bottom->bot_right.x + 1, B_BORDER_Y - 2, XOR); /* clears the bottom right line */
 
-
-            /*
-            clear_square_32(base, top->top_left.x + 31, top->bot_left.y - 31, 0, HEIGHT_32);
-            clear_square_32(base, bottom->top_left.x + 31, top->top_left.y, 0, HEIGHT_32);
-            */
-            
+                clear_region(base, bottom->top_left.x + 2, bottom->top_left.y, 0x00000000);
+                plot_bitmap_32(base, bottom->top_left.x, bottom->top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1);
+            }
         }
     }
-
-    /* plot_obstacles(base, model->wall.top.top_left.x, model->wall.gap_y);*/
-    /*plot_top_obs(base, model->wall.top.top_left.x, model->wall.gap_y);s
-    plot_bottom_obs(base, model->wall.bottom.top_left.x, model->wall.gap_y); */
 }
 
 /*******************************************************************************
