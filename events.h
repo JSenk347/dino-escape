@@ -6,6 +6,7 @@
 /* Synchronous events */
 void move_walls(Model *game);
 void check_collisions(Model *gameModel);
+bool check_score(Model *game);
 /* Asynchronous events */
 void dino_mvd_up(Model *gameModel);
 void dino_mvd_down(Model *gameModel);

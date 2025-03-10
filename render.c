@@ -24,10 +24,20 @@
             - base: Base address of the screen
     OUTPUT: - N/A
 *******************************************************************************/
-void render_objs(const Model *new_game, UINT32 *base)
-{
-    render_obs(new_game, base); /*will dissapear borders if called twice without updating border position */
-    render_dino(new_game, base);
+void render_objs(const Model *new_game, UINT32 *base, bool pnt_earned, bool dino_dead)
+{  
+    if (dino_dead) {
+        if (new_game -> dino.bot_left.y < (B_BORDER_Y - 1)){
+            render_dino_dead(new_game, (UINT32 *)base);
+        }
+    }
+    else {
+        render_obs(new_game, base); /*will dissapear borders if called twice without updating border position */
+        render_dino(new_game, base);
+        if (pnt_earned){
+            render_score(new_game, (UINT32 *)base);
+        }
+    }
 }
 
 /*******************************************************************************
