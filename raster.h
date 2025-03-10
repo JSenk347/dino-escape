@@ -32,4 +32,5 @@ void plot_bottom_start_button(UINT32 *base, const UINT32 *lt_bottom_start_bitmap
 	        const UINT32 *rt_bottom_start_bitmap);
 void disable_cursor();
 void clear_region(UINT32 *base, int x, int y, unsigned int pattern);
+void clear_cave_region(UINT32 *base);
 #endif

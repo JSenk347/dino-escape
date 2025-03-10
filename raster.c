@@ -116,6 +116,25 @@ void clear_region(UINT32 *base, int x, int y, unsigned int pattern) {
 }
 
 /*******************************************************************************
+	PURPOSE: To clear everything that is between the upper and lower cave borders
+	INPUT: 	- *base	pointer to the frame buffer
+	OUTPUT: N/A
+*******************************************************************************/
+void clear_cave_region(UINT32 *base) {
+	int i;
+	int k;
+	int word_offset = (34) * 20; /* don't ask my why its 34. i don't know */
+	base += word_offset;
+
+	for (i = (T_BORDER_Y + 1); i < (B_BORDER_Y - 2); i++){ /* also don't ask why it's -2. don't know also */
+		for (k = 0; k < 20; k++){
+			base[k] = 0x00000000;
+		}
+		base += 20;
+	}
+}
+
+/*******************************************************************************
 	PURPOSE: To plot 16 bit bitmaps at specified x and y coordinates
 	INPUT: 	- *base	pointer to the frame buffer
 			- x	x coordinate you'd like to plot the bitmap at
