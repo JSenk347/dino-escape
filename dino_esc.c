@@ -13,6 +13,7 @@
 #include "raster.h"
 #include "input.h"
 #include "bitmaps.h"
+#include "clock.h"
 #include <stdio.h>
 #include <osbind.h>
 #include <linea.h>
@@ -21,6 +22,8 @@ int main()
     /* INITIALIZE MODEL */
     void *base = Physbase();
     unsigned int game_over = FALSE;
+    ULONG32 curr_time, prev_time, time_elapsed;
+    bool pt_scored = FALSE, dino_dead = FALSE;
     
     Model new_game = {
         {{16, 184}, {47, 184}, {16, 215}, {47, 215}, {16, 184}, 0, 0, 0}, /* Dino variables */
@@ -42,7 +45,7 @@ int main()
 
      /* RENDER FIRST FRAME OF MODEL */
      init_screen(&new_game, (UINT16 *)base);
-     render_objs(&new_game, (UINT32 *)base);
+     render_objs(&new_game, (UINT32 *)base, pt_scored, dino_dead);
 
      /* RUN GAME UNTIL GAME OVER 
      while (game_over == FALSE){
@@ -61,17 +64,33 @@ int main()
         /* Checks for input pending */
         read_input(&new_game);
 
-        /*if clock has ticked
-             process sync events
-             move_walls(&new_game);
-             check_collisions(&new_game);
-             check_score(&new_game);
-             render model (next frame)
-             render_objs(&new_game, (UINT32 *)base); 
- 
+        /* Checks for clock tick */
+        curr_time = get_time();
+        time_elapsed = curr_time - prev_time;
+        if (time_elapsed > 0) {
+            /* Process synchronous events */
+            if (!dino_dead) {
+                move_walls(&new_game);
+                check_collisions(&new_game);
+                pt_scored = check_score(&new_game);
+                
+                /* Render model (next frame) */
+                render_objs(&new_game, (UINT32 *)base, pt_scored, dino_dead);
+                
+                dino_dead = new_game.game_state.dead_flag;
+            }
+            else {
+                reflect_dino_death(&new_game);
+
+                /* Render model (next frame) */
+                render_objs(&new_game, (UINT32 *)base, pt_scored, dino_dead);
+            }
+
+            prev_time = curr_time;
+        }
          if (new_game.game_state.lost_flag == TRUE) {
              game_over = TRUE;
-        } */
+        }
     }
     return 0;
 }

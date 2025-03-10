@@ -114,6 +114,29 @@ void check_collisions(Model *game)
     }
 }
 
+/*******************************************************************************
+    PURPOSE: Checks to see if a new point has been scored in the given game 
+                Model. If so, update_score(Model *game) will be called to 
+                increase the game's score value and the pt_scored boolean is
+                updated to 'TRUE'.
+    INPUT:  - game: pointer to the Model object, aka the current game
+    OUTPUT: - pt_scored: boolean representing whether a new point has been 
+                scored
+*******************************************************************************/
+bool check_score(Model *game) {
+    bool pt_scored;
+
+    if (point_earned(game)) {
+        update_score(game);
+        pt_scored = TRUE;
+     }
+     else {
+        pt_scored = FALSE;
+     }
+
+     return pt_scored;
+}
+
 /* ASYNCHRONUS EVENTS */
 /*******************************************************************************
     PURPOSE: To update the given dino's velocity and direction to reflect 
@@ -339,5 +362,7 @@ void reflect_dino_death(Model *gameModel)
         printf("Dino velocity: %u\n", gameModel -> dino.vert_velocity); */
     /*} */
 
-    gameModel->game_state.lost_flag = TRUE;
+    if (gameModel->dino.bot_left.y >= (B_BORDER_Y - 1)) {
+        gameModel -> game_state.lost_flag = TRUE;
+    }
 }
