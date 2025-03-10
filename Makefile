@@ -3,13 +3,13 @@ CC = cc68x
 RAST_OBJS = bitmaps.o raster.o tst_rast.o
 RAST = tst_rast
 
-MOD_OBJS = events.o model.o tst_mod.o
+MOD_OBJS = events.o model.o input.o tst_mod.o
 MOD = tst_mod
 
-REN_OBJS = events.o model.o render.o bitmaps.o raster.o tst_ren.o
+REN_OBJS = events.o model.o render.o bitmaps.o raster.o input.o tst_ren.o
 REN = tst_ren
 
-ESC_OBJ = model.o events.o render.o raster.o bitmaps.o dino_esc.o
+ESC_OBJ = model.o events.o render.o raster.o bitmaps.o input.o dino_esc.o
 ESC = dino_esc
 
 all: raster model render game
@@ -45,6 +45,9 @@ bitmaps.o: bitmaps.c bitmaps.h
 
 raster.o: raster.c raster.h
 	$(CC) -c raster.c
+
+input.o: input.c input.h
+	$(CC) -c input.c
 
 tst_rast.o: tst_rast.c raster.h
 	$(CC) -c tst_rast.c

@@ -11,6 +11,7 @@
 #include "tst_mod.h"
 #include "model.h"
 #include "events.h"
+#include "input.h"
 
 int main()
 {

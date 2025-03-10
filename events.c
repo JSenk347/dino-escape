@@ -116,6 +116,43 @@ void check_collisions(Model *game)
 
 /* ASYNCHRONUS EVENTS */
 /*******************************************************************************
+    PURPOSE: To update the given dino's velocity and direction to reflect 
+                upwards movement
+    INPUT:  - dino: pointer to the Dino object, aka the current game
+                instances dino character
+    OUTPUT: N/A
+*******************************************************************************/
+void dino_mvd_up(Model *gameModel) {
+    gameModel -> dino.vert_velocity = 5;
+    gameModel -> dino.vert_direction = UP;
+    move_dino(&gameModel -> dino);
+}
+
+/*******************************************************************************
+    PURPOSE: To update the given dino's velocity and direction to reflect 
+                downwards movement
+    INPUT:  - dino: pointer to the Dino object, aka the current game
+                instances dino character
+    OUTPUT: N/A
+*******************************************************************************/
+void dino_mvd_down(Model *gameModel) {
+    gameModel -> dino.vert_velocity = 5;
+    gameModel -> dino.vert_direction = DOWN;
+    move_dino(&gameModel -> dino);
+}
+
+/*******************************************************************************
+    PURPOSE: Updates the game's lost_flag, to trigger the game to stop.
+    INPUT:  - gameModel: pointer to the Model object, aka the current game
+                instance
+    OUTPUT: N/A
+*******************************************************************************/
+void game_quit(Model *gameModel) {
+    gameModel -> game_state.lost_flag = TRUE;
+    printf("Game ended by user.\n");
+}
+
+/*******************************************************************************
     PURPOSE: Waits for the user to enter "enter" on the keyboard and then updates
              the start_flag to trigger the start of the game.
     INPUT:  - gameModel: pointer to the Model object, aka the current game
@@ -155,7 +192,7 @@ void wait_for_game_start(Model *gameModel)
                 instance
     OUTPUT: N/A
 *******************************************************************************/
-void read_input(Model *gameModel)
+/*void read_input(Model *gameModel)
 {
     if (Cconis())
     {
@@ -175,7 +212,7 @@ void read_input(Model *gameModel)
             read_quit_req(gameModel, key);
         }
     }
-}
+}*/
 
 /*******************************************************************************
     PURPOSE: To update the direction and velocity of the dino according to the
@@ -186,23 +223,23 @@ void read_input(Model *gameModel)
             - key: the character the user has entered.
     OUTPUT: N/A
 *******************************************************************************/
-void read_dino_input(Model *gameModel, char key)
+/*void read_dino_input(Model *gameModel, char key)
 {
-    /* Moves dino up */
+    /* Moves dino up 
     if (key == 'w')
     {
         gameModel->dino.vert_velocity = 5;
-        gameModel->dino.vert_direction = UP; /* Changes dino direction to up */
+        gameModel->dino.vert_direction = UP; /* Changes dino direction to up 
         move_dino(&gameModel->dino);
     }
-    /* Moves dino down */
+    /* Moves dino down 
     else if (key == 's')
     {
         gameModel->dino.vert_velocity = 5;
         gameModel->dino.vert_direction = DOWN;
         move_dino(&gameModel->dino);
       }
-}
+}*/
 
 /*******************************************************************************
     PURPOSE: Updates the game's dead_flag, triggereing a sequence of loop ending
@@ -212,7 +249,7 @@ void read_dino_input(Model *gameModel, char key)
             - key: the key the user has pressed.
     OUTPUT: N/A
 *******************************************************************************/
-void read_quit_req(Model *gameModel, char key)
+/*void read_quit_req(Model *gameModel, char key)
 {
     if (key == 'q')
     {
@@ -220,7 +257,7 @@ void read_quit_req(Model *gameModel, char key)
         printf("Game ended by user.\n");
 
     }
-}
+} */
 
 /* CONDITION BASED EVENTS */
 /******************************************************************************************
