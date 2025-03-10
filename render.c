@@ -19,16 +19,15 @@
 
 /*******************************************************************************
     PURPOSE: Calls the functions to render the obstacles in the game,
-    the dino, and the score when updated
+             the dino,
     INPUT:	- model: Game model
             - base: Base address of the screen
     OUTPUT: - N/A
 *******************************************************************************/
-void render_game(const Model *new_game, UINT32 *base)
+void render_objs(const Model *new_game, UINT32 *base)
 {
     render_obs(new_game, base); /*will dissapear borders if called twice without updating border position */
     render_dino(new_game, base);
-    /*render_score(new_game, base);*/
 }
 
 /*******************************************************************************

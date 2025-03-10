@@ -8,7 +8,7 @@
 #include "bitmaps.h"
 
 
-void render_game(const Model *model , UINT32 *base);
+void render_objs(const Model *model , UINT32 *base);
 void init_screen(const Model *game, UINT16 *base);
 void render_dino(const Model *game, UINT32 *base);
 void render_score(const Model *model , UINT32 *base);
