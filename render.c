@@ -25,16 +25,20 @@
     OUTPUT: - N/A
 *******************************************************************************/
 void render_objs(const Model *new_game, UINT32 *base, bool pnt_earned, bool dino_dead)
-{  
-    if (dino_dead) {
-        if (new_game -> dino.bot_left.y < (B_BORDER_Y - 1)){
+{
+    if (dino_dead)
+    {
+        if (new_game->dino.bot_left.y < (B_BORDER_Y - 1))
+        {
             render_dino_dead(new_game, (UINT32 *)base);
         }
     }
-    else {
+    else
+    {
         render_obs(new_game, base); /*will dissapear borders if called twice without updating border position */
         render_dino(new_game, base);
-        if (pnt_earned){
+        if (pnt_earned)
+        {
             render_score(new_game, (UINT32 *)base);
         }
     }
@@ -154,6 +158,69 @@ void render_start(const Model *model, UINT32 *base)
 void render_obs(const Model *model, UINT32 *base)
 {
     int i;
+    int vel;
+    int h_vel;
+
+    for (i = 0; i < NUM_WALLS; i++)
+    {
+        Obs_wall *wall = &model->walls[i];
+
+        if (wall->is_moving && wall->top.top_right.x < R_BORDER_X)
+        {
+            Obs *top = &wall->top;
+            Obs *bottom = &wall->bottom;
+            vel = wall->hor_velocity;
+            h_vel = vel / 2;
+
+            /* Plot new lines - TOP */
+            plot_gline(top->top_left.x, T_BORDER_Y + 1, top->top_left.x, (top->bot_left.y) - 31, XOR);                        /*      ->||    ||       */
+            plot_gline((top->top_left.x) + h_vel, T_BORDER_Y + 1, (top->top_left.x) + h_vel, (top->bot_left.y) - 31, XOR);    /*        ||<-  ||       */
+            plot_gline(top->top_right.x, T_BORDER_Y + 1, top->top_right.x, (top->bot_right.y) - 31, XOR);                     /*        ||    ||<-     */
+            plot_gline((top->top_right.x) - h_vel, T_BORDER_Y + 1, (top->top_right.x) - h_vel, (top->bot_right.y) - 31, XOR); /*        ||  ->||       */
+            /* Clear old lines - TOP */
+            plot_gline((top->top_left.x) + vel, T_BORDER_Y + 1, (top->top_left.x) + vel, (top->bot_left.y) - 31, XOR);                 /*   NEW  ||    ||OLD->||    ||    */
+            plot_gline((top->top_left.x) + vel + h_vel, T_BORDER_Y + 1, (top->top_left.x) + vel + h_vel, (top->bot_left.y) - 31, XOR); /*        ||    ||     ||<-  ||    */
+            plot_gline((top->top_right.x) + vel, T_BORDER_Y + 1, (top->top_right.x) + vel, (top->bot_right.y) - 31, XOR);              /*        ||    ||     ||    ||<-  */
+            plot_gline((top->top_right.x) + h_vel, T_BORDER_Y + 1, (top->top_right.x) + h_vel, (top->bot_right.y) - 31, XOR);          /*        ||    ||     ||  ->||    */
+
+            clear_region(base, top->bot_left.x + vel, (top->bot_left.y) - 31, 0x00000000);
+            plot_bitmap_32(base, top->bot_left.x, (top->bot_left.y) - 31, obs_bottom_edge_bitmap, HEIGHT_32, 1);
+
+            /*Plot new lines - BOTTOM */
+            plot_gline(bottom->top_left.x, (bottom->top_left.y) + 31, bottom->top_left.x, B_BORDER_Y - 2, XOR);
+            plot_gline((bottom->top_left.x) + h_vel, (bottom->top_left.y) + 31, (bottom->top_left.x) + h_vel, B_BORDER_Y - 2, XOR);
+            plot_gline(bottom->top_right.x, (bottom->top_right.y) + 31, bottom->top_right.x, B_BORDER_Y - 2, XOR);
+            plot_gline((bottom->top_right.x) - h_vel, (bottom->top_right.y) + 31, (bottom->top_right.x) - h_vel, B_BORDER_Y - 2, XOR);
+            /* Clear old lines - BOTTOM */
+            plot_gline((bottom->top_left.x) + vel, (bottom->top_left.y) + 31, (bottom->top_left.x) + vel, B_BORDER_Y - 2, XOR);
+            plot_gline((bottom->top_left.x) + vel + h_vel, (bottom->top_left.y) + 31, (bottom->top_left.x) + vel + h_vel, B_BORDER_Y - 2, XOR);
+            plot_gline((bottom->top_right.x) + vel, (bottom->top_right.y) + 31, (bottom->top_right.x) + vel, B_BORDER_Y - 2, XOR);
+            plot_gline((bottom->top_right.x) + h_vel, (bottom->top_right.y) + 31, (bottom->top_right.x) + h_vel, B_BORDER_Y - 2, XOR);
+
+            clear_region(base, bottom->top_left.x + vel, bottom->top_left.y, 0x00000000);
+            plot_bitmap_32(base, bottom->top_left.x, bottom->top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1);
+
+            if (top->top_right.x == R_BORDER_X - 2 || top->top_right.x == R_BORDER_X - 1)
+            {
+                /* Cancels out the lines that are supposed to cancel out old lines on the first plot, since there are no old lines on the first plot */
+                plot_gline((top->top_left.x) + vel, T_BORDER_Y + 1, (top->top_left.x) + vel, (top->bot_left.y) - 31, XOR);                 
+                plot_gline((top->top_left.x) + vel + h_vel, T_BORDER_Y + 1, (top->top_left.x) + vel + h_vel, (top->bot_left.y) - 31, XOR); 
+                plot_gline((top->top_right.x) + vel, T_BORDER_Y + 1, (top->top_right.x) + vel, (top->bot_right.y) - 31, XOR);              
+                plot_gline((top->top_right.x) + h_vel, T_BORDER_Y + 1, (top->top_right.x) + h_vel, (top->bot_right.y) - 31, XOR); 
+
+                plot_gline((bottom->top_left.x) + vel, (bottom->top_left.y) + 31, (bottom->top_left.x) + vel, B_BORDER_Y - 2, XOR);
+                plot_gline((bottom->top_left.x) + vel + h_vel, (bottom->top_left.y) + 31, (bottom->top_left.x) + vel + h_vel, B_BORDER_Y - 2, XOR);
+                plot_gline((bottom->top_right.x) + vel, (bottom->top_right.y) + 31, (bottom->top_right.x) + vel, B_BORDER_Y - 2, XOR);
+                plot_gline((bottom->top_right.x) + h_vel, (bottom->top_right.y) + 31, (bottom->top_right.x) + h_vel, B_BORDER_Y - 2, XOR);
+            }
+        }
+    }
+}
+
+void render_obs_2(const Model *model, UINT32 *base)
+{
+    int i;
+    int k;
 
     for (i = 0; i < NUM_WALLS; i++)
     {
@@ -164,32 +231,23 @@ void render_obs(const Model *model, UINT32 *base)
             Obs *top = &wall->top;
             Obs *bottom = &wall->bottom;
 
-            plot_gline(top->top_left.x, T_BORDER_Y + 1, top->top_left.x, (top->bot_left.y) - 31, XOR);              /* plots the top left line */
-            plot_gline(top->top_left.x + 2, T_BORDER_Y + 1, top->top_left.x + 2, (top->bot_left.y) - 31, XOR);      /* clears the top left line */
-            plot_gline(top->top_right.x - 1, top->top_right.y, top->bot_right.x - 1, (top->bot_right.y) - 31, XOR); /* plots the top right line */
-            plot_gline(top->top_right.x + 1, top->top_right.y, top->bot_right.x + 1, (top->bot_right.y) - 31, XOR); /* clears the top right line */
+            for (k = (T_BORDER_Y + 1); k < (top->bot_left.y - 40); k += 16)
+            {
+                clear_region(base, bottom->top_left.x + 2, k, 0x00000000);
+                plot_bitmap_32(base, bottom->top_left.x, k, obs_bitmap, HEIGHT_32, 1);
+            }
 
             clear_region(base, top->bot_left.x + 2, (top->bot_left.y) - 31, 0x00000000);
             plot_bitmap_32(base, top->bot_left.x, (top->bot_left.y) - 31, obs_bottom_edge_bitmap, HEIGHT_32, 1);
 
-            /* Clear and draw the bottom obstacle */
-            plot_gline(bottom->top_left.x, bottom->top_left.y + 31, bottom->bot_left.x, B_BORDER_Y - 2, XOR);            /* plots the bottom left line */
-            plot_gline(bottom->top_left.x + 2, bottom->top_left.y + 31, bottom->bot_left.x + 2, B_BORDER_Y - 2, XOR);    /* clears the bottom left line */
-            plot_gline(bottom->top_right.x - 1, bottom->top_right.y + 31, bottom->bot_right.x - 1, B_BORDER_Y - 2, XOR); /* plots the bottom right line */
-            plot_gline(bottom->top_right.x + 1, bottom->top_right.y + 31, bottom->bot_right.x + 1, B_BORDER_Y - 2, XOR); /* clears the bottom right line */
+            for (k = (B_BORDER_Y - 1); k > (bottom->top_left.y + 32); k -= 16)
+            {
+                clear_region(base, bottom->top_left.x + 2, k, 0x00000000);
+                plot_bitmap_32(base, bottom->top_left.x, k, obs_bitmap, HEIGHT_32, 1);
+            }
 
             clear_region(base, bottom->top_left.x + 2, bottom->top_left.y, 0x00000000);
             plot_bitmap_32(base, bottom->top_left.x, bottom->top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1);
-
-            if (top->top_right.x == R_BORDER_X - 1)
-            {
-                /* prevents streaking from initial plot */
-                plot_gline(top->top_left.x + 2, T_BORDER_Y + 1, top->top_left.x + 2, (top->bot_left.y) - 31, XOR);
-                plot_gline(top->top_right.x + 1, top->top_right.y, top->bot_right.x + 1, (top->bot_right.y) - 31, XOR);
-
-                plot_gline(bottom->top_left.x + 2, bottom->top_left.y + 31, bottom->bot_left.x + 2, B_BORDER_Y - 2, XOR);
-                plot_gline(bottom->top_right.x + 1, bottom->top_right.y + 31, bottom->bot_right.x + 1, B_BORDER_Y - 2, XOR);
-            }
         }
     }
 }
