@@ -94,6 +94,7 @@ void render_dino(const Model *game, UINT32 *base)
     /* Draw new Dino frame */
     clear_region(base, dino->prev_top_lt.x, dino->prev_top_lt.y, 0x00000000);       /* clears previous dino bitmap */
     plot_bitmap_32(base, dino->top_left.x, dino->top_left.y, bitmap, HEIGHT_32, 1); /* 1 = draw mode */
+    /* Increment frame counter */
 }
 
 /*******************************************************************************
