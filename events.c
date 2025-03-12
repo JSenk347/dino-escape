@@ -85,13 +85,11 @@ void check_collisions(Model *game)
         Obs *bottom = &wall->bottom;
 
         /*Collision with TOP obstacle*/
-        if (dino->top_left.x < top->top_right.x &&
-            dino -> top_right.x > top->top_left.x &&
+        if (dino->top_left.x + 3 < top->top_right.x &&
+            dino -> top_right.x + 3 > top->top_left.x &&
             dino -> top_left.y < top->bot_left.y &&
             dino -> bot_left.y > top->top_left.y)
         {
-            /*printf("Collision with top obstacle!, WALL %u\n", 
-            i + 1);*/
             reflect_dino_death(game);
             game->game_state.dead_flag = TRUE;
             game->game_state.start_flag = FALSE;
@@ -99,8 +97,8 @@ void check_collisions(Model *game)
         }
 
         /*Collision with BOTTOM obstacle*/
-        if (dino -> top_left.x < bottom->top_right.x &&
-            dino -> top_right.x > bottom->top_left.x &&
+        if (dino -> top_left.x + 3 < bottom->top_right.x &&
+            dino -> top_right.x + 3> bottom->top_left.x &&
             dino -> top_left.y < bottom->bot_left.y &&
             dino -> bot_left.y > bottom->top_left.y)
         {

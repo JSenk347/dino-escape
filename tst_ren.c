@@ -11,7 +11,7 @@
 
 int main()
 {
-    bool pt_scored;
+    bool pt_scored = FALSE, dino_dead = FALSE;
 
     int i;
     void *base = Physbase();
@@ -32,37 +32,52 @@ int main()
     };
     linea0();
     
-    /*
+    
     init_screen(&new_game, (UINT16 *)base);
     
-    while (i != 17) {
-        render_game(&new_game, (UINT32 *)base);
+    while (i != 21) {
+        pt_scored = check_score(&new_game);
+        render_objs(&new_game, (UINT32 *)base, pt_scored, dino_dead);
+        dino_dead = new_game.game_state.dead_flag;
         move_walls(&new_game);
         read_input(&new_game);
         check_collisions(&new_game);
-        check_score(&new_game);
-        
-        i++;
 
-        if (new_game.game_state.dead_flag) {
-            printf("Game Over!\n");
-        }
+        i++;
     }
 
-    */
+    Cconin();
+
+    pt_scored = check_score(&new_game);
+    render_objs(&new_game, (UINT32 *)base, pt_scored, dino_dead);
+    dino_dead = new_game.game_state.dead_flag;
+    move_walls(&new_game);
+    read_input(&new_game);
+    check_collisions(&new_game);
+
+    Cconin();
+
+    pt_scored = check_score(&new_game);
+    render_objs(&new_game, (UINT32 *)base, pt_scored, dino_dead);
+    dino_dead = new_game.game_state.dead_flag;
+    move_walls(&new_game);
+    read_input(&new_game);
+    check_collisions(&new_game);
+    
     
 
-    /* PLAY GAME AS NORMAL CODE BELOW */
+    /* PLAY GAME AS NORMAL CODE BELOW 
     
     init_screen(&new_game, (UINT16 *)base);
     while (new_game.game_state.dead_flag == FALSE && new_game.game_state.lost_flag == FALSE)
     {
-        render_objs(&new_game, (UINT32 *)base);
+        pt_scored = check_score(&new_game);
+        render_objs(&new_game, (UINT32 *)base, pt_scored, dino_dead);
+        dino_dead = new_game.game_state.dead_flag;
         move_walls(&new_game);
         read_input(&new_game);
         check_collisions(&new_game);
         
-        pt_scored = check_score(&new_game);
         if (pt_scored) {
             render_score(&new_game, (UINT32 *)base);
         } 
@@ -70,8 +85,8 @@ int main()
     }
     while(new_game.dino.bot_left.y < (B_BORDER_Y - 1)){
         render_dino_dead(&new_game, (UINT32 *)base);
-        reflect_dino_death(&new_game); */
-    }
+        reflect_dino_death(&new_game); 
+    }*/
     
     Cconin();
 
