@@ -184,9 +184,16 @@ void clear_screen(UINT16 *base, int pattern)
 	INPUT: 	- y the y coordinate to plot the line at
 			- mode the behaviour of the line:
 				- 0: replace
-				- 1: or
-				- 2: xor
+				- 1: or		(will plot a black line over all previous bits)
+				- 2: xor	
 				- 3: and
+
+				temp. trying something
+				(https://www.atari-wiki.com/index.php?title=Pl2_LINEA.DOC)
+				- 0: AND			(background AND line)
+				- 1: OR				(background OR line)
+				- 2: TRANSPARENT 	((color AND line) OR (background(not line)))
+				- 3: XOR			(background XOR drawing)
 	OUTPUT: N/A
 ******************************************************************************/
 void plot_hline(unsigned short y, short mode)
@@ -199,9 +206,15 @@ void plot_hline(unsigned short y, short mode)
 	X2 = (unsigned short) R_BORDER_X;
 	Y2 = y;
 
-	LNMASK = 0xFFFF;	/* Solid line style */
+	/* Sets colour to black (linea document) */
+	COLBIT0 = 1;
+    COLBIT1 = 1;
+    COLBIT2 = 1;
+    COLBIT3 = 1;
+	
+	LNMASK = 0xFFFF;	/* Solid line style (pattern) */
 	WMODE = mode; 		/* Writing mode */
-	LSTLIN = 0;
+	LSTLIN = -1; 		/* changed from 0 to -1 as per linea document*/
 	linea3();
 }
 
@@ -263,14 +276,14 @@ void plot_borders()
 
 	/* plots the upper and lower border lines with plot_hline() */
 	for (i = 0; i < 50; i++) {
-		plot_hline(i, XOR);			/* upper border */
-		plot_hline(399 - i, XOR);	/* lower border */
+		plot_hline(i, OR);			/* upper border */
+		plot_hline(399 - i, OR);	/* lower border*/
 	}
 
 	/*  plots lines to cancel out lines covering the score */
-	for (i = 390; i > 358; i--) {
+	/*for (i = 390; i > 358; i--) {
 		plot_gline(505, i, 631, i, XOR);
-	}
+	}*/
 }
 
 /*******************************************************************************

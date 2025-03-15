@@ -37,6 +37,7 @@ void init_screen(const Model *game, UINT16 *base)
     /* Plots the initial score '0000' */
     for (i = 0; i < 4; i++)
     {
+        clear_region((UINT32 *)base, digits[i].top_left.x, digits[i].top_left.y, 0x00000000);   /* clears spot in border for score */
         plot_bitmap_32((UINT32 *)base, digits[i].top_left.x, digits[i].top_left.y, zero_bitmap, HEIGHT_32);
     }
 }
