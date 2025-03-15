@@ -15,8 +15,8 @@
 #include <linea.h>
 #include <osbind.h>
 
-#define XOR 2
-#define HALF_GAP 25
+/*#define XOR 2
+#define HALF_GAP 25*/
 
 
 /*******************************************************************************
@@ -180,7 +180,7 @@ void clear_screen(UINT16 *base, int pattern)
 }
 
 /******************************************************************************
-	PURPOSE: To plot a horizontal line at a specified y coordinate
+	PURPOSE: Plots a horizontal line at the given y coordinate
 	INPUT: 	- y the y coordinate to plot the line at
 			- mode the behaviour of the line:
 				- 0: replace
@@ -195,8 +195,8 @@ void plot_hline(unsigned short y, short mode)
 	Y1 = y;
 	X2 = (unsigned short) 640;
 	Y2 = y;
-	LNMASK = 0xFFFF;/*Solid line style*/
-	WMODE = mode; 	/*Writing mode*/
+	LNMASK = 0xFFFF;	/* Solid line style */
+	WMODE = mode; 		/* Writing mode */
 	LSTLIN = 0;
 	linea3();
 }
