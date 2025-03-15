@@ -59,7 +59,7 @@ void render_objs(const Model *new_game, UINT32 *base, bool pnt_earned, bool dino
     }
     else
     {
-        render_obs(new_game, base); /*will dissapear borders if called twice without updating border position */
+        render_obs(new_game, base);
         render_dino(new_game, base);
         if (pnt_earned)
         {
