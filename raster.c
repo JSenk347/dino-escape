@@ -280,7 +280,7 @@ void plot_borders()
 		plot_hline(399 - i, OR);	/* lower border*/
 	}
 
-	/*  plots lines to cancel out lines covering the score */
+	/* NO LONGER NEEDED plots lines to cancel out lines covering the score */
 	/*for (i = 390; i > 358; i--) {
 		plot_gline(505, i, 631, i, XOR);
 	}*/
