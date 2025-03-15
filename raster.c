@@ -198,7 +198,7 @@ void plot_hline(unsigned short y, short mode)
 	/* Sets line end point coordinates */
 	X2 = (unsigned short) R_BORDER_X;
 	Y2 = y;
-	
+
 	LNMASK = 0xFFFF;	/* Solid line style */
 	WMODE = mode; 		/* Writing mode */
 	LSTLIN = 0;
@@ -263,8 +263,8 @@ void plot_borders()
 
 	/* plots the upper and lower border lines with plot_hline() */
 	for (i = 0; i < 50; i++) {
-		plot_hline(i, XOR);
-		plot_hline(399 - i, XOR);
+		plot_hline(i, XOR);			/* upper border */
+		plot_hline(399 - i, XOR);	/* lower border */
 	}
 
 	/*  plots lines to cancel out lines covering the score */
