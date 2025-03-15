@@ -13,6 +13,7 @@
 #include "raster.h"
 #include "tst_mod.h"
 #include "bitmaps.h"
+#include "clock.h"
 #include <stdio.h>
 #include <osbind.h>
 #include <linea.h>
