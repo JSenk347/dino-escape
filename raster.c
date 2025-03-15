@@ -191,10 +191,14 @@ void clear_screen(UINT16 *base, int pattern)
 ******************************************************************************/
 void plot_hline(unsigned short y, short mode)
 {
+	/* Sets line start point coordinates */
 	X1 = (unsigned short) L_BORDER_X;
 	Y1 = y;
+	
+	/* Sets line end point coordinates */
 	X2 = (unsigned short) R_BORDER_X;
 	Y2 = y;
+	
 	LNMASK = 0xFFFF;	/* Solid line style */
 	WMODE = mode; 		/* Writing mode */
 	LSTLIN = 0;
