@@ -187,13 +187,6 @@ void clear_screen(UINT16 *base, int pattern)
 				- 1: or		(will plot a black line over all previous bits)
 				- 2: xor	
 				- 3: and
-
-				temp. trying something
-				(https://www.atari-wiki.com/index.php?title=Pl2_LINEA.DOC)
-				- 0: AND			(background AND line)
-				- 1: OR				(background OR line)
-				- 2: TRANSPARENT 	((color AND line) OR (background(not line)))
-				- 3: XOR			(background XOR drawing)
 	OUTPUT: N/A
 ******************************************************************************/
 void plot_hline(unsigned short y, short mode)
