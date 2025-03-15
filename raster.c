@@ -191,9 +191,9 @@ void clear_screen(UINT16 *base, int pattern)
 ******************************************************************************/
 void plot_hline(unsigned short y, short mode)
 {
-	X1 = (unsigned short) 0;
+	X1 = (unsigned short) L_BORDER_X;
 	Y1 = y;
-	X2 = (unsigned short) 640;
+	X2 = (unsigned short) R_BORDER_X;
 	Y2 = y;
 	LNMASK = 0xFFFF;	/* Solid line style */
 	WMODE = mode; 		/* Writing mode */
