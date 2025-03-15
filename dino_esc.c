@@ -49,7 +49,7 @@ int main()
         {FALSE, FALSE, FALSE},                                  /* Context */
     };
     linea0();
-    disable_cursor();
+    /*disable_cursor();*/
 
      /* RENDER FIRST FRAME OF MODEL */
      init_screen(&new_game, (UINT16 *)base);

@@ -19,8 +19,8 @@
 #include <linea.h>
 
 /*******************************************************************************
-    PURPOSE: Calls the functions to set up for the
-    start of the game, render the basic screen, score and borders
+    PURPOSE: Calls the functions to set up for the start of the game, render the
+                basic screen, score and borders
     INPUT:  - base: 16 bit base address of the screen
     OUTPUT: - N/A
 *******************************************************************************/
@@ -34,6 +34,7 @@ void init_screen(const Model *game, UINT16 *base)
     clear_screen((UINT16 *)base, 0);
     plot_borders();
 
+    /* Plots the initial score '0000' */
     for (i = 0; i < 4; i++)
     {
         plot_bitmap_32((UINT32 *)base, digits[i].top_left.x, digits[i].top_left.y, zero_bitmap, HEIGHT_32, 1);
@@ -41,8 +42,8 @@ void init_screen(const Model *game, UINT16 *base)
 }
 
 /*******************************************************************************
-    PURPOSE: Calls the functions to render the obstacles in the game,
-             the dino,
+    PURPOSE: Calls the functions to render the dino, the obstacles, and the
+                score in the game 
     INPUT:	- model: Game model
             - base: Base address of the screen
     OUTPUT: - N/A
