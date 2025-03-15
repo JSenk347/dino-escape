@@ -24,27 +24,32 @@ int main()
     int i;
     /* INITIALIZE MODEL */
     void *base = Physbase();
-    unsigned int game_over = FALSE;
     UINT32 curr_time, prev_time, time_elapsed;
-    bool pt_scored = FALSE, dino_dead = FALSE;
+    bool game_over = FALSE, pt_scored = FALSE, dino_dead = FALSE;
     
     Model new_game = {
-        {{16, 184}, {47, 184}, {16, 215}, {47, 215}, {16, 184}, 0, 0, 0}, /* Dino variables */
+        {{16, 184}, {47, 184}, {16, 215}, {47, 215}, {16, 184}, 0, 0, 0}, /* Dino */
         {
-            {{{640, 50}, {671, 50}, {640, 200}, {671, 200}}, {{640, 251}, {671, 251}, {640, 351}, {671, 351}}, TRUE, FALSE, 200, OBS_START_SPEED},  /* wall 1 */
-            {{{640, 50}, {671, 50}, {640, 200}, {671, 200}}, {{640, 251}, {671, 251}, {640, 351}, {671, 351}}, FALSE, FALSE, 200, OBS_START_SPEED}, /* wall 2 */
-            {{{640, 50}, {671, 50}, {640, 200}, {671, 200}}, {{640, 251}, {671, 251}, {640, 351}, {671, 351}}, FALSE, FALSE, 200, OBS_START_SPEED}, /* wall 3 */
+            {{{640, 50}, {671, 50}, {640, 200}, {671, 200}},    /* Wall 1 - top */
+            {{640, 251}, {671, 251}, {640, 351}, {671, 351}},   /* Wall 1 - bottom */
+            TRUE, FALSE, 200, OBS_START_SPEED},
+            {{{640, 50}, {671, 50}, {640, 200}, {671, 200}},    /* Wall 2 - top */
+            {{640, 251}, {671, 251}, {640, 351}, {671, 351}},   /* Wall 2 - bottom */
+            FALSE, FALSE, 200, OBS_START_SPEED},
+            {{{640, 50}, {671, 50}, {640, 200}, {671, 200}},    /* Wall 3 - top */
+            {{640, 251}, {671, 251}, {640, 351}, {671, 351}},   /* Wall 3 - bottom */
+            FALSE, FALSE, 200, OBS_START_SPEED},
         },
-        {{{{505, 359}, {536, 359}, {505, 390}, {536, 390}, 0},  /* ones digit */
-          {{537, 359}, {568, 359}, {537, 390}, {568, 390}, 0},  /* tens digit */
-          {{569, 359}, {600, 359}, {568, 390}, {600, 390}, 0},  /* hundreds digit */
-          {{601, 359}, {632, 359}, {601, 390}, {632, 390}, 0}}, /* thousands digit */
-         5000,                                                  /* max score value */
-         0},                                                    /* current score value */
-        {FALSE, FALSE, FALSE}, /* Context variables */
+        {{{{505, 359}, {536, 359}, {505, 390}, {536, 390}, 0},  /* Ones digit */
+          {{537, 359}, {568, 359}, {537, 390}, {568, 390}, 0},  /* Tens digit */
+          {{569, 359}, {600, 359}, {568, 390}, {600, 390}, 0},  /* Hundreds digit */
+          {{601, 359}, {632, 359}, {601, 390}, {632, 390}, 0}}, /* Thousands digit */
+         5000,                                                  /* Max score */
+         0},                                                    /* Current score */
+        {FALSE, FALSE, FALSE},                                  /* Context */
     };
     linea0();
-    disable_cursor();
+    /*disable_cursor(); Not needed here, already called in init_screen() */
 
      /* RENDER FIRST FRAME OF MODEL */
      init_screen(&new_game, (UINT16 *)base);

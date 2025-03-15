@@ -15,8 +15,8 @@
 #include <linea.h>
 #include <osbind.h>
 
-#define XOR 2
-#define HALF_GAP 25
+/*#define XOR 2
+#define HALF_GAP 25*/
 
 
 /*******************************************************************************
@@ -30,7 +30,7 @@
 	OUTPUT: N/A
 *******************************************************************************/
 
-void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height, int mode) {
+void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height) {
     int i;
     int word_offset = (x >> 5) + (y * 20); /* Word-aligned base offset */
     int bit_shift = x & 31; /* Offset within the 32-bit word */
@@ -180,24 +180,34 @@ void clear_screen(UINT16 *base, int pattern)
 }
 
 /******************************************************************************
-	PURPOSE: To plot a horizontal line at a specified y coordinate
+	PURPOSE: Plots a horizontal line at the given y coordinate
 	INPUT: 	- y the y coordinate to plot the line at
 			- mode the behaviour of the line:
 				- 0: replace
-				- 1: or
-				- 2: xor
+				- 1: or		(will plot a black line over all previous bits)
+				- 2: xor	
 				- 3: and
 	OUTPUT: N/A
 ******************************************************************************/
 void plot_hline(unsigned short y, short mode)
 {
-	X1 = (unsigned short) 0;
+	/* Sets line start point coordinates */
+	X1 = (unsigned short) L_BORDER_X;
 	Y1 = y;
-	X2 = (unsigned short) 640;
+	
+	/* Sets line end point coordinates */
+	X2 = (unsigned short) R_BORDER_X;
 	Y2 = y;
-	LNMASK = 0xFFFF;/*Solid line style*/
-	WMODE = mode; 	/*Writing mode*/
-	LSTLIN = 0;
+
+	/* Sets colour to black (linea document) */
+	COLBIT0 = 1;
+    COLBIT1 = 1;
+    COLBIT2 = 1;
+    COLBIT3 = 1;
+	
+	LNMASK = 0xFFFF;	/* Solid line style (pattern) */
+	WMODE = mode; 		/* Writing mode */
+	LSTLIN = -1; 		/* changed from 0 to -1 as per linea document*/
 	linea3();
 }
 
@@ -249,8 +259,7 @@ void plot_gline(unsigned short x1, unsigned short y1,
 }
 
 /*******************************************************************************
-	PURPOSE: 	To plot the upper and lower borders of the game, excluding the 
-				ground and roof triangles (rocks)
+	PURPOSE: Plots the upper and lower borders of the game
 	INPUT: 	N/A
 	OUTPUT: N/A
 *******************************************************************************/
@@ -258,21 +267,20 @@ void plot_borders()
 {
 	int i;
 
-	/* plots the upper and lower border lines with plot_hline()*/
-	for (i = 0; i < 50; i++){
-		plot_hline(i, XOR);
-		plot_hline(399 - i, XOR);
+	/* plots the upper and lower border lines with plot_hline() */
+	for (i = 0; i < 50; i++) {
+		plot_hline(i, OR);			/* upper border */
+		plot_hline(399 - i, OR);	/* lower border*/
 	}
 
-	/*  plots lines to cancel out lines covering the score. will be implemented
-		in scoring function later in development*/
-	for (i = 390; i > 358; i--){
+	/* NO LONGER NEEDED plots lines to cancel out lines covering the score */
+	/*for (i = 390; i > 358; i--) {
 		plot_gline(505, i, 631, i, XOR);
-	}
+	}*/
 }
 
 /*******************************************************************************
-	PURPOSE: 	To plot the upper and lower borders of the game, excluding the 
+	PURPOSE: Plots the upper and lower borders of the game, excluding the 
 				ground and roof triangles (rocks). FOR PHASE 2 ONLY.
 	INPUT: 	N/A
 	OUTPUT: N/A
@@ -281,15 +289,14 @@ void plot_borders_raster()
 {
 	int i;
 
-	/* plots the upper and lower border lines with plot_hline()*/
-	for (i = 0; i < 50; i++){
+	/* plots the upper and lower border lines with plot_hline() */
+	for (i = 0; i < 50; i++) {
 		plot_hline(i, XOR);
 		plot_hline(399 - i, XOR);
 	}
 
-	/*  plots lines to cancel out lines covering the score. will be implemented
-		in scoring function later in development*/
-	for (i = 390; i > 358; i--){
+	/*  plots lines to cancel out lines covering the score */
+	for (i = 390; i > 358; i--) {
 		plot_gline(312, i, 631, i, XOR);
 	}
 }
@@ -308,10 +315,10 @@ void plot_top_start_button(UINT32 *base, const UINT32 *lt_top_start_bitmap,
 	const UINT32 *mid_lt_top_start_bitmap, const UINT32 *mid_rt_top_start_bitmap,
 	const UINT32 *rt_top_start_bitmap)
 {
-	plot_bitmap_32((UINT32 *)base, 256, 168, lt_top_start_bitmap, HEIGHT_32, 1);
-	plot_bitmap_32((UINT32 *)base, 288, 168, mid_lt_top_start_bitmap, HEIGHT_32, 1);
-	plot_bitmap_32((UINT32 *)base, 320, 168, mid_rt_top_start_bitmap, HEIGHT_32, 1);
-	plot_bitmap_32((UINT32 *)base, 352, 168, rt_top_start_bitmap, HEIGHT_32, 1);
+	plot_bitmap_32((UINT32 *)base, 256, 168, lt_top_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 288, 168, mid_lt_top_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 320, 168, mid_rt_top_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 352, 168, rt_top_start_bitmap, HEIGHT_32);
 }
 
 /*******************************************************************************
@@ -328,10 +335,10 @@ void plot_bottom_start_button(UINT32 *base, const UINT32 *lt_bottom_start_bitmap
 	const UINT32 *mid_lt_bottom_start_bitmap, const UINT32 *mid_rt_bottom_start_bitmap,
 	const UINT32 *rt_bottom_start_bitmap)
 {
-	plot_bitmap_32((UINT32 *)base, 256, 200, lt_bottom_start_bitmap, HEIGHT_32, 1);
-	plot_bitmap_32((UINT32 *)base, 288, 200, mid_lt_bottom_start_bitmap, HEIGHT_32, 1);
-	plot_bitmap_32((UINT32 *)base, 320, 200, mid_rt_bottom_start_bitmap, HEIGHT_32, 1);
-	plot_bitmap_32((UINT32 *)base, 352, 200, rt_bottom_start_bitmap, HEIGHT_32, 1);
+	plot_bitmap_32((UINT32 *)base, 256, 200, lt_bottom_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 288, 200, mid_lt_bottom_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 320, 200, mid_rt_bottom_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 352, 200, rt_bottom_start_bitmap, HEIGHT_32);
 }
 
 /*******************************************************************************
@@ -357,7 +364,7 @@ void disable_cursor()
 void plot_top_obs(UINT32 *base, int x, int gap_y, int mode)
 {
 	int edge_y = gap_y - HALF_GAP; 
-    plot_bitmap_32(base, x, edge_y - HEIGHT_32, obs_bottom_edge_bitmap, HEIGHT_32, mode);
+    plot_bitmap_32(base, x, edge_y - HEIGHT_32, obs_bottom_edge_bitmap, HEIGHT_32);
 
 }
 
@@ -373,7 +380,7 @@ void plot_top_obs(UINT32 *base, int x, int gap_y, int mode)
 void plot_bottom_obs(UINT32 *base, int x, int gap_y, int mode)
 {
 	int edge_y = gap_y + HALF_GAP; 
-    plot_bitmap_32(base, x, edge_y, obs_top_edge_bitmap, HEIGHT_32, mode);
+    plot_bitmap_32(base, x, edge_y, obs_top_edge_bitmap, HEIGHT_32);
 }
 
 /*******************************************************************************

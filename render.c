@@ -13,13 +13,38 @@
 #include "raster.h"
 #include "tst_mod.h"
 #include "bitmaps.h"
+#include "clock.h"
 #include <stdio.h>
 #include <osbind.h>
 #include <linea.h>
 
 /*******************************************************************************
-    PURPOSE: Calls the functions to render the obstacles in the game,
-             the dino,
+    PURPOSE: Calls the functions to set up for the start of the game, render the
+                basic screen, score and borders
+    INPUT:  - base: 16 bit base address of the screen
+    OUTPUT: - N/A
+*******************************************************************************/
+void init_screen(const Model *game, UINT16 *base)
+{
+    int i;
+
+    Digit *digits = game->score.digits;
+
+    disable_cursor();
+    clear_screen((UINT16 *)base, 0);
+    plot_borders();
+
+    /* Plots the initial score '0000' */
+    for (i = 0; i < 4; i++)
+    {
+        clear_region((UINT32 *)base, digits[i].top_left.x, digits[i].top_left.y, 0x00000000);   /* clears spot in border for score */
+        plot_bitmap_32((UINT32 *)base, digits[i].top_left.x, digits[i].top_left.y, zero_bitmap, HEIGHT_32);
+    }
+}
+
+/*******************************************************************************
+    PURPOSE: Calls the functions to render the dino, the obstacles, and the
+                score in the game 
     INPUT:	- model: Game model
             - base: Base address of the screen
     OUTPUT: - N/A
@@ -35,34 +60,12 @@ void render_objs(const Model *new_game, UINT32 *base, bool pnt_earned, bool dino
     }
     else
     {
-        render_obs(new_game, base); /*will dissapear borders if called twice without updating border position */
+        render_obs(new_game, base);
         render_dino(new_game, base);
         if (pnt_earned)
         {
             render_score(new_game, (UINT32 *)base);
         }
-    }
-}
-
-/*******************************************************************************
-    PURPOSE: Calls the functions to set up for the
-    start of the game, render the basic screen, score and borders
-    INPUT:  - base: 16 bit base address of the screen
-    OUTPUT: - N/A
-*******************************************************************************/
-void init_screen(const Model *game, UINT16 *base)
-{
-    int i;
-
-    Digit *digits = game->score.digits;
-
-    disable_cursor();
-    clear_screen((UINT16 *)base, 0);
-    plot_borders();
-
-    for (i = 0; i < 4; i++)
-    {
-        plot_bitmap_32((UINT32 *)base, digits[i].top_left.x, digits[i].top_left.y, zero_bitmap, HEIGHT_32, 1);
     }
 }
 
@@ -93,7 +96,7 @@ void render_dino(const Model *game, UINT32 *base)
     }
     /* Draw new Dino frame */
     clear_region(base, dino->prev_top_lt.x, dino->prev_top_lt.y, 0x00000000);       /* clears previous dino bitmap */
-    plot_bitmap_32(base, dino->top_left.x, dino->top_left.y, bitmap, HEIGHT_32, 1); /* 1 = draw mode */
+    plot_bitmap_32(base, dino->top_left.x, dino->top_left.y, bitmap, HEIGHT_32); /* 1 = draw mode */
     /* Increment frame counter */
 }
 
@@ -109,7 +112,7 @@ void render_dino_dead(const Model *game, UINT32 *base)
     Dino *dino = &(game->dino);
     bitmap = dino_dead_bitmap;
     clear_region(base, dino->prev_top_lt.x, dino->prev_top_lt.y, 0x00000000);
-    plot_bitmap_32(base, dino->top_left.x, dino->top_left.y, bitmap, HEIGHT_32, 1);
+    plot_bitmap_32(base, dino->top_left.x, dino->top_left.y, bitmap, HEIGHT_32);
 }
 
 /*******************************************************************************
@@ -134,7 +137,7 @@ void render_score(const Model *model, UINT32 *base)
 
         /*clear_square_32((UINT32 *)base, digits[i].top_left.x, digits[i].top_left.y, 1, HEIGHT_32); /* clears previous bitmap */
         clear_region(base, digits[i].top_left.x, digits[i].top_left.y, 0x00000000); /* clears previous digit bitmap */
-        plot_bitmap_32((UINT32 *)base, digits[i].top_left.x, digits[i].top_left.y, digit_bitmaps[dig_index], HEIGHT_32, 1);
+        plot_bitmap_32((UINT32 *)base, digits[i].top_left.x, digits[i].top_left.y, digit_bitmaps[dig_index], HEIGHT_32);
     }
 }
 
@@ -185,7 +188,7 @@ void render_obs(const Model *model, UINT32 *base)
             plot_gline((top->top_right.x) + h_vel, T_BORDER_Y + 1, (top->top_right.x) + h_vel, (top->bot_right.y) - 31, XOR);          /*        ||    ||     ||  ->||    */
 
             clear_region(base, top->bot_left.x + vel, (top->bot_left.y) - 31, 0x00000000);
-            plot_bitmap_32(base, top->bot_left.x, (top->bot_left.y) - 31, obs_bottom_edge_bitmap, HEIGHT_32, 1);
+            plot_bitmap_32(base, top->bot_left.x, (top->bot_left.y) - 31, obs_bottom_edge_bitmap, HEIGHT_32);
 
             /*Plot new lines - BOTTOM */
             plot_gline(bottom->top_left.x, (bottom->top_left.y) + 31, bottom->top_left.x, B_BORDER_Y - 2, XOR);
@@ -199,7 +202,7 @@ void render_obs(const Model *model, UINT32 *base)
             plot_gline((bottom->top_right.x) + h_vel, (bottom->top_right.y) + 31, (bottom->top_right.x) + h_vel, B_BORDER_Y - 2, XOR);
 
             clear_region(base, bottom->top_left.x + vel, bottom->top_left.y, 0x00000000);
-            plot_bitmap_32(base, bottom->top_left.x, bottom->top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1);
+            plot_bitmap_32(base, bottom->top_left.x, bottom->top_left.y, obs_top_edge_bitmap, HEIGHT_32);
 
             if (top->top_right.x == R_BORDER_X - 2 || top->top_right.x == R_BORDER_X - 1)
             {
@@ -235,20 +238,20 @@ void render_obs_2(const Model *model, UINT32 *base)
             for (k = (T_BORDER_Y + 1); k < (top->bot_left.y - 40); k += 16)
             {
                 clear_region(base, bottom->top_left.x + 2, k, 0x00000000);
-                plot_bitmap_32(base, bottom->top_left.x, k, obs_bitmap, HEIGHT_32, 1);
+                plot_bitmap_32(base, bottom->top_left.x, k, obs_bitmap, HEIGHT_32);
             }
 
             clear_region(base, top->bot_left.x + 2, (top->bot_left.y) - 31, 0x00000000);
-            plot_bitmap_32(base, top->bot_left.x, (top->bot_left.y) - 31, obs_bottom_edge_bitmap, HEIGHT_32, 1);
+            plot_bitmap_32(base, top->bot_left.x, (top->bot_left.y) - 31, obs_bottom_edge_bitmap, HEIGHT_32);
 
             for (k = (B_BORDER_Y - 1); k > (bottom->top_left.y + 32); k -= 16)
             {
                 clear_region(base, bottom->top_left.x + 2, k, 0x00000000);
-                plot_bitmap_32(base, bottom->top_left.x, k, obs_bitmap, HEIGHT_32, 1);
+                plot_bitmap_32(base, bottom->top_left.x, k, obs_bitmap, HEIGHT_32);
             }
 
             clear_region(base, bottom->top_left.x + 2, bottom->top_left.y, 0x00000000);
-            plot_bitmap_32(base, bottom->top_left.x, bottom->top_left.y, obs_top_edge_bitmap, HEIGHT_32, 1);
+            plot_bitmap_32(base, bottom->top_left.x, bottom->top_left.y, obs_top_edge_bitmap, HEIGHT_32);
         }
     }
 }
