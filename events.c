@@ -47,6 +47,12 @@ void move_walls(Model *game)
         {
             Obs *top = &(wall->top);
             Obs *bottom = &(wall->bottom);
+
+            if ((bottom->bot_right.x < L_BORDER_X && top->top_right.x < L_BORDER_X) && wall -> been_passed == TRUE)
+            {
+                reset_wall(game, wall);
+            }
+
             h_vel = wall->hor_velocity;
 
             bottom->bot_left.x -= h_vel;
@@ -59,12 +65,6 @@ void move_walls(Model *game)
             top->top_left.x -= h_vel;
             top->top_right.x -= h_vel;
             /* Checks if reset is needed */
-
-            if (bottom->bot_right.x < L_BORDER_X && top->top_right.x < L_BORDER_X)
-            {
-                reset_wall(game, wall);
-                return;
-            }
         }
     }
 }
