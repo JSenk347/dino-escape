@@ -49,47 +49,9 @@ void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned i
     }
 }
 
-/******************************************************************************
-	PURPOSE: Clears the 32x32 block given by the x,y cordinates by calling
-				plot_bitmap_32 to overwrite the block with either all white or
-				all black
-	INPUT: 	- *base	pointer to the frame buffer
-			- x	x coordinate you'd like to plot the bitmap at
-			- y y coordinate you'd like to plot the bitmap at
-			- colour either 1 (black) or 0 (white)
-			- sqr_length integer of the height/width of the square to clear
-	OUTPUT: N/A
-******************************************************************************/
-void clear_square_32(UINT32 *base, int x, int y, int colour, int sqr_length) {
-    int row, col;
-    int screen_longs_per_row = 640 / 32;
-	int word_offset = x >> 5; /* Calculate the initial word offset */
-    int bit_shift = x & 31;   /* Calculate the bit shift within the first word */
-
-    for (row = y; row < y + sqr_length; row++) {
-        UINT32 *pixel_addr = base + (row * screen_longs_per_row) + word_offset;
-        
-        for (col = 0; col < ((sqr_length + bit_shift + 31) >> 5); col++) { 
-			/* First partial word (if any) */
-			if (col == 0 && bit_shift != 0) {
-                UINT32 mask = ~((1 << bit_shift) - 1); 
-                pixel_addr[col] = (pixel_addr[col] & mask) | (colour & ~mask);
-            }
-			/* Second partial word (if any) */
-			else if (col == ((sqr_length + bit_shift + 31) >> 5) - 1 && (sqr_length + bit_shift) % 32 != 0) {
-				UINT32 mask = (1 << (32 - (sqr_length + bit_shift) % 32)) - 1;
-                pixel_addr[col] = (pixel_addr[col] & ~mask) | (colour & mask);
-			}
-			/* Full words */
-			else {
-				pixel_addr[col] = colour;
-			}
-        }
-    }
-}
-
 /*******************************************************************************
-	PURPOSE: 
+	PURPOSE: Clears a 32x32 block in the given frame buffer in the spot of the 
+				given x,y cordinates
 	INPUT: 	- *base	pointer to the frame buffer
 			- x	x coordinate you'd like to 
 			- y y coordinate you'd like to 
