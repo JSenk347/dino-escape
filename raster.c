@@ -258,19 +258,19 @@ void plot_borders()
 	int i;
 
 	/* plots the upper and lower border lines with plot_hline() */
-	for (i = 0; i < 50; i++){
+	for (i = 0; i < 50; i++) {
 		plot_hline(i, XOR);
 		plot_hline(399 - i, XOR);
 	}
 
 	/*  plots lines to cancel out lines covering the score */
-	for (i = 390; i > 358; i--){
+	for (i = 390; i > 358; i--) {
 		plot_gline(505, i, 631, i, XOR);
 	}
 }
 
 /*******************************************************************************
-	PURPOSE: 	To plot the upper and lower borders of the game, excluding the 
+	PURPOSE: Plots the upper and lower borders of the game, excluding the 
 				ground and roof triangles (rocks). FOR PHASE 2 ONLY.
 	INPUT: 	N/A
 	OUTPUT: N/A
@@ -279,15 +279,14 @@ void plot_borders_raster()
 {
 	int i;
 
-	/* plots the upper and lower border lines with plot_hline()*/
-	for (i = 0; i < 50; i++){
+	/* plots the upper and lower border lines with plot_hline() */
+	for (i = 0; i < 50; i++) {
 		plot_hline(i, XOR);
 		plot_hline(399 - i, XOR);
 	}
 
-	/*  plots lines to cancel out lines covering the score. will be implemented
-		in scoring function later in development*/
-	for (i = 390; i > 358; i--){
+	/*  plots lines to cancel out lines covering the score */
+	for (i = 390; i > 358; i--) {
 		plot_gline(312, i, 631, i, XOR);
 	}
 }
