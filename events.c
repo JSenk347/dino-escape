@@ -15,54 +15,58 @@
 
 /* SYNCHRONUS EVENTS */
 /*******************************************************************************
-    PURPOSE: Updates the x position of each of the game's walls, moving them 
+    PURPOSE: Updates the x position of each of the game's walls, moving them
              the left each time.
     INPUT:  - gameModel: pointer to the Model object, aka the current game
                 instance
     OUTPUT: N/A
 *******************************************************************************/
-void move_walls(Model *game){
+void move_walls(Model *game)
+{
     /* NOT AN ISSUE WITH MOVE WALLS */
-	int i;
-	unsigned int h_vel;
+    int i;
+    unsigned int h_vel;
 
-	Obs_wall *walls = game->walls;
-	for (i = 0; i < NUM_WALLS; i++){
-		Obs_wall *wall = &walls[i];
+    Obs_wall *walls = game->walls;
+    for (i = 0; i < NUM_WALLS; i++)
+    {
+        Obs_wall *wall = &walls[i];
 
-		if (i + 1 < NUM_WALLS){
-			Obs_wall *next_wall = &walls[i + 1];
-			if (next_wall -> is_moving != TRUE && 
-				wall -> bottom.bot_left.x <= WIN_WIDTH - (WIN_WIDTH/NUM_WALLS))
-			{
-				next_wall -> is_moving = TRUE;
-				init_wall(next_wall, gap_y());
-			}
-		}
-	
-		if (wall -> is_moving == TRUE){
-			Obs *top = &(wall->top);
-			Obs *bottom = &(wall->bottom);
-			h_vel = wall -> hor_velocity;
-		
-			bottom->bot_left.x -= h_vel;
-			bottom->bot_right.x -= h_vel;
-			bottom->top_left.x -= h_vel;
-			bottom->top_right.x -= h_vel;
-		
-			top->bot_left.x -= h_vel;
-			top->bot_right.x -= h_vel;
-			top->top_left.x -= h_vel;
-			top->top_right.x -= h_vel;
-			/* Checks if reset is needed */
+        if (i + 1 < NUM_WALLS)
+        {
+            Obs_wall *next_wall = &walls[i + 1];
+            if (next_wall->is_moving != TRUE &&
+                wall->bottom.bot_left.x <= WIN_WIDTH - (WIN_WIDTH / NUM_WALLS))
+            {
+                next_wall->is_moving = TRUE;
+                init_wall(next_wall, gap_y());
+            }
+        }
 
-			if (bottom->bot_right.x < L_BORDER_X && top->top_right.x < L_BORDER_X)
-			{
-				reset_wall(game, wall);
-				return;
-			}
-		}
-	}
+        if (wall->is_moving == TRUE)
+        {
+            Obs *top = &(wall->top);
+            Obs *bottom = &(wall->bottom);
+            h_vel = wall->hor_velocity;
+
+            bottom->bot_left.x -= h_vel;
+            bottom->bot_right.x -= h_vel;
+            bottom->top_left.x -= h_vel;
+            bottom->top_right.x -= h_vel;
+
+            top->bot_left.x -= h_vel;
+            top->bot_right.x -= h_vel;
+            top->top_left.x -= h_vel;
+            top->top_right.x -= h_vel;
+            /* Checks if reset is needed */
+
+            if (bottom->bot_right.x < L_BORDER_X && top->top_right.x < L_BORDER_X)
+            {
+                reset_wall(game, wall);
+                return;
+            }
+        }
+    }
 }
 
 /*******************************************************************************
@@ -75,7 +79,7 @@ void move_walls(Model *game){
 void check_collisions(Model *game)
 {
     int i;
-    Dino *dino = &game -> dino;
+    Dino *dino = &game->dino;
     Obs_wall *walls = game->walls;
 
     for (i = 0; i < NUM_WALLS; i++)
@@ -86,25 +90,25 @@ void check_collisions(Model *game)
 
         /*Collision with TOP obstacle*/
         if (dino->top_left.x + 3 < top->top_right.x &&
-            dino -> top_right.x + 3 > top->top_left.x &&
-            dino -> top_left.y < top->bot_left.y &&
-            dino -> bot_left.y > top->top_left.y)
+            dino->top_right.x + 3 > top->top_left.x &&
+            dino->top_left.y < top->bot_left.y &&
+            dino->bot_left.y > top->top_left.y)
         {
-            reflect_dino_death(game);
+            /*reflect_dino_death(game);*/ /* COMMENT THIS OUT FOR TESTING */
             game->game_state.dead_flag = TRUE;
             game->game_state.start_flag = FALSE;
             return;
         }
 
         /*Collision with BOTTOM obstacle*/
-        if (dino -> top_left.x + 3 < bottom->top_right.x &&
-            dino -> top_right.x + 3> bottom->top_left.x &&
-            dino -> top_left.y < bottom->bot_left.y &&
-            dino -> bot_left.y > bottom->top_left.y)
+        if (dino->top_left.x + 3 < bottom->top_right.x &&
+            dino->top_right.x + 3 > bottom->top_left.x &&
+            dino->top_left.y < bottom->bot_left.y &&
+            dino->bot_left.y > bottom->top_left.y)
         {
             /*printf("Collision with bottom obstacle!, WALL %u\n",
             i + 1); */
-            reflect_dino_death(game);
+            /*reflect_dino_death(game);*/
             game->game_state.dead_flag = TRUE;
             game->game_state.start_flag = FALSE;
             return;
@@ -112,54 +116,80 @@ void check_collisions(Model *game)
     }
 }
 
+bool fell_on_obs(Model *game){
+    int i;
+
+    Obs_wall *walls = game -> walls;
+    Dino *dino = &game -> dino;
+
+    for(i = 0; i < NUM_WALLS; i++){
+        Obs_wall *wall = &walls[i];
+        Obs *bottom = &wall -> bottom;
+
+        if (dino -> bot_left.y == bottom -> top_left.y &&
+        ((dino -> bot_left.x <= bottom -> top_right.x && dino -> bot_left.x >= bottom -> top_left.x)||
+        (dino -> bot_right.x >= bottom -> top_left.x && dino -> bot_right.x  <= bottom -> top_right.x)))
+        {
+            return TRUE;
+        }
+    }
+    
+    return FALSE;
+}
+
 /*******************************************************************************
-    PURPOSE: Checks to see if a new point has been scored in the given game 
-                Model. If so, update_score(Model *game) will be called to 
+    PURPOSE: Checks to see if a new point has been scored in the given game
+                Model. If so, update_score(Model *game) will be called to
                 increase the game's score value and the pt_scored boolean is
                 updated to 'TRUE'.
     INPUT:  - game: pointer to the Model object, aka the current game
-    OUTPUT: - pt_scored: boolean representing whether a new point has been 
+    OUTPUT: - pt_scored: boolean representing whether a new point has been
                 scored
 *******************************************************************************/
-bool check_score(Model *game) {
+bool check_score(Model *game)
+{
     bool pt_scored;
 
-    if (point_earned(game)) {
+    if (point_earned(game))
+    {
         update_score(game);
         pt_scored = TRUE;
-     }
-     else {
+    }
+    else
+    {
         pt_scored = FALSE;
-     }
+    }
 
-     return pt_scored;
+    return pt_scored;
 }
 
 /* ASYNCHRONUS EVENTS */
 /*******************************************************************************
-    PURPOSE: To update the given dino's velocity and direction to reflect 
+    PURPOSE: To update the given dino's velocity and direction to reflect
                 upwards movement
     INPUT:  - dino: pointer to the Dino object, aka the current game
                 instances dino character
     OUTPUT: N/A
 *******************************************************************************/
-void dino_mvd_up(Model *gameModel) {
-    gameModel -> dino.vert_velocity = 5;
-    gameModel -> dino.vert_direction = UP;
-    move_dino(&gameModel -> dino);
+void dino_mvd_up(Model *gameModel)
+{
+    gameModel->dino.vert_velocity = 5;
+    gameModel->dino.vert_direction = UP;
+    move_dino(&gameModel->dino);
 }
 
 /*******************************************************************************
-    PURPOSE: To update the given dino's velocity and direction to reflect 
+    PURPOSE: To update the given dino's velocity and direction to reflect
                 downwards movement
     INPUT:  - dino: pointer to the Dino object, aka the current game
                 instances dino character
     OUTPUT: N/A
 *******************************************************************************/
-void dino_mvd_down(Model *gameModel) {
-    gameModel -> dino.vert_velocity = 5;
-    gameModel -> dino.vert_direction = DOWN;
-    move_dino(&gameModel -> dino);
+void dino_mvd_down(Model *gameModel)
+{
+    gameModel->dino.vert_velocity = 5;
+    gameModel->dino.vert_direction = DOWN;
+    move_dino(&gameModel->dino);
 }
 
 /*******************************************************************************
@@ -168,8 +198,9 @@ void dino_mvd_down(Model *gameModel) {
                 instance
     OUTPUT: N/A
 *******************************************************************************/
-void game_quit(Model *gameModel) {
-    gameModel -> game_state.lost_flag = TRUE;
+void game_quit(Model *gameModel)
+{
+    gameModel->game_state.lost_flag = TRUE;
     printf("Game ended by user.\n");
 }
 
@@ -192,14 +223,14 @@ void wait_for_game_start(Model *gameModel)
 
             if (key == '\r')
             {
-              gameModel->game_state.start_flag = TRUE;
-              printf("Game started by user!\n");
+                gameModel->game_state.start_flag = TRUE;
+                printf("Game started by user!\n");
             }
             if (key == 'q')
             {
-              gameModel->game_state.lost_flag = FALSE;
-              printf("Game not started by user.\n");
-              break;
+                gameModel->game_state.lost_flag = FALSE;
+                printf("Game not started by user.\n");
+                break;
             }
         }
     }
@@ -207,7 +238,7 @@ void wait_for_game_start(Model *gameModel)
 
 /*******************************************************************************
     PURPOSE: To read the user's keyboard input and call the appropriate functions
-             such as read_dino_input(Model *gameModel, char key) and 
+             such as read_dino_input(Model *gameModel, char key) and
              read_quit_req(Model *gameModel, char key)
     INPUT:  - gameModel: pointer to the Model object, aka the current game
                 instance
@@ -246,14 +277,14 @@ void wait_for_game_start(Model *gameModel)
 *******************************************************************************/
 /*void read_dino_input(Model *gameModel, char key)
 {
-    /* Moves dino up 
+    /* Moves dino up
     if (key == 'w')
     {
         gameModel->dino.vert_velocity = 5;
-        gameModel->dino.vert_direction = UP; /* Changes dino direction to up 
+        gameModel->dino.vert_direction = UP; /* Changes dino direction to up
         move_dino(&gameModel->dino);
     }
-    /* Moves dino down 
+    /* Moves dino down
     else if (key == 's')
     {
         gameModel->dino.vert_velocity = 5;
@@ -287,16 +318,18 @@ void wait_for_game_start(Model *gameModel)
     INPUT:  - game: The model of the game
     OUTPUT: - bool: the truth value of whether a point has been gained or not
 ******************************************************************************************/
-bool point_earned(Model *game) {
+bool point_earned(Model *game)
+{
     int i;
     Dino *dino = &(game->dino);
-    Obs_wall *walls = game -> walls;
-    for (i = 0; i < NUM_WALLS; i++) {
+    Obs_wall *walls = game->walls;
+    for (i = 0; i < NUM_WALLS; i++)
+    {
         Obs_wall *wall = &walls[i];
 
         if ((wall->bottom.bot_right.x < dino->bot_left.x) && !wall->been_passed)
         {
-            wall -> been_passed = TRUE;
+            wall->been_passed = TRUE;
             return TRUE;
         }
     }
@@ -304,24 +337,26 @@ bool point_earned(Model *game) {
 }
 
 /******************************************************************************************
-    PURPOSE: To update both the value of the Score object as well as the value of the 
+    PURPOSE: To update both the value of the Score object as well as the value of the
              Digit objects in the Digit array of the Score object.
     INPUT:  - game: The model of the game
     OUTPUT: N/A
 ******************************************************************************************/
-void update_score(Model *game){	
-	int value;
+void update_score(Model *game)
+{
+    int value;
 
-    Score *score = &(game -> score);
-	score -> prev_value = score -> value;
+    Score *score = &(game->score);
+    score->prev_value = score->value;
 
-    if (score -> value < score -> max_value){
-        (score -> value)++;
-        value = score -> value;
-        (score -> digits)[0].value = (value / 1000) % 10; 	/* thousands digit */
-        (score -> digits)[1].value = (value / 100) % 10;  	/* hundreds digit */
-        (score -> digits)[2].value = (value / 10) % 10;   	/* tens digit */
-        (score -> digits)[3].value = value % 10;			/* ones digit */
+    if (score->value < score->max_value)
+    {
+        (score->value)++;
+        value = score->value;
+        (score->digits)[0].value = (value / 1000) % 10; /* thousands digit */
+        (score->digits)[1].value = (value / 100) % 10;  /* hundreds digit */
+        (score->digits)[2].value = (value / 10) % 10;   /* tens digit */
+        (score->digits)[3].value = value % 10;          /* ones digit */
     }
 }
 
@@ -336,31 +371,28 @@ void update_score(Model *game){
     OUTPUT: N/A
 *******************************************************************************/
 void reflect_dino_death(Model *gameModel)
-  {
-    /* Will need to add dino bitmap update to dino_dead_bitmap() */
+{
+    /*
+     while (gameModel->dino.bot_left.y <= (B_BORDER_Y - 1))
+     {*/
+    gameModel->dino.vert_velocity = DEAD_VELOCITY;
 
-    /* gameModel -> dino.vert_direction = 1; /* Changes dino direction to down
-    gameModel -> dino.vert_velocity = gameModel -> dino.vert_velocity*2; */
-
-   /* printf("Dino has died.\n"); */
-
-    /*while (gameModel->dino.bot_left.y <= (B_BORDER_Y - 1))
-    { */
-        gameModel->dino.vert_direction = DOWN;
-        gameModel->dino.vert_velocity = DEAD_VELOCITY;
-        move_dino(&gameModel->dino);
-        /*
-        printf("Top Lt Y: %u | ", gameModel->dino.top_left.y);
-        printf("Top Rt Y: %u | ", gameModel->dino.top_right.y);
-        printf("Bot Lt Y: %u | ", gameModel->dino.bot_left.y);
-        printf("Bot Rt Y: %u\n", gameModel->dino.bot_right.y);
-        */
+    if (fell_on_obs(gameModel)){
+        gameModel -> dino.vert_direction = 0;
+        gameModel->game_state.lost_flag = TRUE;
         
-        /* printf("Dino direction: %u | ", gameModel -> dino.vert_direction);
-        printf("Dino velocity: %u\n", gameModel -> dino.vert_velocity); */
-    /*} */
-
-    if (gameModel->dino.bot_left.y >= (B_BORDER_Y - 1)) {
-        gameModel -> game_state.lost_flag = TRUE;
+    } else if (gameModel->dino.bot_left.y >= (B_BORDER_Y - 1)){
+        gameModel->game_state.lost_flag = TRUE;
     }
+
+    gameModel->dino.vert_direction = DOWN;
+    move_dino(&gameModel->dino);
+
+    /*
+    if ()
+    {
+        gameModel->game_state.lost_flag = TRUE;
+    }
+    */
+    
 }
