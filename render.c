@@ -19,6 +19,28 @@
 #include <linea.h>
 
 /*******************************************************************************
+    PURPOSE: Calls the functions to set up for the
+    start of the game, render the basic screen, score and borders
+    INPUT:  - base: 16 bit base address of the screen
+    OUTPUT: - N/A
+*******************************************************************************/
+void init_screen(const Model *game, UINT16 *base)
+{
+    int i;
+
+    Digit *digits = game->score.digits;
+
+    disable_cursor();
+    clear_screen((UINT16 *)base, 0);
+    plot_borders();
+
+    for (i = 0; i < 4; i++)
+    {
+        plot_bitmap_32((UINT32 *)base, digits[i].top_left.x, digits[i].top_left.y, zero_bitmap, HEIGHT_32, 1);
+    }
+}
+
+/*******************************************************************************
     PURPOSE: Calls the functions to render the obstacles in the game,
              the dino,
     INPUT:	- model: Game model
@@ -42,28 +64,6 @@ void render_objs(const Model *new_game, UINT32 *base, bool pnt_earned, bool dino
         {
             render_score(new_game, (UINT32 *)base);
         }
-    }
-}
-
-/*******************************************************************************
-    PURPOSE: Calls the functions to set up for the
-    start of the game, render the basic screen, score and borders
-    INPUT:  - base: 16 bit base address of the screen
-    OUTPUT: - N/A
-*******************************************************************************/
-void init_screen(const Model *game, UINT16 *base)
-{
-    int i;
-
-    Digit *digits = game->score.digits;
-
-    disable_cursor();
-    clear_screen((UINT16 *)base, 0);
-    plot_borders();
-
-    for (i = 0; i < 4; i++)
-    {
-        plot_bitmap_32((UINT32 *)base, digits[i].top_left.x, digits[i].top_left.y, zero_bitmap, HEIGHT_32, 1);
     }
 }
 
