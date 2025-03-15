@@ -84,7 +84,6 @@ int main()
             }
             else {
                 reflect_dino_death(&new_game);
-
                  /*Render model (next frame) */
                 render_objs(&new_game, (UINT32 *)base, pt_scored, dino_dead);
             }
