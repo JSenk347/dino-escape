@@ -30,7 +30,7 @@
 	OUTPUT: N/A
 *******************************************************************************/
 
-void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height, int mode) {
+void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height) {
     int i;
     int word_offset = (x >> 5) + (y * 20); /* Word-aligned base offset */
     int bit_shift = x & 31; /* Offset within the 32-bit word */
@@ -308,10 +308,10 @@ void plot_top_start_button(UINT32 *base, const UINT32 *lt_top_start_bitmap,
 	const UINT32 *mid_lt_top_start_bitmap, const UINT32 *mid_rt_top_start_bitmap,
 	const UINT32 *rt_top_start_bitmap)
 {
-	plot_bitmap_32((UINT32 *)base, 256, 168, lt_top_start_bitmap, HEIGHT_32, 1);
-	plot_bitmap_32((UINT32 *)base, 288, 168, mid_lt_top_start_bitmap, HEIGHT_32, 1);
-	plot_bitmap_32((UINT32 *)base, 320, 168, mid_rt_top_start_bitmap, HEIGHT_32, 1);
-	plot_bitmap_32((UINT32 *)base, 352, 168, rt_top_start_bitmap, HEIGHT_32, 1);
+	plot_bitmap_32((UINT32 *)base, 256, 168, lt_top_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 288, 168, mid_lt_top_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 320, 168, mid_rt_top_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 352, 168, rt_top_start_bitmap, HEIGHT_32);
 }
 
 /*******************************************************************************
@@ -328,10 +328,10 @@ void plot_bottom_start_button(UINT32 *base, const UINT32 *lt_bottom_start_bitmap
 	const UINT32 *mid_lt_bottom_start_bitmap, const UINT32 *mid_rt_bottom_start_bitmap,
 	const UINT32 *rt_bottom_start_bitmap)
 {
-	plot_bitmap_32((UINT32 *)base, 256, 200, lt_bottom_start_bitmap, HEIGHT_32, 1);
-	plot_bitmap_32((UINT32 *)base, 288, 200, mid_lt_bottom_start_bitmap, HEIGHT_32, 1);
-	plot_bitmap_32((UINT32 *)base, 320, 200, mid_rt_bottom_start_bitmap, HEIGHT_32, 1);
-	plot_bitmap_32((UINT32 *)base, 352, 200, rt_bottom_start_bitmap, HEIGHT_32, 1);
+	plot_bitmap_32((UINT32 *)base, 256, 200, lt_bottom_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 288, 200, mid_lt_bottom_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 320, 200, mid_rt_bottom_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 352, 200, rt_bottom_start_bitmap, HEIGHT_32);
 }
 
 /*******************************************************************************
@@ -357,7 +357,7 @@ void disable_cursor()
 void plot_top_obs(UINT32 *base, int x, int gap_y, int mode)
 {
 	int edge_y = gap_y - HALF_GAP; 
-    plot_bitmap_32(base, x, edge_y - HEIGHT_32, obs_bottom_edge_bitmap, HEIGHT_32, mode);
+    plot_bitmap_32(base, x, edge_y - HEIGHT_32, obs_bottom_edge_bitmap, HEIGHT_32);
 
 }
 
@@ -373,7 +373,7 @@ void plot_top_obs(UINT32 *base, int x, int gap_y, int mode)
 void plot_bottom_obs(UINT32 *base, int x, int gap_y, int mode)
 {
 	int edge_y = gap_y + HALF_GAP; 
-    plot_bitmap_32(base, x, edge_y, obs_top_edge_bitmap, HEIGHT_32, mode);
+    plot_bitmap_32(base, x, edge_y, obs_top_edge_bitmap, HEIGHT_32);
 }
 
 /*******************************************************************************
