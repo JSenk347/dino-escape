@@ -126,7 +126,7 @@ bool fell_on_obs(Model *game){
         Obs_wall *wall = &walls[i];
         Obs *bottom = &wall -> bottom;
 
-        if (dino -> bot_left.y == bottom -> top_left.y &&
+        if (dino -> bot_left.y >= bottom -> top_left.y &&
         ((dino -> bot_left.x <= bottom -> top_right.x && dino -> bot_left.x >= bottom -> top_left.x)||
         (dino -> bot_right.x >= bottom -> top_left.x && dino -> bot_right.x  <= bottom -> top_right.x)))
         {
@@ -375,7 +375,7 @@ void reflect_dino_death(Model *gameModel)
     /*
      while (gameModel->dino.bot_left.y <= (B_BORDER_Y - 1))
      {*/
-    gameModel->dino.vert_velocity = DEAD_VELOCITY;
+     gameModel->dino.vert_velocity = DEAD_VELOCITY;
 
     if (fell_on_obs(gameModel)){
         gameModel -> dino.vert_direction = 0;
@@ -387,7 +387,6 @@ void reflect_dino_death(Model *gameModel)
 
     gameModel->dino.vert_direction = DOWN;
     move_dino(&gameModel->dino);
-
     /*
     if ()
     {
