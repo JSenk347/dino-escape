@@ -26,7 +26,6 @@
 			- y y coordinate you'd like to plot the bitmap at
 			- *bitmap pointer to the bitmap you'd like to plot
 			- height height of the bitmap you are plotting
-			- mode .... not done?
 	OUTPUT: N/A
 *******************************************************************************/
 void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height) {
