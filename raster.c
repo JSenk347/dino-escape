@@ -51,7 +51,7 @@ void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned i
 
 /*******************************************************************************
 	PURPOSE: Clears a 32x32 block in the given frame buffer in the spot of the 
-				given x,y cordinates
+				given x,y cordinates (top left)
 	INPUT: 	- *base	pointer to the frame buffer
 			- x	x coordinate you'd like to 
 			- y y coordinate you'd like to 
