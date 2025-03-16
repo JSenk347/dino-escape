@@ -29,7 +29,6 @@
 			- mode .... not done?
 	OUTPUT: N/A
 *******************************************************************************/
-
 void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height) {
     int i;
     int word_offset = (x >> 5) + (y * 20); /* Word-aligned base offset */
