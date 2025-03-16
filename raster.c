@@ -96,6 +96,20 @@ void clear_cave_region(UINT32 *base) {
 	}
 }
 
+
+void clear_far_left(UINT32 *base){
+	int y;
+	int x = L_BORDER_X;
+	for (y = T_BORDER_Y + 1; y < B_BORDER_Y - 32; y += 32){
+		clear_region(base, x, y, 0x00000000);
+		clear_region(base, x + 2, y, 0x00000000);
+	}
+	clear_region(base, x, B_BORDER_Y - 34, 0x00000000);
+	clear_region(base, x + 2, B_BORDER_Y - 34, 0x00000000);
+}
+
+
+
 /*******************************************************************************
 	PURPOSE: To plot 16 bit bitmaps at specified x and y coordinates
 	INPUT: 	- *base	pointer to the frame buffer

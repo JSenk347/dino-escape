@@ -162,6 +162,7 @@ void render_start(const Model *model, UINT32 *base)
 void render_obs(const Model *model, UINT32 *base)
 {
     int i;
+    int k;
     int vel;
     int h_vel;
 
@@ -169,7 +170,7 @@ void render_obs(const Model *model, UINT32 *base)
     {
         Obs_wall *wall = &model->walls[i];
 
-        if (wall->is_moving && wall->top.top_right.x < R_BORDER_X)
+        if (wall->is_moving && (wall->top.top_right.x < R_BORDER_X && wall -> top.top_left.x > L_BORDER_X))
         {
             Obs *top = &wall->top;
             Obs *bottom = &wall->bottom;
@@ -206,7 +207,7 @@ void render_obs(const Model *model, UINT32 *base)
 
             if (top->top_right.x == R_BORDER_X - 2 || top->top_right.x == R_BORDER_X - 1)
             {
-                /* Cancels out the lines that are supposed to cancel out old lines on the first plot, since there are no old lines on the first plot */
+                /* Cancels out the lines that are supposed to cancel out old lines on the first plot, since there are no old lines on the first plot */ 
                 plot_gline((top->top_left.x) + vel, T_BORDER_Y + 1, (top->top_left.x) + vel, (top->bot_left.y) - 31, XOR);                 
                 plot_gline((top->top_left.x) + vel + h_vel, T_BORDER_Y + 1, (top->top_left.x) + vel + h_vel, (top->bot_left.y) - 31, XOR); 
                 plot_gline((top->top_right.x) + vel, T_BORDER_Y + 1, (top->top_right.x) + vel, (top->bot_right.y) - 31, XOR);              
@@ -217,7 +218,11 @@ void render_obs(const Model *model, UINT32 *base)
                 plot_gline((bottom->top_right.x) + vel, (bottom->top_right.y) + 31, (bottom->top_right.x) + vel, B_BORDER_Y - 2, XOR);
                 plot_gline((bottom->top_right.x) + h_vel, (bottom->top_right.y) + 31, (bottom->top_right.x) + h_vel, B_BORDER_Y - 2, XOR);
             }
+            if (wall -> top.top_left.x <= L_BORDER_X + 2){
+                clear_far_left(base);
+            }
         }
+        
     }
 }
 
