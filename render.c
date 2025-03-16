@@ -49,9 +49,9 @@ void init_screen(const Model *game, UINT16 *base)
             - base: Base address of the screen
     OUTPUT: - N/A
 *******************************************************************************/
-void render_objs(const Model *new_game, UINT32 *base, bool pnt_earned, bool dino_dead)
+void render_objs(const Model *new_game, UINT32 *base, bool pnt_earned)
 {
-    if (dino_dead)
+    if (new_game -> game_state.dead_flag)
     {
         if (new_game->dino.bot_left.y < (B_BORDER_Y - 1))
         {

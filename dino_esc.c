@@ -25,7 +25,7 @@ int main()
     /* INITIALIZE MODEL */
     void *base = Physbase();
     UINT32 curr_time, prev_time, time_elapsed;
-    bool game_over = FALSE, pt_scored = FALSE, dino_dead = FALSE;
+    bool game_over = FALSE, pt_scored = FALSE;
     
     Model new_game = {
         {{32, 184}, {63, 184}, {32, 215}, {63, 215}, {32, 184}, 0, 0, 0}, /* Dino */
@@ -46,14 +46,14 @@ int main()
           {{601, 359}, {632, 359}, {601, 390}, {632, 390}, 0}}, /* Thousands digit */
          5000,                                                  /* Max score */
          0},                                                    /* Current score */
-        {FALSE, FALSE, FALSE},                                  /* Context */
+        {FALSE, FALSE, FALSE},                                  /* Game state */
     };
     linea0();
     /*disable_cursor(); Not needed here, already called in init_screen() */
 
      /* RENDER FIRST FRAME OF MODEL */
      init_screen(&new_game, (UINT16 *)base);
-     render_objs(&new_game, (UINT32 *)base, pt_scored, dino_dead);
+     render_objs(&new_game, (UINT32 *)base, pt_scored);
 
      /* RUN GAME UNTIL GAME OVER 
      while (game_over == FALSE){
@@ -77,20 +77,18 @@ int main()
         time_elapsed = curr_time - prev_time;
         if (time_elapsed > 0) {
              /*Process synchronous events*/ 
-            if (!dino_dead) {
+            if (!new_game.game_state.dead_flag) {
                 move_walls(&new_game);
                 check_collisions(&new_game);
                 pt_scored = check_score(&new_game);
                 
                 /* Render model (next frame)*/ 
-                render_objs(&new_game, (UINT32 *)base, pt_scored, dino_dead);
-                
-                dino_dead = new_game.game_state.dead_flag;
+                render_objs(&new_game, (UINT32 *)base, pt_scored);
             }
             else {
                 reflect_dino_death(&new_game);
                  /*Render model (next frame) */
-                render_objs(&new_game, (UINT32 *)base, pt_scored, dino_dead);
+                render_objs(&new_game, (UINT32 *)base, pt_scored);
             }
 
             prev_time = curr_time;
