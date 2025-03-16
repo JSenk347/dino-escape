@@ -25,7 +25,7 @@ int main()
     /* INITIALIZE MODEL */
     void *base = Physbase();
     UINT32 curr_time, prev_time, time_elapsed;
-    bool game_over = FALSE, pt_scored = FALSE;
+    bool game_over = FALSE;
     
     Model new_game = {
         {{32, 184}, {63, 184}, {32, 215}, {63, 215}, {32, 184}, 0, 0, 0}, /* Dino */
@@ -53,7 +53,7 @@ int main()
 
      /* RENDER FIRST FRAME OF MODEL */
      init_screen(&new_game, (UINT16 *)base);
-     render_objs(&new_game, (UINT32 *)base, pt_scored);
+     render_objs(&new_game, (UINT32 *)base);
 
      /* RUN GAME UNTIL GAME OVER 
      while (game_over == FALSE){
@@ -80,15 +80,15 @@ int main()
             if (!new_game.game_state.dead_flag) {
                 move_walls(&new_game);
                 check_collisions(&new_game);
-                pt_scored = check_score(&new_game);
                 
                 /* Render model (next frame)*/ 
-                render_objs(&new_game, (UINT32 *)base, pt_scored);
+                render_objs(&new_game, (UINT32 *)base);
             }
             else {
                 reflect_dino_death(&new_game);
+                
                  /*Render model (next frame) */
-                render_objs(&new_game, (UINT32 *)base, pt_scored);
+                render_objs(&new_game, (UINT32 *)base);
             }
 
             prev_time = curr_time;

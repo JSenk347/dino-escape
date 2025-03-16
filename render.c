@@ -49,7 +49,7 @@ void init_screen(const Model *game, UINT16 *base)
             - base: Base address of the screen
     OUTPUT: - N/A
 *******************************************************************************/
-void render_objs(const Model *new_game, UINT32 *base, bool pt_scored)
+void render_objs(const Model *new_game, UINT32 *base)
 {
     if (new_game -> game_state.dead_flag)
     {
@@ -62,7 +62,7 @@ void render_objs(const Model *new_game, UINT32 *base, bool pt_scored)
     {
         render_obs(new_game, base);
         render_dino(new_game, base);
-        if (pt_scored)
+        if (check_score(new_game))
         {
             render_score(new_game, (UINT32 *)base);
         }
