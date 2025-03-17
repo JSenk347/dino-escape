@@ -85,8 +85,8 @@ int main()
         time_elapsed = curr_time - prev_time;
         if (time_elapsed > 0) {
             /* PROCESS SYNCHRONOUS EVENTS */
-            process_input(&new_game, key);
-            key = NULL; /* Reset input key */
+            process_input(&new_game, key);  /* Moves dino */
+            key = NULL;                     /* Resets input key */
 
             move_walls(&new_game);
             check_collisions(&new_game);
