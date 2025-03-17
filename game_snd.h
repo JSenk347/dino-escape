@@ -5,10 +5,6 @@
 
 /* Sharp Notes: Indicated by uppercase; Flat Notes: indicated by lowercase*/
 
-/* FUNCTION DECLARATIONS */
-void play_note();
-void play_sound();
-
 typedef struct
 {
     int fine;
@@ -49,5 +45,8 @@ typedef struct
     Note c4;
     unsigned int num_notes;
 } Game_Over;
+
+/* FUNCTION DECLARATIONS */
+void play_note();
 
 #endif

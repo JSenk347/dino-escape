@@ -28,9 +28,3 @@ void play_note() {
 	Cnecin();
 	Super(old_ssp);
 }
-
-/*
-void play_sound() {
-	continue;
-}
-*/
