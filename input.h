@@ -5,5 +5,5 @@
 
 void process_input(Model *gameModel, char key);
 /*void read_input(Model *gameModel);*/
-void read_dino_input(Model *gameModel, char key);
+/*void read_dino_input(Model *gameModel, char key);*/
 #endif
