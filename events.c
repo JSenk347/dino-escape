@@ -108,9 +108,6 @@ void check_collisions(Model *game)
             /*reflect_dino_death(game);*/ /* COMMENT THIS OUT FOR TESTING */
             game->game_state.dead_flag = TRUE;
             game->game_state.start_flag = FALSE;
-            /* Prevents walls from continuing to move after collision */
-            /* walls -> hor_velocity = 0;
-            walls -> is_moving = FALSE;*/
             return;
         }
 
@@ -125,9 +122,6 @@ void check_collisions(Model *game)
             /*reflect_dino_death(game);*/
             game->game_state.dead_flag = TRUE;
             game->game_state.start_flag = FALSE;
-            /* Prevents walls from continuing to move after collision */
-            /*walls -> hor_velocity = 0;
-            walls -> is_moving = FALSE;*/
             return;
         }
     }
