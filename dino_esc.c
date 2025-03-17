@@ -71,7 +71,7 @@ int main()
 
      /* RUN GAME UNTIL GAME OVER*/ 
     while (game_over == FALSE) {
-        /* Checks for input pending*/ 
+        /* CHECKS FOR PENDING INPUT */ 
         /*read_input(&new_game);*/
         if (Cconis()) {
             key = (char)Cnecin();
@@ -80,18 +80,18 @@ int main()
             }*/
         }
 
-        /* Checks for clock tick */
+        /* CHECKS FOR CLOCK TICK */
         curr_time = get_time();
         time_elapsed = curr_time - prev_time;
         if (time_elapsed > 0) {
-            /* Process synchronous events */
+            /* PROCESS SYNCHRONOUS EVENTS */
             process_input(&new_game, key);
             key = NULL; /* Reset input key */
 
             move_walls(&new_game);
             check_collisions(&new_game);
                 
-            /* Render model (next frame)*/ 
+            /* RENDER MODEL (NEXT FRAME) */ 
             render_objs(&new_game, (UINT32 *)base);
              
             /*if (!new_game.game_state.dead_flag) {
