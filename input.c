@@ -11,27 +11,6 @@
 #include "model.h"
 #include <osbind.h>
 
-/*******************************************************************************
-    PURPOSE: To update the given game Model's dino according to the user's 
-                input. Pressing 'w' will result in the dino going up, and
-                pressing 's' will result in the dino going down.
-    INPUT:  - gameModel: pointer to the Model object, aka the current game
-                instance
-            - key: the character the user has entered.
-    OUTPUT: N/A
-*******************************************************************************/
-void read_dino_input(Model *gameModel, char key) {
-    /*Dino dino = gameModel -> dino;*/
-
-    /* Moves dino up */
-    if (key == 'w') {
-        dino_mvd_up(gameModel);
-    }
-    /* Moves dino down */
-    else if (key == 's') {
-        dino_mvd_down(gameModel);
-    }
-}
 
 /*******************************************************************************
     PURPOSE: To read the user's keyboard input and call the appropriate functions
@@ -41,9 +20,25 @@ void read_dino_input(Model *gameModel, char key) {
                 instance
     OUTPUT: N/A
 *******************************************************************************/
-void read_input(Model *gameModel) {
+void process_input(Model *gameModel, char key) {
+    /* Moves dino up */
+    if (key == 'w') {
+        dino_mvd_up(gameModel);
+    }
+    /* Moves dino down */
+    else if (key == 's') {
+        dino_mvd_down(gameModel);
+    }
+    /* Quits game */
+    if (key == 'q') {
+        game_quit(gameModel);
+    }
+}
+
+/* not using anymore */
+/*void read_input(Model *gameModel) {
     if (Cconis()) {
-        char key = Cnecin();
+        char key = (char)Cnecin();
         while (Cconis()) {
             Cnecin();
         }
@@ -56,4 +51,27 @@ void read_input(Model *gameModel) {
             game_quit(gameModel);
         }
     }
-}
+}*/
+
+/*not using anymore */
+/*******************************************************************************
+    PURPOSE: To update the given game Model's dino according to the user's 
+                input. Pressing 'w' will result in the dino going up, and
+                pressing 's' will result in the dino going down.
+    INPUT:  - gameModel: pointer to the Model object, aka the current game
+                instance
+            - key: the character the user has entered.
+    OUTPUT: N/A
+*******************************************************************************/
+/*void read_dino_input(Model *gameModel, char key) {
+    /*Dino dino = gameModel -> dino;*/
+
+    /* Moves dino up 
+    if (key == 'w') {
+        dino_mvd_up(gameModel);
+    }
+    /* Moves dino down 
+    else if (key == 's') {
+        dino_mvd_down(gameModel);
+    }
+}*/
