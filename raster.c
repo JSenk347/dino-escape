@@ -111,8 +111,6 @@ void clear_far_left(UINT32 *base){
 	clear_region(base, x + 2, B_BORDER_Y - 32, 0x00000000);
 }
 
-
-
 /*******************************************************************************
 	PURPOSE: To plot 16 bit bitmaps at specified x and y coordinates
 	INPUT: 	- *base	pointer to the frame buffer
