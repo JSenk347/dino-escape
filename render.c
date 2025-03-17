@@ -179,15 +179,18 @@ void render_obs(const Model *model, UINT32 *base) {
 
             /* Only replots obstacles if no collision has occured */
             if (top -> prev_top_lt.x != top -> top_left.x) {
-                /* Plot new lines - TOP */
-                plot_gline(top->top_left.x, T_BORDER_Y + 1, top->top_left.x, (top->bot_left.y) - 31, XOR);                          /*      ->||    ||       */
-                plot_gline((top->top_left.x) + 1, T_BORDER_Y + 1, (top->top_left.x) + 1, (top->bot_left.y) - 31, XOR);              /*        ||<-  ||       */
-                plot_gline(top->top_right.x, T_BORDER_Y + 1, top->top_right.x, (top->bot_right.y) - 31, XOR);                       /*        ||    ||<-     */
-                plot_gline((top->top_right.x) - 1, T_BORDER_Y + 1, (top->top_right.x) - 1, (top->bot_right.y) - 31, XOR);           /*        ||  ->||       */
-                /* Clear old lines - TOP */
-                plot_gline((top->top_left.x) + vel, T_BORDER_Y + 1, (top->top_left.x) + vel, (top->bot_left.y) - 31, XOR);          /*   NEW  ||    ||OLD->||    ||    */
-                plot_gline((top->top_left.x) + vel + 1, T_BORDER_Y + 1, (top->top_left.x) + vel + 1, (top->bot_left.y) - 31, XOR);  /*        ||    ||     ||<-  ||    */
-                plot_gline((top->top_right.x) + vel, T_BORDER_Y + 1, (top->top_right.x) + vel, (top->bot_right.y) - 31, XOR);       /*        ||    ||     ||    ||<-  */
+                /* Top obstacle */
+                draw_top_lns(top);
+                
+                /* Plot new lines - TOP
+                plot_gline(top->top_left.x, T_BORDER_Y + 1, top->top_left.x, (top->bot_left.y) - 31, XOR);                          /*      ->||    ||       
+                plot_gline((top->top_left.x) + 1, T_BORDER_Y + 1, (top->top_left.x) + 1, (top->bot_left.y) - 31, XOR);              /*        ||<-  ||       
+                plot_gline(top->top_right.x, T_BORDER_Y + 1, top->top_right.x, (top->bot_right.y) - 31, XOR);                       /*        ||    ||<-     
+                plot_gline((top->top_right.x) - 1, T_BORDER_Y + 1, (top->top_right.x) - 1, (top->bot_right.y) - 31, XOR);           /*        ||  ->||       
+                /* Clear old lines - TOP 
+                plot_gline((top->top_left.x) + vel, T_BORDER_Y + 1, (top->top_left.x) + vel, (top->bot_left.y) - 31, XOR);          /*   NEW  ||    ||OLD->||    ||    
+                plot_gline((top->top_left.x) + vel + 1, T_BORDER_Y + 1, (top->top_left.x) + vel + 1, (top->bot_left.y) - 31, XOR);  /*        ||    ||     ||<-  ||    
+                plot_gline((top->top_right.x) + vel, T_BORDER_Y + 1, (top->top_right.x) + vel, (top->bot_right.y) - 31, XOR);       /*        ||    ||     ||    ||<-  
                 plot_gline((top->top_right.x) + 1, T_BORDER_Y + 1, (top->top_right.x) + 1, (top->bot_right.y) - 31, XOR);           /*        ||    ||     ||  ->||    */
 
                 clear_region(base, top->bot_left.x + vel, (top->bot_left.y) - 31, 0x00000000);
@@ -226,6 +229,25 @@ void render_obs(const Model *model, UINT32 *base) {
         }        
     }
 }
+
+/*******************************************************************************
+    PURPOSE: Draws the lines for the given Obs struct and clears previous lines
+    INPUT:	- Obs - pointer to the given Obs
+    OUTPUT: - N/A
+*******************************************************************************/
+void draw_top_lns(Obs *top) {
+    /* Plots new lines */
+    plot_gline(top->top_left.x, T_BORDER_Y + 1, top->top_left.x, (top->bot_left.y) - 31, XOR);                          /*      ->||    ||       */
+    plot_gline((top->top_left.x) + 1, T_BORDER_Y + 1, (top->top_left.x) + 1, (top->bot_left.y) - 31, XOR);              /*        ||<-  ||       */
+    plot_gline(top->top_right.x, T_BORDER_Y + 1, top->top_right.x, (top->bot_right.y) - 31, XOR);                       /*        ||    ||<-     */
+    plot_gline((top->top_right.x) - 1, T_BORDER_Y + 1, (top->top_right.x) - 1, (top->bot_right.y) - 31, XOR);           /*        ||  ->||       */
+    /* Clears old lines */
+    plot_gline((top->top_left.x) + vel, T_BORDER_Y + 1, (top->top_left.x) + vel, (top->bot_left.y) - 31, XOR);          /*   NEW  ||    ||OLD->||    ||    */
+    plot_gline((top->top_left.x) + vel + 1, T_BORDER_Y + 1, (top->top_left.x) + vel + 1, (top->bot_left.y) - 31, XOR);  /*        ||    ||     ||<-  ||    */
+    plot_gline((top->top_right.x) + vel, T_BORDER_Y + 1, (top->top_right.x) + vel, (top->bot_right.y) - 31, XOR);       /*        ||    ||     ||    ||<-  */
+    plot_gline((top->top_right.x) + 1, T_BORDER_Y + 1, (top->top_right.x) + 1, (top->bot_right.y) - 31, XOR);           /*        ||    ||     ||  ->||    */
+}
+
 
 /*void render_obs_2(const Model *model, UINT32 *base)
 {
