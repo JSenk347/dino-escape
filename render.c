@@ -86,18 +86,14 @@ void render_dino(const Model *game, UINT32 *base)
         UINT32 *bitmap;
         if ((get_time() / 10) % 2 == 0) {
             bitmap = dino_wdown_bitmap;
-            /*clear_square_32(base, dino -> prev_top_lt.x, dino -> prev_top_lt.y, 0, HEIGHT_32); /* clears previous dino bitmap */
-            /*overwrite_bitmap_32(base, dino->top_left.x, dino->top_left.y, dino_wup_bitmap, HEIGHT_32);*/
         }
         else {
             bitmap = dino_wup_bitmap;
-            /*clear_square_32(base, dino -> prev_top_lt.x, dino -> prev_top_lt.y, 0, HEIGHT_32); /* clears previous dino bitmap */
-            /*overwrite_bitmap_32(base, dino->top_left.x, dino->top_left.y, dino_wdown_bitmap, HEIGHT_32);*/
         }
         /* Draw new Dino frame */
-        clear_region(base, dino->prev_top_lt.x, dino->prev_top_lt.y, 0x00000000);       /* clears previous dino bitmap */
+        clear_region(base, dino->prev_top_lt.x, dino->prev_top_lt.y, 0x00000000);       /* clears previous location dino bitmap */
+        clear_region(base, dino->top_left.x, dino->top_left.y, 0x00000000);             /* clears previous dino wings position */
         plot_bitmap_32(base, dino->top_left.x, dino->top_left.y, bitmap, HEIGHT_32);
-        /* Increment frame counter */
     }
     else {
         reflect_dino_death(game);
@@ -178,31 +174,13 @@ void render_obs(const Model *model, UINT32 *base) {
 
             /* Only replots obstacles if no collision has occured */
             if (top -> prev_top_lt.x != top -> top_left.x) {
-                /* Plot new lines - TOP */
-                plot_gline(top->top_left.x, T_BORDER_Y + 1, top->top_left.x, (top->bot_left.y) - 31, XOR);                          /*      ->||    ||       */
-                plot_gline((top->top_left.x) + 1, T_BORDER_Y + 1, (top->top_left.x) + 1, (top->bot_left.y) - 31, XOR);              /*        ||<-  ||       */
-                plot_gline(top->top_right.x, T_BORDER_Y + 1, top->top_right.x, (top->bot_right.y) - 31, XOR);                       /*        ||    ||<-     */
-                plot_gline((top->top_right.x) - 1, T_BORDER_Y + 1, (top->top_right.x) - 1, (top->bot_right.y) - 31, XOR);           /*        ||  ->||       */
-                /* Clear old lines - TOP */
-                plot_gline((top->top_left.x) + vel, T_BORDER_Y + 1, (top->top_left.x) + vel, (top->bot_left.y) - 31, XOR);          /*   NEW  ||    ||OLD->||    ||    */
-                plot_gline((top->top_left.x) + vel + 1, T_BORDER_Y + 1, (top->top_left.x) + vel + 1, (top->bot_left.y) - 31, XOR);  /*        ||    ||     ||<-  ||    */
-                plot_gline((top->top_right.x) + vel, T_BORDER_Y + 1, (top->top_right.x) + vel, (top->bot_right.y) - 31, XOR);       /*        ||    ||     ||    ||<-  */
-                plot_gline((top->top_right.x) + 1, T_BORDER_Y + 1, (top->top_right.x) + 1, (top->bot_right.y) - 31, XOR);           /*        ||    ||     ||  ->||    */
-
+                /* Top obstacle */
+                draw_top_lns(top, vel);
                 clear_region(base, top->bot_left.x + vel, (top->bot_left.y) - 31, 0x00000000);
                 plot_bitmap_32(base, top->bot_left.x, (top->bot_left.y) - 31, obs_bottom_edge_bitmap, HEIGHT_32);
 
-                /*Plot new lines - BOTTOM */
-                plot_gline(bottom->top_left.x, (bottom->top_left.y) + 31, bottom->top_left.x, bottom->bot_left.y, XOR);
-                plot_gline((bottom->top_left.x) + 1, (bottom->top_left.y) + 31, (bottom->top_left.x) + 1, bottom->bot_left.y, XOR);
-                plot_gline(bottom->top_right.x, (bottom->top_right.y) + 31, bottom->top_right.x, bottom->bot_right.y, XOR);
-                plot_gline((bottom->top_right.x) - 1, (bottom->top_right.y) + 31, (bottom->top_right.x) - 1, bottom->bot_right.y, XOR);
-                /* Clear old lines - BOTTOM */
-                plot_gline((bottom->top_left.x) + vel, (bottom->top_left.y) + 31, (bottom->top_left.x) + vel, bottom->bot_left.y, XOR);
-                plot_gline((bottom->top_left.x) + vel + 1, (bottom->top_left.y) + 31, (bottom->top_left.x) + vel + 1, bottom->bot_left.y, XOR);
-                plot_gline((bottom->top_right.x) + vel, (bottom->top_right.y) + 31, (bottom->top_right.x) + vel, bottom->bot_right.y, XOR);
-                plot_gline((bottom->top_right.x) + 1, (bottom->top_right.y) + 31, (bottom->top_right.x) + 1, bottom->bot_right.y, XOR);
-
+                /* Bottom obstacle */
+                draw_bot_lns(bottom, vel);
                 clear_region(base, bottom->top_left.x + vel, bottom->top_left.y, 0x00000000);
                 plot_bitmap_32(base, bottom->top_left.x, bottom->top_left.y, obs_top_edge_bitmap, HEIGHT_32);
 
@@ -225,6 +203,47 @@ void render_obs(const Model *model, UINT32 *base) {
         }        
     }
 }
+
+/*******************************************************************************
+    PURPOSE: Draws the lines for the given top Obs struct and clears previous 
+                lines
+    INPUT:	- Obs - pointer to the given Obs
+            - vel - value of current obstacle speed
+    OUTPUT: - N/A
+*******************************************************************************/
+void draw_top_lns(Obs *top, int vel) {
+    /* Plots new lines */
+    plot_gline(top->top_left.x, T_BORDER_Y + 1, top->top_left.x, (top->bot_left.y) - 31, XOR);                          /*      ->||    ||       */
+    plot_gline((top->top_left.x) + 1, T_BORDER_Y + 1, (top->top_left.x) + 1, (top->bot_left.y) - 31, XOR);              /*        ||<-  ||       */
+    plot_gline(top->top_right.x, T_BORDER_Y + 1, top->top_right.x, (top->bot_right.y) - 31, XOR);                       /*        ||    ||<-     */
+    plot_gline((top->top_right.x) - 1, T_BORDER_Y + 1, (top->top_right.x) - 1, (top->bot_right.y) - 31, XOR);           /*        ||  ->||       */
+    /* Clears old lines */
+    plot_gline((top->top_left.x) + vel, T_BORDER_Y + 1, (top->top_left.x) + vel, (top->bot_left.y) - 31, XOR);          /*   NEW  ||    ||OLD->||    ||    */
+    plot_gline((top->top_left.x) + vel + 1, T_BORDER_Y + 1, (top->top_left.x) + vel + 1, (top->bot_left.y) - 31, XOR);  /*        ||    ||     ||<-  ||    */
+    plot_gline((top->top_right.x) + vel, T_BORDER_Y + 1, (top->top_right.x) + vel, (top->bot_right.y) - 31, XOR);       /*        ||    ||     ||    ||<-  */
+    plot_gline((top->top_right.x) + 1, T_BORDER_Y + 1, (top->top_right.x) + 1, (top->bot_right.y) - 31, XOR);           /*        ||    ||     ||  ->||    */
+}
+
+/*******************************************************************************
+    PURPOSE: Draws the lines for the given bottom Obs struct and clears previous 
+                lines
+    INPUT:	- Obs - pointer to the given Obs
+            - vel - value of current obstacle speed
+    OUTPUT: - N/A
+*******************************************************************************/
+void draw_bot_lns(Obs *bottom, int vel) {
+    /*Plots new lines */
+    plot_gline(bottom->top_left.x, (bottom->top_left.y) + 31, bottom->top_left.x, bottom->bot_left.y, XOR);
+    plot_gline((bottom->top_left.x) + 1, (bottom->top_left.y) + 31, (bottom->top_left.x) + 1, bottom->bot_left.y, XOR);
+    plot_gline(bottom->top_right.x, (bottom->top_right.y) + 31, bottom->top_right.x, bottom->bot_right.y, XOR);
+    plot_gline((bottom->top_right.x) - 1, (bottom->top_right.y) + 31, (bottom->top_right.x) - 1, bottom->bot_right.y, XOR);
+    /* Clears old lines */
+    plot_gline((bottom->top_left.x) + vel, (bottom->top_left.y) + 31, (bottom->top_left.x) + vel, bottom->bot_left.y, XOR);
+    plot_gline((bottom->top_left.x) + vel + 1, (bottom->top_left.y) + 31, (bottom->top_left.x) + vel + 1, bottom->bot_left.y, XOR);
+    plot_gline((bottom->top_right.x) + vel, (bottom->top_right.y) + 31, (bottom->top_right.x) + vel, bottom->bot_right.y, XOR);
+    plot_gline((bottom->top_right.x) + 1, (bottom->top_right.y) + 31, (bottom->top_right.x) + 1, bottom->bot_right.y, XOR);
+}
+
 
 /*void render_obs_2(const Model *model, UINT32 *base)
 {
@@ -260,10 +279,3 @@ void render_obs(const Model *model, UINT32 *base) {
         }
     }
 }*/
-
-/*******************************************************************************
-    PURPOSE: Renders the current game score of the given game model
-    INPUT:	- model: Game model
-            - base: Base address of the screen
-    OUTPUT: - N/A
-*******************************************************************************/
