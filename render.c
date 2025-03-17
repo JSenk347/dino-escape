@@ -51,23 +51,12 @@ void init_screen(const Model *game, UINT16 *base)
 *******************************************************************************/
 void render_objs(const Model *new_game, UINT32 *base)
 {
-    /* Prevents obstacles from continuing to move after collision */
-    /*if (new_game -> game_state.dead_flag)
+    render_obs(new_game, base);
+    render_dino(new_game, base);
+    if (check_score(new_game))
     {
-        if (new_game->dino.bot_left.y < (B_BORDER_Y - 1))
-        {
-            render_dino_dead(new_game, (UINT32 *)base);
-        }
+        render_score(new_game, (UINT32 *)base);
     }
-    else
-    { */
-        render_obs(new_game, base);
-        render_dino(new_game, base);
-        if (check_score(new_game))
-        {
-            render_score(new_game, (UINT32 *)base);
-        }
-    /*}*/
 }
 
 /*******************************************************************************
