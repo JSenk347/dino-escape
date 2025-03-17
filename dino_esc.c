@@ -84,10 +84,9 @@ int main()
         curr_time = get_time();
         time_elapsed = curr_time - prev_time;
         if (time_elapsed > 0) {
-            /*Process synchronous events*/
-            /* trying this */
+            /* Process synchronous events */
             process_input(&new_game, key);
-            key = NULL; /* reset key */
+            key = NULL; /* Reset input key */
 
             move_walls(&new_game);
             check_collisions(&new_game);
