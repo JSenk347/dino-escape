@@ -43,7 +43,7 @@ void read_dino_input(Model *gameModel, char key) {
 *******************************************************************************/
 void read_input(Model *gameModel) {
     if (Cconis()) {
-        char key = Cnecin();
+        char key = (char)Cnecin();
         while (Cconis()) {
             Cnecin();
         }

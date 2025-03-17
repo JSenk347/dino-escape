@@ -94,7 +94,12 @@ void clear_cave_region(UINT32 *base) {
 	}
 }
 
-
+/*******************************************************************************
+	PURPOSE: Clears a specific rectangular region on the far left side of the
+				screen
+	INPUT: 	- *base	pointer to the frame buffer
+	OUTPUT: N/A
+*******************************************************************************/
 void clear_far_left(UINT32 *base){
 	int y;
 	int x = L_BORDER_X;
@@ -102,8 +107,8 @@ void clear_far_left(UINT32 *base){
 		clear_region(base, x, y, 0x00000000);
 		clear_region(base, x + 2, y, 0x00000000);
 	}
-	clear_region(base, x, B_BORDER_Y - 34, 0x00000000);
-	clear_region(base, x + 2, B_BORDER_Y - 34, 0x00000000);
+	clear_region(base, x, B_BORDER_Y - 33/*34*/, 0x00000000);
+	clear_region(base, x + 2, B_BORDER_Y - 33/*34*/, 0x00000000);
 }
 
 
@@ -154,7 +159,8 @@ void clear_screen(UINT16 *base, int pattern)
 }
 
 /******************************************************************************
-	PURPOSE: Plots a horizontal line at the given y coordinate
+	PURPOSE: Plots a horizontal line across the full game screen at the given 
+				y coordinate
 	INPUT: 	- y the y coordinate to plot the line at
 			- mode the behaviour of the line:
 				- 0: replace

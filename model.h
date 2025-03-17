@@ -8,8 +8,8 @@ typedef unsigned int bool;
 #define HALF_GAP 25
 #define OBS_START_SPEED 2
 #define WIN_WIDTH 640
-#define T_BORDER_Y 49
-#define B_BORDER_Y 352
+#define T_BORDER_Y 49   /* 0 to 49 = 50 lines */
+#define B_BORDER_Y 350  /* 350 to 399 = 50 lines */
 #define R_BORDER_X 639
 #define L_BORDER_X 0
 #define DINO_HEIGHT 32

@@ -22,22 +22,23 @@
 int main()
 {
     int i;
-    /* INITIALIZE MODEL */
-    void *base = Physbase();
     UINT32 curr_time, prev_time, time_elapsed;
     bool game_over = FALSE;
+    
+    /* INITIALIZE MODEL */
+    void *base = Physbase();
     
     Model new_game = {
         {{32, 184}, {63, 184}, {32, 215}, {63, 215}, {32, 184}, 0, 0, 0}, /* Dino */
         {
             {{{640, 50}, {671, 50}, {640, 200}, {671, 200}},    /* Wall 1 - top */
-            {{640, 251}, {671, 251}, {640, 351}, {671, 351}},   /* Wall 1 - bottom */
+            {{640, 250 /*251*/}, {671, 250 /*251*/}, {640, 350 /*351*/}, {671, 350 /*351*/}},   /* Wall 1 - bottom */
             TRUE, FALSE, 200, OBS_START_SPEED},
             {{{640, 50}, {671, 50}, {640, 200}, {671, 200}},    /* Wall 2 - top */
-            {{640, 251}, {671, 251}, {640, 351}, {671, 351}},   /* Wall 2 - bottom */
+            {{640, 250 /*251*/}, {671, 250 /*251*/}, {640, 350 /*351*/}, {671, 350 /*351*/}},   /* Wall 2 - bottom */
             FALSE, FALSE, 200, OBS_START_SPEED},
             {{{640, 50}, {671, 50}, {640, 200}, {671, 200}},    /* Wall 3 - top */
-            {{640, 251}, {671, 251}, {640, 351}, {671, 351}},   /* Wall 3 - bottom */
+            {{640, 250 /*251*/}, {671, 250 /*251*/}, {640, 350 /*351*/}, {671, 350 /*351*/}},   /* Wall 3 - bottom */
             FALSE, FALSE, 200, OBS_START_SPEED},
         },
         {{{{505, 359}, {536, 359}, {505, 390}, {536, 390}, 0},  /* Ones digit */
@@ -51,9 +52,9 @@ int main()
     linea0();
     /*disable_cursor(); Not needed here, already called in init_screen() */
 
-     /* RENDER FIRST FRAME OF MODEL */
-     init_screen(&new_game, (UINT16 *)base);
-     render_objs(&new_game, (UINT32 *)base);
+    /* RENDER FIRST FRAME OF MODEL */
+    init_screen(&new_game, (UINT16 *)base);
+    render_objs(&new_game, (UINT32 *)base);
 
      /* RUN GAME UNTIL GAME OVER 
      while (game_over == FALSE){
@@ -76,28 +77,32 @@ int main()
         curr_time = get_time();
         time_elapsed = curr_time - prev_time;
         if (time_elapsed > 0) {
-             /*Process synchronous events*/ 
-            if (!new_game.game_state.dead_flag) {
+             /*Process synchronous events*/
+            move_walls(&new_game);
+            check_collisions(&new_game);
+                
+            /* Render model (next frame)*/ 
+            render_objs(&new_game, (UINT32 *)base);
+             
+            /*if (!new_game.game_state.dead_flag) {
                 move_walls(&new_game);
                 check_collisions(&new_game);
                 
                 /* Render model (next frame)*/ 
-                render_objs(&new_game, (UINT32 *)base);
+                /*render_objs(&new_game, (UINT32 *)base);
             }
             else {
                 reflect_dino_death(&new_game);
-                
+
                  /*Render model (next frame) */
-                render_objs(&new_game, (UINT32 *)base);
-            }
+                /*render_objs(&new_game, (UINT32 *)base);
+            }*/
 
             prev_time = curr_time;
         }
          if (new_game.game_state.lost_flag == TRUE) {
              game_over = TRUE;
-        }
-             
-    }
-        
+        }        
+    } 
     return 0;
 }
