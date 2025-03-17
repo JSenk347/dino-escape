@@ -1,14 +1,12 @@
-#include game_sound.h
+#include "game_snd.h"
 #include <osbind.h>
 
-#define VOL_ON 11
-
-void play_note(Note *note) {
+void play_note() {
 	volatile char *PSG_reg_select = 0xFF8800;
 	volatile char *PSG_reg_write  = 0xFF8802;
-
 	long old_ssp = Super(0);
-
+	
+	
 	*PSG_reg_select = 0;		/* set channel A fine tune = 248 */
 	*PSG_reg_write  = 248;      /* Higher pitch: decrease value */
 
@@ -31,6 +29,8 @@ void play_note(Note *note) {
 	Super(old_ssp);
 }
 
+/*
 void play_sound() {
-
+	continue;
 }
+*/
