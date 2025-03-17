@@ -21,6 +21,7 @@
 
 int main()
 {
+    char key;
     int i;
     UINT32 curr_time, prev_time, time_elapsed;
     bool game_over = FALSE;
@@ -71,13 +72,23 @@ int main()
      /* RUN GAME UNTIL GAME OVER*/ 
     while (game_over == FALSE) {
         /* Checks for input pending*/ 
-        read_input(&new_game);
+        /*read_input(&new_game);*/
+        if (Cconis()) {
+            key = (char)Cnecin();
+            /*while (Cconis()) {
+                Cnecin();
+            }*/
+        }
 
         /* Checks for clock tick */
         curr_time = get_time();
         time_elapsed = curr_time - prev_time;
         if (time_elapsed > 0) {
-             /*Process synchronous events*/
+            /*Process synchronous events*/
+            /* trying this */
+            process_input(&new_game, key);
+            key = NULL; /* reset key */
+
             move_walls(&new_game);
             check_collisions(&new_game);
                 
@@ -102,7 +113,7 @@ int main()
         }
          if (new_game.game_state.lost_flag == TRUE) {
              game_over = TRUE;
-        }        
+        }
     } 
     return 0;
 }

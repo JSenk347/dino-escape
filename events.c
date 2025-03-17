@@ -193,6 +193,8 @@ void dino_mvd_up(Model *gameModel)
     gameModel->dino.vert_velocity = 5;
     gameModel->dino.vert_direction = UP;
     move_dino(&gameModel->dino);
+    gameModel->dino.vert_velocity = 0;
+    gameModel->dino.vert_direction = 0;
 }
 
 /*******************************************************************************
@@ -207,6 +209,8 @@ void dino_mvd_down(Model *gameModel)
     gameModel->dino.vert_velocity = 5;
     gameModel->dino.vert_direction = DOWN;
     move_dino(&gameModel->dino);
+    gameModel->dino.vert_velocity = 0;
+    gameModel->dino.vert_direction = 0;
 }
 
 /*******************************************************************************

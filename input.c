@@ -41,7 +41,7 @@ void read_dino_input(Model *gameModel, char key) {
                 instance
     OUTPUT: N/A
 *******************************************************************************/
-void read_input(Model *gameModel) {
+/*void read_input(Model *gameModel) {
     if (Cconis()) {
         char key = (char)Cnecin();
         while (Cconis()) {
@@ -55,5 +55,20 @@ void read_input(Model *gameModel) {
         if (key == 'q') {
             game_quit(gameModel);
         }
+    }
+}*/
+
+void process_input(Model *gameModel, char key) {
+    /* Moves dino up */
+    if (key == 'w') {
+        dino_mvd_up(gameModel);
+    }
+    /* Moves dino down */
+    else if (key == 's') {
+        dino_mvd_down(gameModel);
+    }
+    /* Quits game */
+    if (key == 'q') {
+        game_quit(gameModel);
     }
 }
