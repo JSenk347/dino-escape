@@ -168,7 +168,6 @@ void render_obs(const Model *model, UINT32 *base) {
     int i;
     int k;
     int vel;
-    /*int h_vel; not used anymore */
 
     for (i = 0; i < NUM_WALLS; i++) {
         Obs_wall *wall = &model -> walls[i];
@@ -177,7 +176,6 @@ void render_obs(const Model *model, UINT32 *base) {
             Obs *top = &wall -> top;
             Obs *bottom = &wall -> bottom;
             vel = wall -> hor_velocity;
-            /*h_vel = vel / 2;  not used anymore */
 
             /* Only replots obstacles if no collision has occured */
             if (top -> prev_top_lt.x != top -> top_left.x) {
