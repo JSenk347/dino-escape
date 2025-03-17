@@ -166,7 +166,6 @@ void render_start(const Model *model, UINT32 *base)
 *******************************************************************************/
 void render_obs(const Model *model, UINT32 *base) {
     int i;
-    int k;
     int vel;
 
     for (i = 0; i < NUM_WALLS; i++) {

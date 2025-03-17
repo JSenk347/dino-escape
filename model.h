@@ -13,6 +13,7 @@ typedef unsigned int bool;
 #define R_BORDER_X 639
 #define L_BORDER_X 0
 #define DINO_HEIGHT 32
+#define LVL_THRESHOLD 50
 #define NUM_WALLS 3
 #define UP -1
 #define DOWN 1

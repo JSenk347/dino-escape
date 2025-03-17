@@ -114,11 +114,12 @@ void reset_wall(Model *game, Obs_wall *wall)
 	wall->been_passed = FALSE;
 
 	/* Increase obstacle velocity if next level reached */
-  if (game->score.value % 50 == 0)
+  if (game->score.value % LVL_THRESHOLD == 0)
 	{
-		Obs_wall (*walls)[4] = &(game->walls);
+		Obs_wall *walls = game->walls;
 		for (i = 0; i < NUM_WALLS; i++){
-			walls[i] -> hor_velocity += 2;
+			Obs_wall *wall = &walls[i];
+			wall -> hor_velocity += 2;
 		}
 	}
 }
