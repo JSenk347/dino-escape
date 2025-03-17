@@ -12,12 +12,16 @@ REN = tst_ren
 ESC_OBJ = model.o events.o render.o raster.o bitmaps.o input.o clock.o dino_esc.o
 ESC = dino_esc
 
-all: raster model render game
+SND_OBJS = tst_snd.o game_snd.o
+SND = tst_snd
+
+all: raster model render game sound
 
 raster: $(RAST)
 model: $(MOD)
 render: $(REN)
 game: $(ESC)
+sound: $(SND)
 
 $(RAST): $(RAST_OBJS)
 	$(CC) -o $(RAST) $(RAST_OBJS)
@@ -30,6 +34,9 @@ $(REN): $(REN_OBJS)
 
 $(ESC): $(ESC_OBJ)
 	$(CC) -o $(ESC) $(ESC_OBJ)
+
+$(SND): $(SND_OBJS)
+	$(CC) -o $(SND) $(SND_OBJS)
 
 render.o: render.c render.h
 	$(CC) -c render.c
@@ -52,6 +59,9 @@ input.o: input.c input.h
 clock.o: clock.c clock.h
 	$(CC) -c clock.c
 
+game_sound.o: game_snd.c game_snd.h
+	$(CC) -c game_snd.c
+
 tst_rast.o: tst_rast.c raster.h
 	$(CC) -c tst_rast.c
 
@@ -64,7 +74,10 @@ tst_mod.o: tst_mod.c tst_mod.h model.h
 dino_esc.o: dino_esc.c
 	$(CC) -c dino_esc.c
 
-clean: clean_model clean_raster clean_render clean_game
+tst_snd.o: tst_snd.c game_snd.h
+	$(CC) -c tst_snd.c
+
+clean: clean_model clean_raster clean_render clean_game clean_sound
 
 clean_model:
 	$(RM) $(MOD_OBJS) $(MOD)
@@ -77,3 +90,6 @@ clean_render:
 
 clean_game:
 	$(RM) $(ESC_OBJ) $(ESC)
+
+clean_sound:
+	$(RM) $(SND_OBJS) $(SND)

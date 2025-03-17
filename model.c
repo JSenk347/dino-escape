@@ -123,29 +123,3 @@ void reset_wall(Model *game, Obs_wall *wall)
 		}
 	}
 }
-
-/*
-	int i;
-	Obs *bottom = &(wall->bottom);
-	Obs *top = &(wall->top);
-	wall->gap_y = gap_y();
-	wall->been_passed = FALSE;
-
-	
-	bottom->top_left.x = bottom -> top_left.x + WIN_WIDTH;
-	bottom->top_left.y = wall -> gap_y + HALF_GAP;
-	bottom->top_right.x = bottom -> top_right.x + WIN_WIDTH;
-	bottom->top_right.y = wall -> gap_y + HALF_GAP;
-
-	bottom->bot_left.x = bottom -> bot_left.x + WIN_WIDTH;
-	bottom->bot_right.x = bottom -> bot_left.x + WIN_WIDTH;
-
-	
-	top->top_left.x = top -> top_left.x + WIN_WIDTH;
-	top->top_right.x = top -> top_right.x + WIN_WIDTH;
-
-	top->bot_left.x = top -> bot_left.x + WIN_WIDTH;
-	top->bot_left.y = wall -> gap_y - HALF_GAP;
-	top->bot_right.x = top -> bot_right.x + WIN_WIDTH;
-	top->bot_right.y = wall -> gap_y - HALF_GAP;
-*/

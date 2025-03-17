@@ -9,6 +9,7 @@
         "CONSOLE.C": "cpp",
         "raster.h": "c",
         "bitmaps.h": "c",
-        "events.h": "c"
+        "events.h": "c",
+        "game_snd.h": "c"
     }
 }
