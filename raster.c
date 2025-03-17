@@ -219,30 +219,40 @@ void plot_vline(unsigned short x, short mode)
 			- y2 the y coordinate of the end of the line
 			- mode the behaviour of the line:
 				- 0: replace
-				- 1: or		(will plot white/black line over all previous bits)
+				- 1: or
 				- 2: xor	
 				- 3: and
+			- set_bit determines the color of the line (1: black 0: white)
 	OUTPUT: N/A
 *****************************************************************************/
 void plot_gline(unsigned short x1, unsigned short y1,
 				unsigned short x2, unsigned short y2,
-				short mode)
+				short mode, int set_bit)
 {
-	/* updating the line-a library variables*/
+	/* Sets line start point coordinates */
 	X1 = x1; 
 	Y1 = y1;
+
+	/* Sets line end point coordinates */
 	X2 = x2;
 	Y2 = y2;
 
-	/* Sets colour (linea document) */
-	COLBIT0 = 1;
-    COLBIT1 = 1;
-    COLBIT2 = 1;
-    COLBIT3 = 1;
+	/* Sets colour to 0 (white) or 1 (black) (linea document) */
+	COLBIT0 = set_bit;
+    COLBIT1 = set_bit;
+    COLBIT2 = set_bit;
+    COLBIT3 = set_bit;
 	
-	LNMASK = 0xFFFF;	/* Solid line style (pattern) */
+
+	if (set_bit == 0) {
+		LNMASK = 0x0000;
+	}
+	else {
+		LNMASK = 0xFFFF;
+	}
 	WMODE = mode; 		/* Writing mode */
 	LSTLIN = -1; 		/* changed from 0 to -1 as per linea document*/
+
 	/*LNMASK = 0xFFFF;
 	WMODE = mode;
 	LSTLIN = 0;*/
@@ -290,7 +300,7 @@ void plot_borders_raster()
 
 	/*  plots lines to cancel out lines covering the score */
 	for (i = 390; i > 358; i--) {
-		plot_gline(312, i, 631, i, XOR);
+		plot_gline(312, i, 631, i, XOR, 1);
 	}
 }
 

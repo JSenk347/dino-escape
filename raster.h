@@ -6,6 +6,7 @@
 #define HEIGHT_16 16
 #define OR 1
 #define XOR 2
+#define AND 3
 #define HALF_GAP 25
 
 typedef unsigned long UINT32;
@@ -21,7 +22,7 @@ void plot_hline(unsigned short y, short mode);
 void plot_vline(unsigned short x, short mode);
 void plot_gline(unsigned short x1, unsigned short y1,
                 unsigned short x2, unsigned short y2,
-                short mode);
+                short mode, int set_bit);
 void plot_top_obs(UINT32 *base, int x, int gap_y, int mode);
 void plot_bottom_obs(UINT32 *base, int x, int gap_y, int mode);
 void plot_obstacles(UINT32 *base, int x, int gap_y, int mode);          
