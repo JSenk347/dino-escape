@@ -107,8 +107,8 @@ void clear_far_left(UINT32 *base){
 		clear_region(base, x, y, 0x00000000);
 		clear_region(base, x + 2, y, 0x00000000);
 	}
-	clear_region(base, x, B_BORDER_Y - 33/*34*/, 0x00000000);
-	clear_region(base, x + 2, B_BORDER_Y - 33/*34*/, 0x00000000);
+	clear_region(base, x, B_BORDER_Y - 32, 0x00000000);
+	clear_region(base, x + 2, B_BORDER_Y - 32, 0x00000000);
 }
 
 
