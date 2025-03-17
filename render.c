@@ -185,18 +185,7 @@ void render_obs(const Model *model, UINT32 *base) {
                 plot_bitmap_32(base, top->bot_left.x, (top->bot_left.y) - 31, obs_bottom_edge_bitmap, HEIGHT_32);
 
                 /* Bottom obstacle */
-
-                /*Plot new lines - BOTTOM */
-                plot_gline(bottom->top_left.x, (bottom->top_left.y) + 31, bottom->top_left.x, bottom->bot_left.y, XOR);
-                plot_gline((bottom->top_left.x) + 1, (bottom->top_left.y) + 31, (bottom->top_left.x) + 1, bottom->bot_left.y, XOR);
-                plot_gline(bottom->top_right.x, (bottom->top_right.y) + 31, bottom->top_right.x, bottom->bot_right.y, XOR);
-                plot_gline((bottom->top_right.x) - 1, (bottom->top_right.y) + 31, (bottom->top_right.x) - 1, bottom->bot_right.y, XOR);
-                /* Clear old lines - BOTTOM */
-                plot_gline((bottom->top_left.x) + vel, (bottom->top_left.y) + 31, (bottom->top_left.x) + vel, bottom->bot_left.y, XOR);
-                plot_gline((bottom->top_left.x) + vel + 1, (bottom->top_left.y) + 31, (bottom->top_left.x) + vel + 1, bottom->bot_left.y, XOR);
-                plot_gline((bottom->top_right.x) + vel, (bottom->top_right.y) + 31, (bottom->top_right.x) + vel, bottom->bot_right.y, XOR);
-                plot_gline((bottom->top_right.x) + 1, (bottom->top_right.y) + 31, (bottom->top_right.x) + 1, bottom->bot_right.y, XOR);
-
+                draw_bot_lns(bottom, vel);
                 clear_region(base, bottom->top_left.x + vel, bottom->top_left.y, 0x00000000);
                 plot_bitmap_32(base, bottom->top_left.x, bottom->top_left.y, obs_top_edge_bitmap, HEIGHT_32);
 
@@ -221,8 +210,10 @@ void render_obs(const Model *model, UINT32 *base) {
 }
 
 /*******************************************************************************
-    PURPOSE: Draws the lines for the given Obs struct and clears previous lines
+    PURPOSE: Draws the lines for the given top Obs struct and clears previous 
+                lines
     INPUT:	- Obs - pointer to the given Obs
+            - vel - value of current obstacle speed
     OUTPUT: - N/A
 *******************************************************************************/
 void draw_top_lns(Obs *top, int vel) {
@@ -236,6 +227,26 @@ void draw_top_lns(Obs *top, int vel) {
     plot_gline((top->top_left.x) + vel + 1, T_BORDER_Y + 1, (top->top_left.x) + vel + 1, (top->bot_left.y) - 31, XOR);  /*        ||    ||     ||<-  ||    */
     plot_gline((top->top_right.x) + vel, T_BORDER_Y + 1, (top->top_right.x) + vel, (top->bot_right.y) - 31, XOR);       /*        ||    ||     ||    ||<-  */
     plot_gline((top->top_right.x) + 1, T_BORDER_Y + 1, (top->top_right.x) + 1, (top->bot_right.y) - 31, XOR);           /*        ||    ||     ||  ->||    */
+}
+
+/*******************************************************************************
+    PURPOSE: Draws the lines for the given bottom Obs struct and clears previous 
+                lines
+    INPUT:	- Obs - pointer to the given Obs
+            - vel - value of current obstacle speed
+    OUTPUT: - N/A
+*******************************************************************************/
+void draw_bot_lns(Obs *bottom, int vel) {
+    /*Plots new lines */
+    plot_gline(bottom->top_left.x, (bottom->top_left.y) + 31, bottom->top_left.x, bottom->bot_left.y, XOR);
+    plot_gline((bottom->top_left.x) + 1, (bottom->top_left.y) + 31, (bottom->top_left.x) + 1, bottom->bot_left.y, XOR);
+    plot_gline(bottom->top_right.x, (bottom->top_right.y) + 31, bottom->top_right.x, bottom->bot_right.y, XOR);
+    plot_gline((bottom->top_right.x) - 1, (bottom->top_right.y) + 31, (bottom->top_right.x) - 1, bottom->bot_right.y, XOR);
+    /* Clears old lines */
+    plot_gline((bottom->top_left.x) + vel, (bottom->top_left.y) + 31, (bottom->top_left.x) + vel, bottom->bot_left.y, XOR);
+    plot_gline((bottom->top_left.x) + vel + 1, (bottom->top_left.y) + 31, (bottom->top_left.x) + vel + 1, bottom->bot_left.y, XOR);
+    plot_gline((bottom->top_right.x) + vel, (bottom->top_right.y) + 31, (bottom->top_right.x) + vel, bottom->bot_right.y, XOR);
+    plot_gline((bottom->top_right.x) + 1, (bottom->top_right.y) + 31, (bottom->top_right.x) + 1, bottom->bot_right.y, XOR);
 }
 
 

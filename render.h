@@ -15,7 +15,7 @@ void render_score(const Model *model , UINT32 *base);
 void render_start(const Model *model , UINT32 *base);
 void render_obs(const Model *model , UINT32 *base);
 void draw_top_lns(Obs *top, int vel);
-/*void render_still_wall(Obs_wall *wall);*/
+void draw_bot_lns(Obs *bottom, int vel);
 /*void render_obs_2(const Model *model, UINT32 *base);*/
 void render_dino_dead(const Model *game, UINT32 *base); 
 
