@@ -164,15 +164,17 @@ void render_obs(const Model *model, UINT32 *base) {
             /* Only replots obstacles if no collision has occured */
             if (top -> prev_top_lt.x != top -> top_left.x) {
                 /* Top obstacle */
-                draw_top_lns(top, vel);
+                /*draw_top_lns(top, vel);*/
                 clr_top_lns(top, vel);
                 clear_region(base, top->bot_left.x + vel, (top->bot_left.y) - 31, 0x00000000);
+                draw_top_lns(top, vel);
                 plot_bitmap_32(base, top->bot_left.x, (top->bot_left.y) - 31, obs_bottom_edge_bitmap, HEIGHT_32);
 
                 /* Bottom obstacle */
-                draw_bot_lns(bottom, vel);
+                /*draw_bot_lns(bottom, vel);*/
                 clr_bot_lns(bottom, vel);
                 clear_region(base, bottom->top_left.x + vel, bottom->top_left.y, 0x00000000);
+                draw_bot_lns(bottom, vel);
                 plot_bitmap_32(base, bottom->top_left.x, bottom->top_left.y, obs_top_edge_bitmap, HEIGHT_32);
 
                 /* NO LONGER NEEDED */
