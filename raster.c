@@ -217,6 +217,11 @@ void plot_vline(unsigned short x, short mode)
 			- y1 the y coordinate of the start of the line
 			- x2 the x coordinate of the end of the line
 			- y2 the y coordinate of the end of the line
+			- mode the behaviour of the line:
+				- 0: replace
+				- 1: or		(will plot white/black line over all previous bits)
+				- 2: xor	
+				- 3: and
 	OUTPUT: N/A
 *****************************************************************************/
 void plot_gline(unsigned short x1, unsigned short y1,
@@ -228,9 +233,19 @@ void plot_gline(unsigned short x1, unsigned short y1,
 	Y1 = y1;
 	X2 = x2;
 	Y2 = y2;
-	LNMASK = 0xFFFF;
+
+	/* Sets colour (linea document) */
+	COLBIT0 = 1;
+    COLBIT1 = 1;
+    COLBIT2 = 1;
+    COLBIT3 = 1;
+	
+	LNMASK = 0xFFFF;	/* Solid line style (pattern) */
+	WMODE = mode; 		/* Writing mode */
+	LSTLIN = -1; 		/* changed from 0 to -1 as per linea document*/
+	/*LNMASK = 0xFFFF;
 	WMODE = mode;
-	LSTLIN = 0;
+	LSTLIN = 0;*/
 
 	/* plotting the line */
 	linea3();
