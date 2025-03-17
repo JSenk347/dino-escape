@@ -261,10 +261,3 @@ void render_obs(const Model *model, UINT32 *base) {
         }
     }
 }*/
-
-/*******************************************************************************
-    PURPOSE: Renders the current game score of the given game model
-    INPUT:	- model: Game model
-            - base: Base address of the screen
-    OUTPUT: - N/A
-*******************************************************************************/
