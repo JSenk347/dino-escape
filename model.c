@@ -67,9 +67,9 @@ void init_wall(Obs_wall *wall, int gap) {
 	bottom->top_right.y = gap + HALF_GAP;
 
 	bottom->bot_left.x = R_BORDER_X;
-	bottom->bot_left.y = B_BORDER_Y/* - 1*/;
+	bottom->bot_left.y = B_BORDER_Y - 1;
 	bottom->bot_right.x = R_BORDER_X + 31;
-	bottom->bot_right.y = B_BORDER_Y/* - 1*/;
+	bottom->bot_right.y = B_BORDER_Y - 1;
 
   /* Top Obstacle */
 	top->top_left.x = R_BORDER_X;

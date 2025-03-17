@@ -33,13 +33,13 @@ int main()
         {{32, 184}, {63, 184}, {32, 215}, {63, 215}, {32, 184}, 0, 0, 0}, /* Dino */
         {
             {{{640, 50}, {671, 50}, {640, 200}, {671, 200}},    /* Wall 1 - top */
-            {{640, 250 /*251*/}, {671, 250 /*251*/}, {640, 350 /*351*/}, {671, 350 /*351*/}},   /* Wall 1 - bottom */
+            {{640, 249 /*250*/}, {671, 249 /*250*/}, {640, 349 /*350*/}, {671, 349 /*350*/}},   /* Wall 1 - bottom */
             TRUE, FALSE, 200, OBS_START_SPEED},
             {{{640, 50}, {671, 50}, {640, 200}, {671, 200}},    /* Wall 2 - top */
-            {{640, 250 /*251*/}, {671, 250 /*251*/}, {640, 350 /*351*/}, {671, 350 /*351*/}},   /* Wall 2 - bottom */
+            {{640, 249 /*250*/}, {671, 249 /*250*/}, {640, 349 /*350*/}, {671, 349 /*350*/}},   /* Wall 2 - bottom */
             FALSE, FALSE, 200, OBS_START_SPEED},
             {{{640, 50}, {671, 50}, {640, 200}, {671, 200}},    /* Wall 3 - top */
-            {{640, 250 /*251*/}, {671, 250 /*251*/}, {640, 350 /*351*/}, {671, 350 /*351*/}},   /* Wall 3 - bottom */
+            {{640, 249 /*250*/}, {671, 249 /*250*/}, {640, 349 /*350*/}, {671, 349 /*350*/}},   /* Wall 3 - bottom */
             FALSE, FALSE, 200, OBS_START_SPEED},
         },
         {{{{505, 359}, {536, 359}, {505, 390}, {536, 390}, 0},  /* Ones digit */
@@ -71,7 +71,7 @@ int main()
 
      /* RUN GAME UNTIL GAME OVER*/ 
     while (game_over == FALSE) {
-        /* Checks for input pending*/ 
+        /* CHECKS FOR PENDING INPUT */ 
         /*read_input(&new_game);*/
         if (Cconis()) {
             key = (char)Cnecin();
@@ -80,18 +80,18 @@ int main()
             }*/
         }
 
-        /* Checks for clock tick */
+        /* CHECKS FOR CLOCK TICK */
         curr_time = get_time();
         time_elapsed = curr_time - prev_time;
         if (time_elapsed > 0) {
-            /* Process synchronous events */
-            process_input(&new_game, key);
-            key = NULL; /* Reset input key */
+            /* PROCESS SYNCHRONOUS EVENTS */
+            process_input(&new_game, key);  /* Moves dino */
+            key = NULL;                     /* Resets input key */
 
             move_walls(&new_game);
             check_collisions(&new_game);
                 
-            /* Render model (next frame)*/ 
+            /* RENDER MODEL (NEXT FRAME) */ 
             render_objs(&new_game, (UINT32 *)base);
              
             /*if (!new_game.game_state.dead_flag) {
