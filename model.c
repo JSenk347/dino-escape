@@ -20,8 +20,7 @@
 				to represent moving down
 	OUTPUT: N/A
 *******************************************************************************/
-void move_dino(Dino *dino)
-{
+void move_dino(Dino *dino) {
 	dino -> prev_top_lt.x = dino -> top_left.x;
 	dino -> prev_top_lt.y = dino -> top_left.y;
 
@@ -31,8 +30,7 @@ void move_dino(Dino *dino)
 	dino->bot_right.y += (dino->vert_velocity * dino->vert_direction);
 
 	/* Limits dino movement to top border of gamescreen */
-	if (dino->top_left.y <= T_BORDER_Y && dino->vert_direction == UP)
-	{
+	if (dino->top_left.y <= T_BORDER_Y && dino->vert_direction == UP) {
 		dino->vert_velocity = 0;
 		dino->top_left.y = T_BORDER_Y + 1;
 		dino->top_right.y = T_BORDER_Y + 1;
@@ -40,15 +38,13 @@ void move_dino(Dino *dino)
 		dino->bot_right.y = T_BORDER_Y + (DINO_HEIGHT + 1);
 	}
 	/* Limits dino movement to bottom border of gamescreen */
-  if (dino->bot_left.y >= B_BORDER_Y && dino->vert_direction == DOWN)
-	{
+  	if (dino->bot_left.y >= B_BORDER_Y && dino->vert_direction == DOWN)	{
 		dino->vert_velocity = 0;
-		dino->top_left.y = B_BORDER_Y - (DINO_HEIGHT + 1);
-		dino->top_right.y = B_BORDER_Y - (DINO_HEIGHT + 1);
-		dino->bot_left.y = B_BORDER_Y - 1;
-		dino->bot_right.y = B_BORDER_Y - 1;
+		dino->top_left.y = B_BORDER_Y - (DINO_HEIGHT /*+ 1*/);
+		dino->top_right.y = B_BORDER_Y - (DINO_HEIGHT /*+ 1*/);
+		dino->bot_left.y = B_BORDER_Y /*- 1*/;
+		dino->bot_right.y = B_BORDER_Y /*- 1*/;
 	}
-
 }
 
 /*******************************************************************************
@@ -58,8 +54,7 @@ void move_dino(Dino *dino)
 			- gap: the new gap of the wall.
 	OUTPUT: N/A
 *******************************************************************************/
-void init_wall(Obs_wall *wall, int gap)
-{
+void init_wall(Obs_wall *wall, int gap) {
 	/* NOT AN ISSUE WITH INIT*/
 	Obs *bottom = &(wall->bottom);
 	Obs *top = &(wall->top);
@@ -72,9 +67,9 @@ void init_wall(Obs_wall *wall, int gap)
 	bottom->top_right.y = gap + HALF_GAP;
 
 	bottom->bot_left.x = R_BORDER_X;
-	bottom->bot_left.y = B_BORDER_Y - 1;
+	bottom->bot_left.y = B_BORDER_Y/* - 1*/;
 	bottom->bot_right.x = R_BORDER_X + 31;
-	bottom->bot_right.y = B_BORDER_Y - 1;
+	bottom->bot_right.y = B_BORDER_Y/* - 1*/;
 
   /* Top Obstacle */
 	top->top_left.x = R_BORDER_X;

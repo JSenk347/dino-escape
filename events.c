@@ -32,13 +32,15 @@ void move_walls(Model *game)
     {
         Obs_wall *wall = &walls[i];
 
+        /* Iterates through each wall */
         if (i + 1 < NUM_WALLS)
         {
             Obs_wall *next_wall = &walls[i + 1];
-            if (next_wall->is_moving != TRUE &&
-                wall->bottom.bot_left.x <= WIN_WIDTH - (WIN_WIDTH / NUM_WALLS))
+            /* Initializes next wall if not yet moving */
+            if (next_wall -> is_moving != TRUE &&
+                wall -> bottom.bot_left.x <= WIN_WIDTH - (WIN_WIDTH / NUM_WALLS))
             {
-                next_wall->is_moving = TRUE;
+                next_wall -> is_moving = TRUE;
                 init_wall(next_wall, gap_y());
             }
         }
@@ -48,12 +50,22 @@ void move_walls(Model *game)
             Obs *top = &(wall->top);
             Obs *bottom = &(wall->bottom);
 
+            top -> prev_top_lt = top -> top_left;
+            bottom -> prev_top_lt = bottom -> top_left;
+
             if ((bottom->bot_right.x < L_BORDER_X && top->top_right.x < L_BORDER_X) && wall -> been_passed == TRUE)
             {
                 reset_wall(game, wall);
             }
 
-            h_vel = wall->hor_velocity;
+            /* Wall only moves if no collision has occured */
+            if (!(game -> game_state.dead_flag)) {
+                h_vel = wall -> hor_velocity;
+            }
+            else {
+                h_vel = 0;
+            }
+            /*h_vel = wall->hor_velocity;*/
 
             bottom->bot_left.x -= h_vel;
             bottom->bot_right.x -= h_vel;
@@ -64,7 +76,6 @@ void move_walls(Model *game)
             top->bot_right.x -= h_vel;
             top->top_left.x -= h_vel;
             top->top_right.x -= h_vel;
-            /* Checks if reset is needed */
         }
     }
 }
@@ -97,6 +108,9 @@ void check_collisions(Model *game)
             /*reflect_dino_death(game);*/ /* COMMENT THIS OUT FOR TESTING */
             game->game_state.dead_flag = TRUE;
             game->game_state.start_flag = FALSE;
+            /* Prevents walls from continuing to move after collision */
+            /* walls -> hor_velocity = 0;
+            walls -> is_moving = FALSE;*/
             return;
         }
 
@@ -111,6 +125,9 @@ void check_collisions(Model *game)
             /*reflect_dino_death(game);*/
             game->game_state.dead_flag = TRUE;
             game->game_state.start_flag = FALSE;
+            /* Prevents walls from continuing to move after collision */
+            /*walls -> hor_velocity = 0;
+            walls -> is_moving = FALSE;*/
             return;
         }
     }
@@ -176,6 +193,8 @@ void dino_mvd_up(Model *gameModel)
     gameModel->dino.vert_velocity = 5;
     gameModel->dino.vert_direction = UP;
     move_dino(&gameModel->dino);
+    gameModel->dino.vert_velocity = 0;
+    gameModel->dino.vert_direction = 0;
 }
 
 /*******************************************************************************
@@ -190,6 +209,8 @@ void dino_mvd_down(Model *gameModel)
     gameModel->dino.vert_velocity = 5;
     gameModel->dino.vert_direction = DOWN;
     move_dino(&gameModel->dino);
+    gameModel->dino.vert_velocity = 0;
+    gameModel->dino.vert_direction = 0;
 }
 
 /*******************************************************************************
@@ -375,7 +396,7 @@ void reflect_dino_death(Model *gameModel)
     /*
      while (gameModel->dino.bot_left.y <= (B_BORDER_Y - 1))
      {*/
-     gameModel->dino.vert_velocity = DEAD_VELOCITY;
+    gameModel->dino.vert_velocity = DEAD_VELOCITY;
 
     if (fell_on_obs(gameModel)){
         gameModel -> dino.vert_direction = 0;
