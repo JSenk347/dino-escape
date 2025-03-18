@@ -30,7 +30,7 @@ int main()
     /* INITIALIZE MODEL */
     void *base = Physbase();  
     void *front_buffer = base;  
-    void *back_buffer = Logbase();
+    void *back_buffer = (void *)(((UINT32)pre_buffer + 255) & 0xFFFFFF00L);
     Model new_game = {
         {{32, 184}, {63, 184}, {32, 215}, {63, 215}, {32, 184}, 0, 0, 0}, /* Dino */
         {
@@ -66,7 +66,7 @@ int main()
 
      /* RUN GAME UNTIL GAME OVER*/ 
     
-     while (!game_over) {
+    while (!game_over) { 
         /* CHECKS FOR PENDING INPUT */
         if (Cconis()) {
             key = (char)Cnecin();
@@ -92,7 +92,6 @@ int main()
             swap_buffer(&front_buffer, &back_buffer);
             
         }
-    
         if (new_game.game_state.lost_flag) {
             game_over = TRUE;
         }
