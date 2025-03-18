@@ -50,7 +50,7 @@ int main()
          0},                                                    /* Current score */
         {FALSE, FALSE, FALSE},                                  /* Game state */
     };
-    linea0();
+    /*linea0(); NO LONGER NEEDED*/ 
     /*disable_cursor(); Not needed here, already called in init_screen() */
 
     /* RENDER FIRST FRAME OF MODEL */
