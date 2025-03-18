@@ -20,5 +20,5 @@ void clr_top_lns(Obs *top, int vel);
 void clr_bot_lns(Obs *bottom, int vel);
 /*void render_obs_2(const Model *model, UINT32 *base);*/
 void render_dino_dead(const Model *game, UINT32 *base); 
-
+void swap_buffer(void **front, void **back);
 #endif

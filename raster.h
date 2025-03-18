@@ -11,6 +11,7 @@
 
 typedef unsigned long UINT32;
 typedef unsigned int UINT16;
+typedef unsigned char UINT8; 
 
 void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height);
 void clear_rect(UINT16 *base, int x, int y, int width, int height);

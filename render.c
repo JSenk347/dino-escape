@@ -284,3 +284,12 @@ void clr_bot_lns(Obs *bottom, int vel) {
         }
     }
 }*/
+
+void swap_buffer(void **front, void **back){
+    void *temp = *front;
+    *front = *back;
+    *back = temp;
+    Vsync();
+    Setscreen(-1, *front, -1);
+    Vsync();
+}
