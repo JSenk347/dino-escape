@@ -18,6 +18,7 @@
 #include <osbind.h>
 #include <linea.h>
 
+UINT8 pre_buffer[32255]; /* 32255 = 320 * 200 + 15 */
 
 int main()
 {
@@ -28,7 +29,8 @@ int main()
     
     /* INITIALIZE MODEL */
     void *base = Physbase();
-    
+    void *back_buffer = (void *)(((UINT32)pre_buffer + 255) & 0xFFFFFF00L);
+    void *front_buffer = base;
     Model new_game = {
         {{32, 184}, {63, 184}, {32, 215}, {63, 215}, {32, 184}, 0, 0, 0}, /* Dino */
         {
@@ -54,65 +56,52 @@ int main()
     /*disable_cursor(); Not needed here, already called in init_screen() */
 
     /* RENDER FIRST FRAME OF MODEL */
-    init_screen(&new_game, (UINT16 *)base);
-    render_objs(&new_game, (UINT32 *)base);
+     /* CLEAR SCREEN BUFFERS 
+     clear_screen((UINT16 *)front_buffer, 0);
+     clear_screen((UINT16 *)back_buffer, 0); */
+    init_screen(&new_game, (UINT16 *)back_buffer); 
+    init_screen(&new_game, (UINT16 *)front_buffer);
+    render_objs(&new_game, (UINT32 *)back_buffer);
+    render_objs(&new_game, (UINT32 *)front_buffer);
 
-     /* RUN GAME UNTIL GAME OVER 
-     while (game_over == FALSE){
-        move_walls(&new_game);
-        read_input(&new_game);
-        check_collisions(&new_game);
-        check_score(&new_game);
-
-        if (new_game.game_state.lost_flag == TRUE){
-            game_over = TRUE;
-        }
-     }*/
 
      /* RUN GAME UNTIL GAME OVER*/ 
-    while (game_over == FALSE) {
-        /* CHECKS FOR PENDING INPUT */ 
-        /*read_input(&new_game);*/
+     while (!game_over) {
+        /* CHECKS FOR PENDING INPUT */
         if (Cconis()) {
             key = (char)Cnecin();
-            /*while (Cconis()) {
-                Cnecin();
-            }*/
         }
-
-        /* CHECKS FOR CLOCK TICK */
+    
+        /* CHECK TIME */
         curr_time = get_time();
         time_elapsed = curr_time - prev_time;
         if (time_elapsed > 0) {
-            /* PROCESS SYNCHRONOUS EVENTS */
-            process_input(&new_game, key);  /* Moves dino */
-            key = NULL;                     /* Resets input key */
-
+            prev_time = curr_time;
+    
+            /* PROCESS INPUT */
+            process_input(&new_game, key);
+            key = 0;
+    
             move_walls(&new_game);
             check_collisions(&new_game);
-                
-            /* RENDER MODEL (NEXT FRAME) */ 
-            render_objs(&new_game, (UINT32 *)base);
-             
-            /*if (!new_game.game_state.dead_flag) {
-                move_walls(&new_game);
-                check_collisions(&new_game);
-                
-                /* Render model (next frame)*/ 
-                /*render_objs(&new_game, (UINT32 *)base);
-            }
-            else {
-                reflect_dino_death(&new_game);
+    
+            /* RENDER TO BACK BUFFER */
+            render_objs(&new_game, (UINT32 *)back_buffer);
+    
+            /* SWAP BUFFERS (Vsync is already in swap_buffer) */
+            swap_buffer(&front_buffer, &back_buffer);
 
-                 /*Render model (next frame) */
-                /*render_objs(&new_game, (UINT32 *)base);
-            }*/
+            while (Cnecin() != '\r'); 
+        }
+    
+        if (new_game.game_state.lost_flag) {
+            game_over = TRUE;
+        }
+    }
+    
+    
 
-            prev_time = curr_time;
-        }
-         if (new_game.game_state.lost_flag == TRUE) {
-             game_over = TRUE;
-        }
-    } 
+    Setscreen(-1, base, -1);
     return 0;
 }
+
