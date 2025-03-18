@@ -47,6 +47,6 @@ typedef struct
 } Game_Over;
 
 /* FUNCTION DECLARATIONS */
-void play_note();
+void play_note(Note *note, char channel);
 
 #endif
