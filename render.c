@@ -53,6 +53,7 @@ void render_objs(const Model *new_game, UINT32 *base)
 {
     render_obs(new_game, base);
     render_dino(new_game, base);
+    
     if (check_score(new_game))
     {
         render_score(new_game, (UINT32 *)base);
@@ -289,7 +290,8 @@ void swap_buffer(void **front, void **back){
     void *temp = *front;
     *front = *back;
     *back = temp;
-    Vsync();
     Setscreen(-1, *front, -1);
     Vsync();
 }
+
+
