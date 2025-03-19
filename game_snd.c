@@ -19,6 +19,8 @@ REGISTER SELECTIONS:
 		Controls enabling/diabling tone and noise for ALL channels at once
 	*/
 
+/* BREAK UP INTO set_note(), set_volume(), enable_channel()*/
+
 void play_note(Note *note, char channel)
 {
 	volatile char *PSG_reg_select = 0xFF8800;
@@ -26,7 +28,7 @@ void play_note(Note *note, char channel)
 	long old_ssp = Super(0);
 
 	int fine_reg, coarse_reg, volume_reg;
-	unsigned char mixer = 0x3F;
+	unsigned char mixer = 0x3F; /* disables all channels */
 
 	switch (channel)
 	{
@@ -69,11 +71,39 @@ void play_note(Note *note, char channel)
 	*PSG_reg_select = volume_reg; /* set channel A volume = 11 */
 	*PSG_reg_write = VOL_ON;
 
-	while (!Cconis()); /* tone now playing, await key */
+	/*while (!Cconis());  tone now playing, await key 
 		
-	*PSG_reg_select = volume_reg; /* set channel A volume = 0 */
+	*PSG_reg_select = volume_reg;  set channel A volume = 0 
 	*PSG_reg_write = 0;
 
-	Cnecin();
+	Cnecin();*/
+	Super(old_ssp);
+}
+
+void disable_channel(char channel){
+
+	volatile char *PSG_reg_select = 0xFF8800;
+	volatile char *PSG_reg_write = 0xFF8802;
+	long old_ssp = Super(0);
+
+	int volume_reg;
+
+	switch (channel)
+	{
+	case 'A':
+		volume_reg = 8;
+		break;
+	case 'B':
+		volume_reg = 9;
+		break;
+	case 'C':
+		volume_reg = 10;
+		break;
+	default:
+		Super(old_ssp);
+		return;
+	}
+
+	*PSG_reg_write = 0;
 	Super(old_ssp);
 }

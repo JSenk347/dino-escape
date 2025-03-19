@@ -48,5 +48,6 @@ typedef struct
 
 /* FUNCTION DECLARATIONS */
 void play_note(Note *note, char channel);
+void disable_channel(char channel);
 
 #endif

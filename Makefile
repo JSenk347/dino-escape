@@ -12,7 +12,7 @@ REN = tst_ren
 ESC_OBJ = model.o events.o render.o raster.o bitmaps.o input.o clock.o dino_esc.o
 ESC = dino_esc
 
-SND_OBJS = tst_snd.o game_snd.o
+SND_OBJS = tst_snd.o game_snd.o clock.o
 SND = tst_snd
 
 all: raster model render game sound
@@ -74,7 +74,7 @@ tst_mod.o: tst_mod.c tst_mod.h model.h
 dino_esc.o: dino_esc.c
 	$(CC) -c dino_esc.c
 
-tst_snd.o: tst_snd.c game_snd.h
+tst_snd.o: tst_snd.c game_snd.h clock.h
 	$(CC) -c tst_snd.c
 
 clean: clean_model clean_raster clean_render clean_game clean_sound
