@@ -1,13 +1,19 @@
 #ifndef PSG_H
 #define PSG_H
 
-typedef char UINT8;
-typedef unsigned int bool;
+#include <osbind.h>
 
 #define TRUE 1
 #define FALSE 0
+#define VOL_ON 11
+#define VOL_OFF 0
 #define PSG_REG_ADR 0xFF8800
 #define PSG_WRITE_ADR 0xFF802
+#define yield while(!Cconis()){}Cnecin(); /*a MACRO - awaits keypress till next insturction*/
+
+typedef char UINT8;
+typedef unsigned int bool;
+
 
 /* Sharp Notes: Indicated by uppercase; Flat Notes: indicated by lowercase*/
 
@@ -81,7 +87,7 @@ UINT8 read_psg(int reg);
  * @param note A pointer to the note you'd like to set the channel to
  * @return none
  */
-void set_tone(int channel, Note *note);
+void set_tone(Channel channel, Note note);
 
 /**
  * @brief Loads the colume register for the specified channel
@@ -89,7 +95,7 @@ void set_tone(int channel, Note *note);
  * @param volume The volume you'd like to set the channel to
  * @return none
  */
-void set_volume(int channel, int volume);
+void set_volume(Channel channel, int volume);
 
 /**
  * @brief Enables the tone and/or noise of a specified channel
@@ -98,7 +104,7 @@ void set_volume(int channel, int volume);
  * @param noise_on Whether you're enabling noise or not (background noise)
  * @return none
  */
-void enable_channel(int channel, bool tone_on, bool noise_on);
+void enable_channel(Channel channel, bool tone_on, bool noise_on);
 
 /**
  * @brief Silences all PSG sound production via the mixer

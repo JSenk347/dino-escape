@@ -28,8 +28,6 @@ REGISTER SELECTIONS:
 		Controls enabling/diabling tone and noise for ALL channels at once
 	*/
 
-/* BREAK UP INTO set_note(), set_volume(), enable_channel()*/
-
 void play_note(Note *note, char channel)
 {
 	volatile char *PSG_reg_select = 0xFF8800;

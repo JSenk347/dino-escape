@@ -29,12 +29,27 @@ UINT8 read_psg(int reg)
     return PSG_reg_val;
 };
 
+
+void set_tone(Channel channel, Note note){
+    write_psg(channel.coarse_reg, note.coarse);
+    write_psg(channel.fine_reg, note.fine);
+};
+
+
+void set_volume(Channel channel, int volume){
+    if (volume >= 0 && volume <= 30){
+        write_psg(channel.volume_reg, volume);
+    }
+};
+
+
+void enable_channel(Channel channel, bool tone_on, bool noise_on){
+
+    if ((tone_on == TRUE || tone_on == FALSE) && (noise_on == TRUE || noise_on == FALSE)){
+
+    }
+}
+
 /*
-void set_tone(int channel, Note *note);
-
-void set_volume(int channel, int volume);
-
-void enable_channel(int channel, bool tone_on, bool noise_on);
-
 void stop_sound();
 */
