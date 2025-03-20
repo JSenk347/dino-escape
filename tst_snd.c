@@ -1,4 +1,4 @@
-#include "game_snd.h"
+#include "sound.h"
 #include "clock.h"
 #include <osbind.h>
 

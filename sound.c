@@ -1,5 +1,14 @@
-#include "game_snd.h"
+#include "sound.h"
+#include "psg.h"
 #include <osbind.h>
+
+/**
+	FILE PURPOSE: The file must be used for the creation of sound effects generated
+	during gameplay.
+	REQUIREMENTS:
+		- Sound effect triggered by asynchronus event
+		- Sound effect triggered by synchronous event
+ */
 
 /*
 REGISTER SELECTIONS:
