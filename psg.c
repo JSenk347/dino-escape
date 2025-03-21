@@ -1,5 +1,6 @@
 #include "psg.h"
 #include <osbind.h>
+#include <stdio.h>
 
 void write_psg(int reg, UINT8 val)
 {
@@ -13,7 +14,7 @@ void write_psg(int reg, UINT8 val)
         *PSG_reg_write = val;
     }
     Super(old_ssp); /* exit privelaged mode */
-};
+}
 
 UINT8 read_psg(int reg)
 {
@@ -27,28 +28,28 @@ UINT8 read_psg(int reg)
     }
     Super(old_ssp); /* exit privelaged mode */
     return PSG_reg_val;
-};
+}
 
 
 void set_tone(Channel channel, Note note){
     write_psg(channel.coarse_reg, note.coarse);
     write_psg(channel.fine_reg, note.fine);
-};
+}
 
 
 void set_volume(Channel channel, int volume){
     if (volume >= 0 && volume <= 30){
         write_psg(channel.volume_reg, volume);
     }
-};
+}
 
 
 void enable_channel(UINT8 channel, bool tone_on, bool noise_on){
     /* 1 means OFF and 0 means ON in the mixer register*/
     UINT8 tone_bit, noise_bit, mixer_setting;
 
-    if ((tone_on == TRUE || tone_on == FALSE) && (noise_on == TRUE || noise_on == FALSE)
-        && (channel <= CHANNEL_A && channel >= CHANNEL_C))
+    if ((tone_on || !tone_on) && (noise_on || !noise_on)
+        && (channel >= CHANNEL_A && channel <= CHANNEL_C))
     {
         tone_bit = 1 << channel;
         noise_bit = 1 << (channel + 3);

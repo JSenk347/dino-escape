@@ -9,7 +9,7 @@
 #define VOL_OFF 0
 #define MIXER_REG 7
 #define PSG_REG_ADR 0xFF8800
-#define PSG_WRITE_ADR 0xFF802
+#define PSG_WRITE_ADR 0xFF8802
 #define wait while(!Cconis()){}Cnecin(); /*a MACRO - awaits keypress till next insturction*/
 
 typedef char UINT8;
@@ -122,12 +122,6 @@ void enable_channel(UINT8 channel, bool tone_on, bool noise_on);
 void stop_sound();
 
 /*********************NON-REQUIRED FUNCTIONS*********************/
-
-Scale init_scale(){
-     /*                g4        c5        e4        d4        D4        c4        C4   */
-    Scale scale = {{159, 0}, {119, 0}, {190, 0}, {213, 0}, {201, 0}, {239, 0}, {225, 0}};
-    return scale;
-}
 
 
 #endif
