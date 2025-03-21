@@ -43,10 +43,29 @@ void set_volume(Channel channel, int volume){
 };
 
 
-void enable_channel(Channel channel, bool tone_on, bool noise_on){
+void enable_channel(UINT8 channel, bool tone_on, bool noise_on){
+    /* 1 means OFF and 0 means ON in the mixer register*/
+    UINT8 tone_bit, noise_bit, mixer_setting;
 
-    if ((tone_on == TRUE || tone_on == FALSE) && (noise_on == TRUE || noise_on == FALSE)){
+    if ((tone_on == TRUE || tone_on == FALSE) && (noise_on == TRUE || noise_on == FALSE)
+        && (channel <= CHANNEL_A && channel >= CHANNEL_C))
+    {
+        tone_bit = 1 << channel;
+        noise_bit = 1 << (channel + 3);
 
+        mixer_setting = read_psg(MIXER_REG); /* reads current mixer setting */
+
+        if (tone_on){
+            mixer_setting &= ~tone_bit;
+        } else {
+            mixer_setting |= tone_bit;
+        }
+        if (noise_on){
+            mixer_setting &= ~noise_bit;
+        } else {
+            mixer_setting |= noise_bit;
+        }
+        write_psg(MIXER_REG, mixer_setting);
     }
 }
 

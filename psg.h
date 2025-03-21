@@ -7,9 +7,10 @@
 #define FALSE 0
 #define VOL_ON 11
 #define VOL_OFF 0
+#define MIXER_REG 7
 #define PSG_REG_ADR 0xFF8800
 #define PSG_WRITE_ADR 0xFF802
-#define yield while(!Cconis()){}Cnecin(); /*a MACRO - awaits keypress till next insturction*/
+#define wait while(!Cconis()){}Cnecin(); /*a MACRO - awaits keypress till next insturction*/
 
 typedef char UINT8;
 typedef unsigned int bool;
@@ -23,6 +24,14 @@ typedef struct
     int coarse_reg;
     int volume_reg;
 } Channel;
+
+typedef enum
+{
+    CHANNEL_A,
+    CHANNEL_B,
+    CHANNEL_C,
+    NUM_CHANNELS
+} ChannelName;
 
 typedef struct
 {
@@ -104,7 +113,7 @@ void set_volume(Channel channel, int volume);
  * @param noise_on Whether you're enabling noise or not (background noise)
  * @return none
  */
-void enable_channel(Channel channel, bool tone_on, bool noise_on);
+void enable_channel(UINT8 channel, bool tone_on, bool noise_on);
 
 /**
  * @brief Silences all PSG sound production via the mixer
@@ -113,5 +122,12 @@ void enable_channel(Channel channel, bool tone_on, bool noise_on);
 void stop_sound();
 
 /*********************NON-REQUIRED FUNCTIONS*********************/
+
+Scale init_scale(){
+     /*                g4        c5        e4        d4        D4        c4        C4   */
+    Scale scale = {{159, 0}, {119, 0}, {190, 0}, {213, 0}, {201, 0}, {239, 0}, {225, 0}};
+    return scale;
+}
+
 
 #endif
