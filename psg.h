@@ -25,14 +25,6 @@ typedef struct
     int volume_reg;
 } Channel;
 
-typedef enum
-{
-    CHANNEL_A,
-    CHANNEL_B,
-    CHANNEL_C,
-    NUM_CHANNELS
-} ChannelName;
-
 typedef struct
 {
     int fine;
@@ -73,6 +65,14 @@ typedef struct
     Note c4;
     unsigned int num_notes;
 } Game_Over;
+
+typedef enum
+{
+    CHANNEL_A,
+    CHANNEL_B,
+    CHANNEL_C,
+    NUM_CHANNELS
+} ChannelName;
 
 /******************REQUIRED FUNCTIONS****************** */
 

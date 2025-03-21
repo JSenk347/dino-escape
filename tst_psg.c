@@ -3,11 +3,7 @@
 
 int main()
 {
-    /*
-    Channel A = {0, 1, 8};
-    Channel B = {2, 3, 9};
-    Channel C = {4, 5, 10};
-    */
+
     
     Channel channels[NUM_CHANNELS];
     channels[CHANNEL_A].fine_reg = 0;
@@ -20,7 +16,14 @@ int main()
     channels[CHANNEL_C].coarse_reg = 5;
     channels[CHANNEL_C].coarse_reg = 10;
 
+    /*
     Scale scale = init_scale();
+
+    */
+    
+    Note notes[1] = {{159, 0}};
+    Note note = {159, 0};
+
     /*
     Lvl_up lvl_up = {{159, 0}, {119, 0}, 2};
     Game_Over game_over = {{190, 0}, {201, 0}, {213, 0}, {225, 0}, {239, 0}, 5};
@@ -34,7 +37,7 @@ int main()
     */
 
     
-    set_tone(channels[CHANNEL_A], scale.C4);
+    set_tone(channels[CHANNEL_A], notes[0]);
     set_volume(channels[CHANNEL_A], VOL_ON);
     enable_channel(CHANNEL_A, TRUE, FALSE);
     wait;
