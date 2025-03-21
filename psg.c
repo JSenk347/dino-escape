@@ -70,6 +70,7 @@ void enable_channel(UINT8 channel, bool tone_on, bool noise_on){
     }
 }
 
-/*
-void stop_sound();
-*/
+void stop_sound(){
+    /* 0x3F = 0011 1111 is the mixer setting to disable all tone and noise on all channels */
+    write_psg(MIXER_REG, 0x3F);
+}

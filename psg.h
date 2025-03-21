@@ -116,7 +116,7 @@ void set_volume(Channel channel, int volume);
 void enable_channel(UINT8 channel, bool tone_on, bool noise_on);
 
 /**
- * @brief Silences all PSG sound production via the mixer
+ * @brief Silences all PSG sound production via the mixer and volume registers
  * @return none
  */
 void stop_sound();
