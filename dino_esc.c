@@ -18,6 +18,9 @@
 #include <osbind.h>
 #include <linea.h>
 
+UINT8 pre_buffer[32255]; /* 32255 = 320 * 200 + 15 */
+UINT8 pre_buffer1[32255]; 
+
 
 int main()
 {
@@ -27,7 +30,10 @@ int main()
     bool game_over = FALSE;
     
     /* INITIALIZE MODEL */
-    void *base = Physbase();
+    void *base = Physbase();  
+    void *back_buffer = base;  
+    void *back1_buffer = (void *)(((UINT32)pre_buffer + 255) & 0xFFFFFF00L); 
+    void *back2_buffer = base; 
     
     Model new_game = {
         {{32, 184}, {63, 184}, {32, 215}, {63, 215}, {32, 184}, 0, 0, 0}, /* Dino */
@@ -54,9 +60,10 @@ int main()
     /*disable_cursor(); Not needed here, already called in init_screen() */
 
     /* RENDER FIRST FRAME OF MODEL */
-    init_screen(&new_game, (UINT16 *)base);
-    render_objs(&new_game, (UINT32 *)base);
-
+    init_screen(&new_game, (UINT16 *)back2_buffer);
+    init_screen(&new_game, (UINT16 *)back1_buffer);
+    render_objs(&new_game, (UINT32 *)back2_buffer);
+    render_objs(&new_game, (UINT32 *)back1_buffer);
      /* RUN GAME UNTIL GAME OVER 
      while (game_over == FALSE){
         move_walls(&new_game);
@@ -94,8 +101,10 @@ int main()
             check_collisions(&new_game);
                 
             /* RENDER MODEL (NEXT FRAME) */ 
-            render_objs(&new_game, (UINT32 *)base);
-             
+            render_objs(&new_game, (UINT32 *)back2_buffer);
+            swap_buffer(&back1_buffer, &back2_buffer); 
+            clear_cave_region((UINT32 *)back2_buffer);
+            /*clear_cave_region((UINT32 *)back2_buffer); */
             /*if (!new_game.game_state.dead_flag) {
                 move_walls(&new_game);
                 check_collisions(&new_game);
@@ -116,5 +125,6 @@ int main()
              game_over = TRUE;
         }
     } 
+    Setscreen(-1, base, -1);
     return 0;
 }

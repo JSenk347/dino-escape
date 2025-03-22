@@ -54,10 +54,9 @@ void render_objs(const Model *new_game, UINT32 *base)
     render_obs(new_game, base);
     render_dino(new_game, base);
     
-    if (check_score(new_game))
-    {
-        render_score(new_game, (UINT32 *)base);
-    }
+    check_score(new_game);
+    render_score(new_game, (UINT32 *)base);
+    
 }
 
 /*******************************************************************************
@@ -166,13 +165,13 @@ void render_obs(const Model *model, UINT32 *base) {
             if (top -> prev_top_lt.x != top -> top_left.x) {
                 /* Top obstacle */
                 clr_top_lns(base, top, vel);
-                clear_region(base, top->bot_left.x + vel, (top->bot_left.y) - 31, 0x00000000);
+                clear_region(base, top->bot_left.x + vel*2, (top->bot_left.y) - 31, 0x00000000);
                 draw_top_lns(base, top, vel);
                 plot_bitmap_32(base, top->bot_left.x, (top->bot_left.y) - 31, obs_bottom_edge_bitmap, HEIGHT_32);
 
                 /* Bottom obstacle */
                 clr_bot_lns(base, bottom, vel);
-                clear_region(base, bottom->top_left.x + vel, bottom->top_left.y, 0x00000000);
+                clear_region(base, bottom->top_left.x + vel*2, bottom->top_left.y, 0x00000000);
                 draw_bot_lns(base, bottom, vel);
                 plot_bitmap_32(base, bottom->top_left.x, bottom->top_left.y, obs_top_edge_bitmap, HEIGHT_32);
 
@@ -240,10 +239,10 @@ void draw_bot_lns(UINT32 *base, Obs *bottom, int vel) {
     OUTPUT: - N/A
 *******************************************************************************/
 void clr_top_lns(UINT32 *base, Obs *top, int vel) {
-    plot_vline((UINT8 *)base, (top->top_left.x) + vel, T_BORDER_Y + 1, (top->bot_left.y) - 31, 0);          /*      ->||    ||      */
-    plot_vline((UINT8 *)base, (top->top_left.x) + vel + 1, T_BORDER_Y + 1, (top->bot_left.y) - 31, 0);      /*        ||<-  ||      */
-    plot_vline((UINT8 *)base, (top->top_right.x) + vel - 1, T_BORDER_Y + 1, (top->bot_right.y) - 31, 0);    /*        ||  ->||      */
-    plot_vline((UINT8 *)base, (top->top_right.x) + vel, T_BORDER_Y + 1, (top->bot_right.y) - 31, 0);        /*        ||    ||<-    */
+    plot_vline((UINT8 *)base, (top->top_left.x) + vel*2, T_BORDER_Y + 1, (top->bot_left.y) - 31, 0);          /*      ->||    ||      */
+    plot_vline((UINT8 *)base, (top->top_left.x) + vel*2 + 1, T_BORDER_Y + 1, (top->bot_left.y) - 31, 0);      /*        ||<-  ||      */
+    plot_vline((UINT8 *)base, (top->top_right.x) + vel*2 - 1, T_BORDER_Y + 1, (top->bot_right.y) - 31, 0);    /*        ||  ->||      */
+    plot_vline((UINT8 *)base, (top->top_right.x) + vel*2, T_BORDER_Y + 1, (top->bot_right.y) - 31, 0);        /*        ||    ||<-    */
     
     /*plot_gline((top->top_left.x) + vel, T_BORDER_Y + 1, (top->top_left.x) + vel, (top->bot_left.y) - 31, AND, 0);                       /*   NEW  ||    ||OLD->||    ||    
     plot_gline((top->top_left.x) + vel + 1, T_BORDER_Y + 1, (top->top_left.x) + vel + 1, (top->bot_left.y) - 31, AND, 0);               /*        ||    ||     ||<-  ||    
@@ -258,10 +257,10 @@ void clr_top_lns(UINT32 *base, Obs *top, int vel) {
     OUTPUT: - N/A
 *******************************************************************************/
 void clr_bot_lns(UINT32 *base, Obs *bottom, int vel) {
-    plot_vline((UINT8 *)base, (bottom->top_left.x) + vel, (bottom->top_left.y) + 31, bottom->bot_left.y, 0);        /*      ->||    ||      */
-    plot_vline((UINT8 *)base, (bottom->top_left.x) + vel + 1, (bottom->top_left.y) + 31, bottom->bot_left.y, 0);    /*        ||<-  ||      */
-    plot_vline((UINT8 *)base, (bottom->top_right.x) + vel - 1, (bottom->top_right.y) + 31, bottom->bot_right.y, 0); /*        ||  ->||      */
-    plot_vline((UINT8 *)base, (bottom->top_right.x) + vel, (bottom->top_right.y) + 31, bottom->bot_right.y, 0);     /*        ||    ||<-    */
+    plot_vline((UINT8 *)base, (bottom->top_left.x) + vel*2, (bottom->top_left.y) + 31, bottom->bot_left.y, 0);        /*      ->||    ||      */
+    plot_vline((UINT8 *)base, (bottom->top_left.x) + vel*2 + 1, (bottom->top_left.y) + 31, bottom->bot_left.y, 0);    /*        ||<-  ||      */
+    plot_vline((UINT8 *)base, (bottom->top_right.x) + vel*2 - 1, (bottom->top_right.y) + 31, bottom->bot_right.y, 0); /*        ||  ->||      */
+    plot_vline((UINT8 *)base, (bottom->top_right.x) + vel*2, (bottom->top_right.y) + 31, bottom->bot_right.y, 0);     /*        ||    ||<-    */
     
     /*plot_gline((bottom->top_left.x) + vel, (bottom->top_left.y) + 31, (bottom->top_left.x) + vel, bottom->bot_left.y, AND, 0);          /*   NEW  ||    ||OLD->||    ||    
     plot_gline((bottom->top_left.x) + vel + 1, (bottom->top_left.y) + 31, (bottom->top_left.x) + vel + 1, bottom->bot_left.y, AND, 0);  /*        ||    ||     ||<-  ||    
