@@ -224,6 +224,36 @@ void plot_bline(UINT32 *base, int y, int x1, int x2) {
 }*/
 
 /******************************************************************************
+	PURPOSE: To plot a 2 pixel thick vertical line with the given x, y1, and y2
+				coordinates where the line starts at (x,y1) and ends at (x,y2)
+	INPUT: 	- *base	pointer to the frame buffer
+			- x the x coordinate to plot the line at
+			- y1 the y coordinate where the line begins
+			- y2 the y coordinate where the line end
+			- mode the behaviour of the line:
+				- 0: CLEAR
+				- 1: SET			
+	OUTPUT: N/A
+******************************************************************************/
+void plot_vline(UINT8 *base, int x, int y1, int y2, int mode) {	
+	UINT8 set_pattern, clear_pattern; 
+	UINT8 *pixel_addr; 
+	
+	set_pattern = 1 << (7 - (x & 7));
+	clear_pattern = ~(1 << (7 - (x & 7))); 
+	
+	pixel_addr = base + y1 * 80 + (x >> 3); 
+	for ( ; y1 <= y2; y1++) { 
+		if (mode == 1) {
+			*pixel_addr |= (set_pattern);
+		} else {
+			*pixel_addr &= (clear_pattern);
+		}
+		pixel_addr = pixel_addr + 80;
+	}
+}
+
+/******************************************************************************
 	PURPOSE: To plot a vertical line at a specified x coordinate
 	INPUT: 	- x the x coordinate to plot the line at
 			- mode the behaviour of the line:
@@ -233,7 +263,7 @@ void plot_bline(UINT32 *base, int y, int x1, int x2) {
 				- 3: and				
 	OUTPUT: N/A
 ******************************************************************************/
-void plot_vline(unsigned short x, short mode)
+/*void plot_vline(unsigned short x, short mode)
 {
 	X1 = x;
 	Y1 = 0;
@@ -243,7 +273,7 @@ void plot_vline(unsigned short x, short mode)
 	WMODE = mode;
 	LSTLIN = 0;
 	linea3();
-}
+}*/
 
 /*****************************************************************************
 	PURPOSE: To plot a general line at specified x1, y1, x2, and y2 coordinates
@@ -259,19 +289,19 @@ void plot_vline(unsigned short x, short mode)
 			- set_bit determines the color of the line (1: black 0: white)
 	OUTPUT: N/A
 *****************************************************************************/
-void plot_gline(unsigned short x1, unsigned short y1,
+/*void plot_gline(unsigned short x1, unsigned short y1,
 				unsigned short x2, unsigned short y2,
 				short mode, int set_bit)
 {
-	/* Sets line start point coordinates */
+	/* Sets line start point coordinates 
 	X1 = x1; 
 	Y1 = y1;
 
-	/* Sets line end point coordinates */
+	/* Sets line end point coordinates 
 	X2 = x2;
 	Y2 = y2;
 
-	/* Sets colour to 0 (white) or 1 (black) (linea document) */
+	/* Sets colour to 0 (white) or 1 (black) (linea document) 
 	COLBIT0 = set_bit;
     COLBIT1 = set_bit;
     COLBIT2 = set_bit;
@@ -284,16 +314,16 @@ void plot_gline(unsigned short x1, unsigned short y1,
 	else {
 		LNMASK = 0xFFFF;
 	}
-	WMODE = mode; 		/* Writing mode */
-	LSTLIN = -1; 		/* changed from 0 to -1 as per linea document*/
+	WMODE = mode; 		/* Writing mode 
+	LSTLIN = -1; 		/* changed from 0 to -1 as per linea document
 
 	/*LNMASK = 0xFFFF;
 	WMODE = mode;
-	LSTLIN = 0;*/
+	LSTLIN = 0;
 
-	/* plotting the line */
+	/* plotting the line 
 	linea3();
-}
+} */
 
 /*******************************************************************************
 	PURPOSE: Plots the upper and lower borders of the game
