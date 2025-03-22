@@ -30,6 +30,14 @@ typedef struct
     int coarse;
 } Note;
 
+typedef struct 
+{
+    int fine;
+    int coarse;
+    int hold_time;
+} SongNote;
+
+
 typedef struct
 {
     Note g4; /*{159,0}*/
