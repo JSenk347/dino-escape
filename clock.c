@@ -1,6 +1,8 @@
 #include "clock.h"
 #include <osbind.h>
 
+typedef unsigned long UINT32;
+
 UINT32 get_time() {
     long *timer = (long *)0x462;
     long time_now;
