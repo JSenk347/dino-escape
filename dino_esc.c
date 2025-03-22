@@ -25,6 +25,7 @@ UINT8 pre_buffer1[32255];
 int main()
 {
     char key;
+    int x;  
     int i;
     UINT32 curr_time, prev_time, time_elapsed;
     bool game_over = FALSE;
@@ -80,6 +81,11 @@ int main()
     while (game_over == FALSE) {
         /* CHECKS FOR PENDING INPUT */ 
         /*read_input(&new_game);*/
+        if (new_game.game_state.dead_flag && x != TRUE){
+            render_objs(&new_game, (UINT32 *)back2_buffer);
+            render_objs(&new_game, (UINT32 *)back1_buffer);
+            x = TRUE;
+        }
         if (Cconis()) {
             key = (char)Cnecin();
             /*while (Cconis()) {

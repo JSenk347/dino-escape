@@ -191,6 +191,20 @@ void render_obs(const Model *model, UINT32 *base) {
                 if (wall -> top.top_left.x <= L_BORDER_X + 2) {
                     clear_far_left(base);
                 }
+                if (model->game_state.dead_flag){
+                    /* Top obstacle */
+                    vel = vel/2;
+                    clr_top_lns(base, top, vel);
+                    clear_region(base, top->bot_left.x, (top->bot_left.y) - 31, 0x00000000);
+                    draw_top_lns(base, top, vel);
+                    plot_bitmap_32(base, top->bot_left.x, (top->bot_left.y) - 31, obs_bottom_edge_bitmap, HEIGHT_32);
+
+                    /* Bottom obstacle */
+                    clr_bot_lns(base, bottom, vel);
+                    clear_region(base, bottom->top_left.x, bottom->top_left.y, 0x00000000);
+                    draw_bot_lns(base, bottom, vel);
+                    plot_bitmap_32(base, bottom->top_left.x, bottom->top_left.y, obs_top_edge_bitmap, HEIGHT_32);
+                }
             }
         }        
     }
