@@ -15,7 +15,7 @@ ESC = dino_esc
 SND_OBJS = tst_snd.o sound.o psg.o clock.o
 SND = tst_snd
 
-MUS_OBJS = tst_mus.o music.o psg.o
+MUS_OBJS = tst_mus.o music.o psg.o clock.o
 MUS = tst_mus
 
 PSG_OBJS = tst_psg.o psg.o
@@ -76,7 +76,7 @@ clock.o: clock.c clock.h
 sound.o: sound.c psg.h sound.h
 	$(CC) -c sound.c
 
-music.o: music.c psg.h
+music.o: music.c psg.h clock.h
 	$(CC) -c music.c
 
 psg.o: psg.c psg.h

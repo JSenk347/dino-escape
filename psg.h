@@ -10,11 +10,10 @@
 #define MIXER_REG 7
 #define PSG_REG_ADR 0xFF8800
 #define PSG_WRITE_ADR 0xFF8802
-#define wait while(!Cconis()){}Cnecin(); /*a MACRO - awaits keypress till next insturction*/
+#define wait while (!Cconis()){}Cnecin(); /*a MACRO - awaits keypress till next insturction*/
 
 typedef char UINT8;
 typedef unsigned int bool;
-
 
 /* Sharp Notes: Indicated by uppercase; Flat Notes: indicated by lowercase*/
 
@@ -40,6 +39,8 @@ typedef struct
     Note D4; /*{201,0}*/
     Note c4; /*{239,0}*/
     Note C4; /*{225,0}*/
+    Note f4; /*{178, 0}*/
+
 } Scale;
 
 typedef struct
@@ -79,7 +80,7 @@ typedef enum
 /**
  * @brief Writes a specified value (0-255) to a specified register (0-15) of the PSG
  * @param reg The reg to which you'd like to write to
- * @param val The value you'd like to write to the specified register 
+ * @param val The value you'd like to write to the specified register
  * @return none
  */
 void write_psg(int reg, UINT8 val);
@@ -123,5 +124,13 @@ void stop_sound();
 
 /*********************NON-REQUIRED FUNCTIONS*********************/
 
+Scale init_scale();
+
+/**
+ * @brief Takes in an array of channels an initializes their registers to the appropriate values
+ * @param channels A declared array of Channels
+ * @return none
+ */
+void init_channels(Channel channels[NUM_CHANNELS]);
 
 #endif
