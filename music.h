@@ -6,9 +6,17 @@
 
 typedef struct{
     Note notes[4];
-    int hold_time;
-    int curr_note;
+    int num_notes;
+    int curr_index;
 } Song;
+
+typedef enum{
+    NOTE_1,
+    NOTE_2,
+    NOTE_3,
+    NOTE_4,
+    NUM_NOTES
+} NoteIndex;
 
 /**
  * @brief Begins playing the synchronous song by loading the first note of

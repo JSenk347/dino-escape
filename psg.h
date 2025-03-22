@@ -28,15 +28,8 @@ typedef struct
 {
     int fine;
     int coarse;
+    int duration;
 } Note;
-
-typedef struct 
-{
-    int fine;
-    int coarse;
-    int hold_time;
-} SongNote;
-
 
 typedef struct
 {

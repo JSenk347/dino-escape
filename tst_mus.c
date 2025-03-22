@@ -3,19 +3,19 @@
 
 int main()
 {
+    Scale scale;
     UINT32 prev_time, curr_time, time_passed;
-    Scale scale = init_scale();
-    Note song_notes[4] = {{239, 0}, {190, 0}, {225, 0}, {178,0}};
     /* hold time is 70 because 70 * (1/70)th a second = 1 second*/
-    Song song = {{{239, 0}, {190, 0}, {225, 0}, {178,0}}, 70, 0}; 
+    Song song = {{{239, 0, 70}, {190, 0, 70}, {225, 0, 70}, {178,0, 70}}, 4, 0}; 
     Channel channels[NUM_CHANNELS];
+    scale = init_scale();
     init_channels(channels);
     /*
     init_song(song_notes, scale);
     */
     
     prev_time = get_time(); 
-    start_music(channels, song.notes);
+    start_music(channels, song);
     while (!Cconis()){
         curr_time = get_time();
         time_passed = curr_time - prev_time; 
