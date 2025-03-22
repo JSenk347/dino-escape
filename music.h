@@ -4,6 +4,8 @@
 #include "psg.h"
 #include "clock.h"
 
+typedef unsigned long UINT32;
+
 typedef struct{
     Note notes[4];
     int num_notes;

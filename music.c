@@ -22,11 +22,7 @@ void update_music(UINT32 time_passed, Channel channels[], Song *song)
         (song->curr_index) += 1;
 
         /* loop necessary to allow enough time for curr_index to update before setting tone */
-        while (i <= 10)
-        {
-            i++;
-            continue;
-        }
+        while (i <= 11){i++;continue;}
         set_tone(channels[CHANNEL_A], notes[song -> curr_index]);
     }
     return;
