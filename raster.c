@@ -18,7 +18,6 @@
 /*#define XOR 2
 #define HALF_GAP 25*/
 
-
 /*******************************************************************************
 	PURPOSE: To plot 32 bit bitmaps at specified x and y coordinates (top left)
 	INPUT: 	- *base	pointer to the frame buffer
@@ -83,16 +82,18 @@ void clear_region(UINT32 *base, int x, int y, unsigned int pattern) {
 void clear_cave_region(UINT32 *base) {
 	int i;
 	int k;
-	int word_offset = (34) * 20; /* don't ask my why its 34. i don't know */
+	int word_offset = (50) * 20; /* don't ask my why its 34. i don't know */
 	base += word_offset;
 
-	for (i = (T_BORDER_Y + 1); i < (B_BORDER_Y - 2); i++){ /* also don't ask why it's -2. don't know also */
-		for (k = 0; k < 20; k++){
+	for (i = (T_BORDER_Y + 1); i < (B_BORDER_Y); i++){ /* also don't ask why it's -2. don't know also */
+		for (k = 0; k < 2; k++){
 			base[k] = 0x00000000;
 		}
 		base += 20;
 	}
 }
+
+
 
 /*******************************************************************************
 	PURPOSE: Clears a specific rectangular region on the far left side of the
@@ -157,6 +158,41 @@ void clear_screen(UINT16 *base, int pattern)
 }
 
 /******************************************************************************
+	PURPOSE: Plots a horizontal line with the given x1, x2, and y coordinates
+				where the line starts at (x1,y) and ends at (x2,y)
+	INPUT: 	- *base	pointer to the frame buffer
+			- y the y coordinate to plot the line at
+			- x1 the x coordinate where the line begins
+			- x2 the x coordinate where the line ends
+	OUTPUT: N/A
+******************************************************************************/
+void plot_bline(UINT32 *base, int y, int x1, int x2) {
+    UINT32 p1, p2;
+    int row1, row2, i;
+    int shift_F, shift_B;
+    UINT32 *place = base + y * (80 / 4); /* 80 bytes / 4 bytes per longword */
+
+    row1 = x1 >> 5; /* Equivalent to x1 / 32 */
+    row2 = x2 >> 5; /* Equivalent to x2 / 32 */
+    shift_F = x1 & 31; /* Equivalent to x1 % 32 */
+    shift_B = 31 - (x2 & 31); /* Equivalent to 31 - (x2 % 32) */
+
+    if (row1 == row2) {
+        p1 = SOLID_32 >> shift_F;
+        p2 = SOLID_32 << shift_B;
+        *(place + row1) = p1 & p2;
+    } else {
+        p1 = SOLID_32 >> shift_F;
+        p2 = SOLID_32 << shift_B;
+        *(place + row1) = p1;
+        for (i = row1 + 1; i < row2; i++) {
+            *(place + i) = SOLID_32;
+        }
+        *(place + row2) = p2;
+    }
+}
+
+/******************************************************************************
 	PURPOSE: Plots a horizontal line across the full game screen at the given 
 				y coordinate
 	INPUT: 	- y the y coordinate to plot the line at
@@ -167,26 +203,56 @@ void clear_screen(UINT16 *base, int pattern)
 				- 3: and
 	OUTPUT: N/A
 ******************************************************************************/
-void plot_hline(unsigned short y, short mode)
+/*void plot_hline(unsigned short y, short mode)
 {
-	/* Sets line start point coordinates */
+	/* Sets line start point coordinates 
 	X1 = (unsigned short) L_BORDER_X;
 	Y1 = y;
 	
-	/* Sets line end point coordinates */
+	/* Sets line end point coordinates 
 	X2 = (unsigned short) R_BORDER_X;
 	Y2 = y;
 
-	/* Sets colour to black (linea document) */
+	/* Sets colour to black (linea document) 
 	COLBIT0 = 1;
     COLBIT1 = 1;
     COLBIT2 = 1;
     COLBIT3 = 1;
 	
-	LNMASK = 0xFFFF;	/* Solid line style (pattern) */
-	WMODE = mode; 		/* Writing mode */
-	LSTLIN = -1; 		/* changed from 0 to -1 as per linea document*/
+	LNMASK = 0xFFFF;	/* Solid line style (pattern) 
+	WMODE = mode; 		/* Writing mode 
+	LSTLIN = -1; 		/* changed from 0 to -1 as per linea document
 	linea3();
+}*/
+
+/******************************************************************************
+	PURPOSE: To plot a 2 pixel thick vertical line with the given x, y1, and y2
+				coordinates where the line starts at (x,y1) and ends at (x,y2)
+	INPUT: 	- *base	pointer to the frame buffer
+			- x the x coordinate to plot the line at
+			- y1 the y coordinate where the line begins
+			- y2 the y coordinate where the line end
+			- mode the behaviour of the line:
+				- 0: CLEAR
+				- 1: SET			
+	OUTPUT: N/A
+******************************************************************************/
+void plot_vline(UINT8 *base, int x, int y1, int y2, int mode) {	
+	UINT8 set_pattern, clear_pattern; 
+	UINT8 *pixel_addr; 
+	
+	set_pattern = 1 << (7 - (x & 7));
+	clear_pattern = ~(1 << (7 - (x & 7))); 
+	
+	pixel_addr = base + y1 * 80 + (x >> 3); 
+	for ( ; y1 <= y2; y1++) { 
+		if (mode == 1) {
+			*pixel_addr |= (set_pattern);
+		} else {
+			*pixel_addr &= (clear_pattern);
+		}
+		pixel_addr = pixel_addr + 80;
+	}
 }
 
 /******************************************************************************
@@ -199,7 +265,7 @@ void plot_hline(unsigned short y, short mode)
 				- 3: and				
 	OUTPUT: N/A
 ******************************************************************************/
-void plot_vline(unsigned short x, short mode)
+/*void plot_vline(unsigned short x, short mode)
 {
 	X1 = x;
 	Y1 = 0;
@@ -209,7 +275,7 @@ void plot_vline(unsigned short x, short mode)
 	WMODE = mode;
 	LSTLIN = 0;
 	linea3();
-}
+}*/
 
 /*****************************************************************************
 	PURPOSE: To plot a general line at specified x1, y1, x2, and y2 coordinates
@@ -225,19 +291,19 @@ void plot_vline(unsigned short x, short mode)
 			- set_bit determines the color of the line (1: black 0: white)
 	OUTPUT: N/A
 *****************************************************************************/
-void plot_gline(unsigned short x1, unsigned short y1,
+/*void plot_gline(unsigned short x1, unsigned short y1,
 				unsigned short x2, unsigned short y2,
 				short mode, int set_bit)
 {
-	/* Sets line start point coordinates */
+	/* Sets line start point coordinates 
 	X1 = x1; 
 	Y1 = y1;
 
-	/* Sets line end point coordinates */
+	/* Sets line end point coordinates 
 	X2 = x2;
 	Y2 = y2;
 
-	/* Sets colour to 0 (white) or 1 (black) (linea document) */
+	/* Sets colour to 0 (white) or 1 (black) (linea document) 
 	COLBIT0 = set_bit;
     COLBIT1 = set_bit;
     COLBIT2 = set_bit;
@@ -250,30 +316,32 @@ void plot_gline(unsigned short x1, unsigned short y1,
 	else {
 		LNMASK = 0xFFFF;
 	}
-	WMODE = mode; 		/* Writing mode */
-	LSTLIN = -1; 		/* changed from 0 to -1 as per linea document*/
+	WMODE = mode; 		/* Writing mode 
+	LSTLIN = -1; 		/* changed from 0 to -1 as per linea document
 
 	/*LNMASK = 0xFFFF;
 	WMODE = mode;
-	LSTLIN = 0;*/
+	LSTLIN = 0;
 
-	/* plotting the line */
+	/* plotting the line 
 	linea3();
-}
+} */
 
 /*******************************************************************************
 	PURPOSE: Plots the upper and lower borders of the game
 	INPUT: 	N/A
 	OUTPUT: N/A
 *******************************************************************************/
-void plot_borders()
-{
+void plot_borders(UINT32 *base) {
 	int i;
 
 	/* plots the upper and lower border lines with plot_hline() */
 	for (i = 0; i < 50; i++) {
-		plot_hline(i, OR);			/* upper border */
-		plot_hline(399 - i, OR);	/* lower border*/
+		plot_bline(base, i, L_BORDER_X, R_BORDER_X);		/* upper border */
+		plot_bline(base, 399 - i, L_BORDER_X, R_BORDER_X);	/* lower border*/
+		
+		/*plot_hline(i, OR);			/* upper border */
+		/*plot_hline(399 - i, OR);	/* lower border*/
 	}
 
 	/* NO LONGER NEEDED plots lines to cancel out lines covering the score */
@@ -288,21 +356,21 @@ void plot_borders()
 	INPUT: 	N/A
 	OUTPUT: N/A
 *******************************************************************************/
-void plot_borders_raster()
+/*void plot_borders_raster()
 {
 	int i;
 
-	/* plots the upper and lower border lines with plot_hline() */
+	/* plots the upper and lower border lines with plot_hline() 
 	for (i = 0; i < 50; i++) {
 		plot_hline(i, XOR);
 		plot_hline(399 - i, XOR);
 	}
 
-	/*  plots lines to cancel out lines covering the score */
+	/*  plots lines to cancel out lines covering the score
 	for (i = 390; i > 358; i--) {
 		plot_gline(312, i, 631, i, XOR, 1);
 	}
-}
+}*/
 
 /*******************************************************************************
 	PURPOSE: Plots the top three 32x32 bitmaps to create the top half of the 

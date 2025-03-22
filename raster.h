@@ -2,6 +2,9 @@
 #define RASTER_H
 
 #define BYTES_PER_SCREEN 32000
+#define SOLID_32    		0xFFFFFFFF
+#define CLEAR_32			0x00000000
+#define BITS_IN_LONGWORD 	32
 #define HEIGHT_32 32
 #define HEIGHT_16 16
 #define OR 1
@@ -19,16 +22,18 @@ void overwrite_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, int h
 void plot_bitmap_16(UINT16 *base, int x, int y, 
         const UINT16 *bitmap, unsigned int height);
 void clear_screen(UINT16 *base, int pattern);
-void plot_hline(unsigned short y, short mode);
-void plot_vline(unsigned short x, short mode);
-void plot_gline(unsigned short x1, unsigned short y1,
+void plot_bline(UINT32 *base, int y, int x1, int x2);
+void plot_vline(UINT8 *base, int x, int y1, int y2, int mode);
+/*void plot_hline(unsigned short y, short mode);*/
+/*void plot_vline(unsigned short x, short mode); */
+/*void plot_gline(unsigned short x1, unsigned short y1,
                 unsigned short x2, unsigned short y2,
-                short mode, int set_bit);
+                short mode, int set_bit);*/
 void plot_top_obs(UINT32 *base, int x, int gap_y, int mode);
 void plot_bottom_obs(UINT32 *base, int x, int gap_y, int mode);
 void plot_obstacles(UINT32 *base, int x, int gap_y, int mode);          
-void plot_borders();
-void plot_borders_raster(); /* only used for stage 2 */
+void plot_borders(UINT32 *base);
+/*void plot_borders_raster(); /* only used for stage 2 */
 void plot_top_start_button(UINT32 *base, const UINT32 *lt_top_start_bitmap,
 	        const UINT32 *mid_lt_top_start_bitmap, const UINT32 *mid_rt_top_start_bitmap,
 	        const UINT32 *rt_top_start_bitmap);

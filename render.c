@@ -32,7 +32,7 @@ void init_screen(const Model *game, UINT16 *base)
 
     disable_cursor();
     clear_screen((UINT16 *)base, 0);
-    plot_borders();
+    plot_borders((UINT32 *) base);
 
     /* Plots the initial score '0000' */
     for (i = 0; i < 4; i++)
@@ -54,10 +54,9 @@ void render_objs(const Model *new_game, UINT32 *base)
     render_obs(new_game, base);
     render_dino(new_game, base);
     
-    if (check_score(new_game))
-    {
-        render_score(new_game, (UINT32 *)base);
-    }
+    check_score(new_game);
+    render_score(new_game, (UINT32 *)base);
+    
 }
 
 /*******************************************************************************
@@ -165,17 +164,15 @@ void render_obs(const Model *model, UINT32 *base) {
             /* Only replots obstacles if no collision has occured */
             if (top -> prev_top_lt.x != top -> top_left.x) {
                 /* Top obstacle */
-                /*draw_top_lns(top, vel);*/
-                clr_top_lns(top, vel);
-                clear_region(base, top->bot_left.x + vel, (top->bot_left.y) - 31, 0x00000000);
-                draw_top_lns(top, vel);
+                clr_top_lns(base, top, vel);
+                clear_region(base, top->bot_left.x + vel*2, (top->bot_left.y) - 31, 0x00000000);
+                draw_top_lns(base, top, vel);
                 plot_bitmap_32(base, top->bot_left.x, (top->bot_left.y) - 31, obs_bottom_edge_bitmap, HEIGHT_32);
 
                 /* Bottom obstacle */
-                /*draw_bot_lns(bottom, vel);*/
-                clr_bot_lns(bottom, vel);
-                clear_region(base, bottom->top_left.x + vel, bottom->top_left.y, 0x00000000);
-                draw_bot_lns(bottom, vel);
+                clr_bot_lns(base, bottom, vel);
+                clear_region(base, bottom->top_left.x + vel*2, bottom->top_left.y, 0x00000000);
+                draw_bot_lns(base, bottom, vel);
                 plot_bitmap_32(base, bottom->top_left.x, bottom->top_left.y, obs_top_edge_bitmap, HEIGHT_32);
 
                 /* NO LONGER NEEDED */
@@ -194,6 +191,20 @@ void render_obs(const Model *model, UINT32 *base) {
                 if (wall -> top.top_left.x <= L_BORDER_X + 2) {
                     clear_far_left(base);
                 }
+                if (model->game_state.dead_flag){
+                    /* Top obstacle */
+                    vel = vel/2;
+                    clr_top_lns(base, top, vel);
+                    clear_region(base, top->bot_left.x, (top->bot_left.y) - 31, 0x00000000);
+                    draw_top_lns(base, top, vel);
+                    plot_bitmap_32(base, top->bot_left.x, (top->bot_left.y) - 31, obs_bottom_edge_bitmap, HEIGHT_32);
+
+                    /* Bottom obstacle */
+                    clr_bot_lns(base, bottom, vel);
+                    clear_region(base, bottom->top_left.x, bottom->top_left.y, 0x00000000);
+                    draw_bot_lns(base, bottom, vel);
+                    plot_bitmap_32(base, bottom->top_left.x, bottom->top_left.y, obs_top_edge_bitmap, HEIGHT_32);
+                }
             }
         }        
     }
@@ -205,11 +216,16 @@ void render_obs(const Model *model, UINT32 *base) {
             - vel - value of current obstacle speed
     OUTPUT: - N/A
 *******************************************************************************/
-void draw_top_lns(Obs *top, int vel) {
-    plot_gline(top->top_left.x, T_BORDER_Y + 1, top->top_left.x, (top->bot_left.y) - 31, OR, 1);                                /*      ->||    ||       */
-    plot_gline((top->top_left.x) + 1, T_BORDER_Y + 1, (top->top_left.x) + 1, (top->bot_left.y) - 31, OR, 1);                    /*        ||<-  ||       */
-    plot_gline(top->top_right.x, T_BORDER_Y + 1, top->top_right.x, (top->bot_right.y) - 31, OR, 1);                             /*        ||    ||<-     */
-    plot_gline((top->top_right.x) - 1, T_BORDER_Y + 1, (top->top_right.x) - 1, (top->bot_right.y) - 31, OR, 1);                 /*        ||  ->||       */
+void draw_top_lns(UINT32 *base, Obs *top, int vel) {
+    plot_vline((UINT8 *)base, top->top_left.x, T_BORDER_Y + 1, (top->bot_left.y) - 31, 1);          /*      ->||    ||      */
+    plot_vline((UINT8 *)base, top->top_left.x + 1, T_BORDER_Y + 1, (top->bot_left.y) - 31, 1);      /*        ||<-  ||      */
+    plot_vline((UINT8 *)base, top->top_right.x - 1, T_BORDER_Y + 1, (top->bot_right.y) - 31, 1);    /*        ||  ->||      */
+    plot_vline((UINT8 *)base, top->top_right.x, T_BORDER_Y + 1, (top->bot_right.y) - 31, 1);        /*        ||    ||<-    */
+
+    /*plot_gline(top->top_left.x, T_BORDER_Y + 1, top->top_left.x, (top->bot_left.y) - 31, OR, 1);                                /*      ->||    ||       
+    plot_gline((top->top_left.x) + 1, T_BORDER_Y + 1, (top->top_left.x) + 1, (top->bot_left.y) - 31, OR, 1);                    /*        ||<-  ||       
+    plot_gline(top->top_right.x, T_BORDER_Y + 1, top->top_right.x, (top->bot_right.y) - 31, OR, 1);                             /*        ||    ||<-     
+    plot_gline((top->top_right.x) - 1, T_BORDER_Y + 1, (top->top_right.x) - 1, (top->bot_right.y) - 31, OR, 1);*/                 /*        ||  ->||       */
 }
 
 /*******************************************************************************
@@ -218,10 +234,15 @@ void draw_top_lns(Obs *top, int vel) {
             - vel - value of current obstacle speed
     OUTPUT: - N/A
 *******************************************************************************/
-void draw_bot_lns(Obs *bottom, int vel) {
-    plot_gline(bottom->top_left.x, (bottom->top_left.y) + 31, bottom->top_left.x, bottom->bot_left.y, OR, 1);                   /*      ->||    ||       */
-    plot_gline((bottom->top_left.x) + 1, (bottom->top_left.y) + 31, (bottom->top_left.x) + 1, bottom->bot_left.y, OR, 1);       /*        ||<-  ||       */
-    plot_gline(bottom->top_right.x, (bottom->top_right.y) + 31, bottom->top_right.x, bottom->bot_right.y, OR, 1);               /*        ||    ||<-     */
+void draw_bot_lns(UINT32 *base, Obs *bottom, int vel) {
+    plot_vline((UINT8 *)base, bottom->top_left.x, (bottom->top_left.y) + 31, bottom->bot_left.y, 1);        /*      ->||    ||      */
+    plot_vline((UINT8 *)base, bottom->top_left.x + 1, (bottom->top_left.y) + 31, bottom->bot_left.y, 1);    /*        ||<-  ||      */
+    plot_vline((UINT8 *)base, bottom->top_right.x - 1, (bottom->top_right.y) + 31, bottom->bot_right.y, 1); /*        ||  ->||      */
+    plot_vline((UINT8 *)base, bottom->top_right.x, (bottom->top_right.y) + 31, bottom->bot_right.y, 1);     /*        ||    ||<-    */
+
+    /*plot_gline(bottom->top_left.x, (bottom->top_left.y) + 31, bottom->top_left.x, bottom->bot_left.y, OR, 1);                   /*      ->||    ||       
+    plot_gline((bottom->top_left.x) + 1, (bottom->top_left.y) + 31, (bottom->top_left.x) + 1, bottom->bot_left.y, OR, 1);       /*        ||<-  ||       
+    plot_gline(bottom->top_right.x, (bottom->top_right.y) + 31, bottom->top_right.x, bottom->bot_right.y, OR, 1);               /*        ||    ||<-     
     plot_gline((bottom->top_right.x) - 1, (bottom->top_right.y) + 31, (bottom->top_right.x) - 1, bottom->bot_right.y, OR, 1);   /*        ||  ->||       */
 }
 
@@ -231,10 +252,15 @@ void draw_bot_lns(Obs *bottom, int vel) {
             - vel - value of current obstacle speed
     OUTPUT: - N/A
 *******************************************************************************/
-void clr_top_lns(Obs *top, int vel) {
-    plot_gline((top->top_left.x) + vel, T_BORDER_Y + 1, (top->top_left.x) + vel, (top->bot_left.y) - 31, AND, 0);                       /*   NEW  ||    ||OLD->||    ||    */
-    plot_gline((top->top_left.x) + vel + 1, T_BORDER_Y + 1, (top->top_left.x) + vel + 1, (top->bot_left.y) - 31, AND, 0);               /*        ||    ||     ||<-  ||    */
-    plot_gline((top->top_right.x) + vel, T_BORDER_Y + 1, (top->top_right.x) + vel, (top->bot_right.y) - 31, AND, 0);                    /*        ||    ||     ||    ||<-  */
+void clr_top_lns(UINT32 *base, Obs *top, int vel) {
+    plot_vline((UINT8 *)base, (top->top_left.x) + vel*2, T_BORDER_Y + 1, (top->bot_left.y) - 31, 0);          /*      ->||    ||      */
+    plot_vline((UINT8 *)base, (top->top_left.x) + vel*2 + 1, T_BORDER_Y + 1, (top->bot_left.y) - 31, 0);      /*        ||<-  ||      */
+    plot_vline((UINT8 *)base, (top->top_right.x) + vel*2 - 1, T_BORDER_Y + 1, (top->bot_right.y) - 31, 0);    /*        ||  ->||      */
+    plot_vline((UINT8 *)base, (top->top_right.x) + vel*2, T_BORDER_Y + 1, (top->bot_right.y) - 31, 0);        /*        ||    ||<-    */
+    
+    /*plot_gline((top->top_left.x) + vel, T_BORDER_Y + 1, (top->top_left.x) + vel, (top->bot_left.y) - 31, AND, 0);                       /*   NEW  ||    ||OLD->||    ||    
+    plot_gline((top->top_left.x) + vel + 1, T_BORDER_Y + 1, (top->top_left.x) + vel + 1, (top->bot_left.y) - 31, AND, 0);               /*        ||    ||     ||<-  ||    
+    plot_gline((top->top_right.x) + vel, T_BORDER_Y + 1, (top->top_right.x) + vel, (top->bot_right.y) - 31, AND, 0);                    /*        ||    ||     ||    ||<-  
     plot_gline((top->top_right.x) + 1, T_BORDER_Y + 1, (top->top_right.x) + 1, (top->bot_right.y) - 31, AND, 0);                        /*        ||    ||     ||  ->||    */
 }
 
@@ -244,10 +270,15 @@ void clr_top_lns(Obs *top, int vel) {
             - vel - value of current obstacle speed
     OUTPUT: - N/A
 *******************************************************************************/
-void clr_bot_lns(Obs *bottom, int vel) {
-    plot_gline((bottom->top_left.x) + vel, (bottom->top_left.y) + 31, (bottom->top_left.x) + vel, bottom->bot_left.y, AND, 0);          /*   NEW  ||    ||OLD->||    ||    */
-    plot_gline((bottom->top_left.x) + vel + 1, (bottom->top_left.y) + 31, (bottom->top_left.x) + vel + 1, bottom->bot_left.y, AND, 0);  /*        ||    ||     ||<-  ||    */
-    plot_gline((bottom->top_right.x) + vel, (bottom->top_right.y) + 31, (bottom->top_right.x) + vel, bottom->bot_right.y, AND, 0);      /*        ||    ||     ||    ||<-  */
+void clr_bot_lns(UINT32 *base, Obs *bottom, int vel) {
+    plot_vline((UINT8 *)base, (bottom->top_left.x) + vel*2, (bottom->top_left.y) + 31, bottom->bot_left.y, 0);        /*      ->||    ||      */
+    plot_vline((UINT8 *)base, (bottom->top_left.x) + vel*2 + 1, (bottom->top_left.y) + 31, bottom->bot_left.y, 0);    /*        ||<-  ||      */
+    plot_vline((UINT8 *)base, (bottom->top_right.x) + vel*2 - 1, (bottom->top_right.y) + 31, bottom->bot_right.y, 0); /*        ||  ->||      */
+    plot_vline((UINT8 *)base, (bottom->top_right.x) + vel*2, (bottom->top_right.y) + 31, bottom->bot_right.y, 0);     /*        ||    ||<-    */
+    
+    /*plot_gline((bottom->top_left.x) + vel, (bottom->top_left.y) + 31, (bottom->top_left.x) + vel, bottom->bot_left.y, AND, 0);          /*   NEW  ||    ||OLD->||    ||    
+    plot_gline((bottom->top_left.x) + vel + 1, (bottom->top_left.y) + 31, (bottom->top_left.x) + vel + 1, bottom->bot_left.y, AND, 0);  /*        ||    ||     ||<-  ||    
+    plot_gline((bottom->top_right.x) + vel, (bottom->top_right.y) + 31, (bottom->top_right.x) + vel, bottom->bot_right.y, AND, 0);      /*        ||    ||     ||    ||<-  
     plot_gline((bottom->top_right.x) + 1, (bottom->top_right.y) + 31, (bottom->top_right.x) + 1, bottom->bot_right.y, AND, 0);          /*        ||    ||     ||  ->||    */
 }
 
