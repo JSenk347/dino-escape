@@ -14,7 +14,7 @@ int main()
     init_song(song_notes, scale);
     */
     
-    prev_time = get_time(); 
+    prev_time = get_time();
     start_music(channels, song);
     while (!Cconis()){
         curr_time = get_time();

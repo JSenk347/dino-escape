@@ -70,6 +70,17 @@ void enable_channel(UINT8 channel, bool tone_on, bool noise_on){
     }
 }
 
+void set_noise(int tuning){
+    if (tuning <= MAX_NOISE && tuning >= 1){
+        write_psg(NOISE_REG, tuning);
+    }
+    return;
+}
+
+void set_envelope(int shape, unsigned int sustain){
+    
+}
+
 void stop_sound(){
     /* 0x3F = 0011 1111 is the mixer setting to disable all tone and noise on all channels */
     write_psg(MIXER_REG, 0x3F);

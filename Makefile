@@ -12,8 +12,8 @@ REN = tst_ren
 ESC_OBJ = model.o events.o render.o raster.o bitmaps.o input.o clock.o dino_esc.o
 ESC = dino_esc
 
-SND_OBJS = tst_snd.o sound.o psg.o clock.o
-SND = tst_snd
+EFF_OBJS = tst_eff.o psg.o effects.o
+EFF = tst_eff
 
 MUS_OBJS = tst_mus.o music.o psg.o clock.o
 MUS = tst_mus
@@ -21,13 +21,13 @@ MUS = tst_mus
 PSG_OBJS = tst_psg.o psg.o
 PSG = tst_psg
 
-all: raster model render game sound music psg
+all: raster model render game effects music psg
 
 raster: $(RAST)
 model: $(MOD)
 render: $(REN)
 game: $(ESC)
-sound: $(SND)
+effects: $(EFF)
 music: $(MUS)
 psg: $(PSG)
 
@@ -43,8 +43,8 @@ $(REN): $(REN_OBJS)
 $(ESC): $(ESC_OBJ)
 	$(CC) -o $(ESC) $(ESC_OBJ)
 
-$(SND): $(SND_OBJS)
-	$(CC) -o $(SND) $(SND_OBJS)
+$(EFF): $(EFF_OBJS)
+	$(CC) -o $(EFF) $(EFF_OBJS)
 
 $(MUS): $(MUS_OBJS)
 	$(CC) -o $(MUS) $(MUS_OBJS)
@@ -73,8 +73,8 @@ input.o: input.c input.h
 clock.o: clock.c clock.h
 	$(CC) -c clock.c
 
-sound.o: sound.c psg.h sound.h
-	$(CC) -c sound.c
+effects.o: effects.c psg.h effects.h
+	$(CC) -c effects.c
 
 music.o: music.c psg.h clock.h
 	$(CC) -c music.c
@@ -94,8 +94,8 @@ tst_mod.o: tst_mod.c tst_mod.h model.h
 dino_esc.o: dino_esc.c
 	$(CC) -c dino_esc.c
 
-tst_snd.o: tst_snd.c sound.h clock.h
-	$(CC) -c tst_snd.c
+tst_eff.o: tst_eff.c effects.h
+	$(CC) -c tst_eff.c
 
 tst_mus.o: tst_mus.c music.h psg.h
 	$(CC) -c tst_mus.c
@@ -103,7 +103,7 @@ tst_mus.o: tst_mus.c music.h psg.h
 tst_psg.o: tst_psg.c psg.h
 	$(CC) -c tst_psg.c
 
-clean: clean_model clean_raster clean_render clean_game clean_sound clean_music clean_psg
+clean: clean_model clean_raster clean_render clean_game clean_effects clean_music clean_psg
 
 clean_model:
 	$(RM) $(MOD_OBJS) $(MOD)
@@ -117,8 +117,8 @@ clean_render:
 clean_game:
 	$(RM) $(ESC_OBJ) $(ESC)
 
-clean_sound:
-	$(RM) $(SND_OBJS) $(SND)
+clean_effects:
+	$(RM) $(EFF_OBJS) $(SND)
 
 clean_music:
 	$(RM) $(MUS_OBJS) $(MUS)

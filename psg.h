@@ -7,7 +7,12 @@
 #define FALSE 0
 #define VOL_ON 11
 #define VOL_OFF 0
+#define MAX_NOISE 31
 #define MIXER_REG 7
+#define NOISE_REG 6
+#define SHAPE_REG 13
+#define PERIOD_REG_1 11
+#define PERIOD_REG_2 12
 #define PSG_REG_ADR 0xFF8800
 #define PSG_WRITE_ADR 0xFF8802
 #define wait while (!Cconis()){}Cnecin(); /*a MACRO - awaits keypress till next insturction*/
@@ -77,7 +82,6 @@ typedef enum
 } ChannelName;
 
 /******************REQUIRED FUNCTIONS****************** */
-
 /**
  * @brief Writes a specified value (0-255) to a specified register (0-15) of the PSG
  * @param reg The reg to which you'd like to write to
@@ -107,6 +111,17 @@ void set_tone(Channel channel, Note note);
  * @return none
  */
 void set_volume(Channel channel, int volume);
+
+/**
+ * @brief Loads the noise register with the defined frequency
+ * @param freq The frequency that will be played as noise (1-31)
+ */
+void set_noise(int tuning);
+
+/**
+ * @brief Defines the shape and 
+ */
+void set_envelope(int shape, unsigned int sustain);
 
 /**
  * @brief Enables the tone and/or noise of a specified channel
