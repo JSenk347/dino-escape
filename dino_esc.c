@@ -82,6 +82,7 @@ int main()
         /* CHECKS FOR PENDING INPUT */
         if (Cconis()) {
             key = (char)Cnecin();
+            /* Prevents build up of key presses on stack */
             while (Cconis()) {
                 Cnecin();
             }
@@ -92,13 +93,18 @@ int main()
         time_elapsed = curr_time - prev_time;
         if (time_elapsed > 0) {
             /* PROCESS SYNCHRONOUS EVENTS */
+
+            /* Moves dino */
             if (!new_game.game_state.dead_flag) {
-                process_input(&new_game, key);  /* Moves dino */
+                process_input(&new_game, key);
                 key = NULL;                     /* Resets input key */
             }
-
+            /* Moves walls */
             move_walls(&new_game);
+            /* Checks for collsion */
             check_collisions(&new_game);
+            /* Checks score */
+            check_score(&new_game);
                 
             /* RENDER MODEL (NEXT FRAME) */ 
             render_objs(&new_game, (UINT32 *)back2_buffer);

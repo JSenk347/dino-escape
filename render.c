@@ -53,8 +53,6 @@ void render_objs(const Model *new_game, UINT32 *base)
 {
     render_obs(new_game, base);
     render_dino(new_game, base);
-    
-    check_score(new_game);
     render_score(new_game, (UINT32 *)base);
     
 }
