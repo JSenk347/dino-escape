@@ -108,7 +108,7 @@ int main()
                 
             /* RENDER MODEL (NEXT FRAME) */ 
             render_objs(&new_game, (UINT32 *)back2_buffer);
-            swap_buffer(&back1_buffer, &back2_buffer); 
+            swap_buffer(&back1_buffer, &back2_buffer);
             clear_cave_region((UINT32 *)back2_buffer);
             
             /*clear_cave_region((UINT32 *)back2_buffer); */
