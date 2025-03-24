@@ -149,4 +149,6 @@ Scale init_scale();
  */
 void init_channels(Channel channels[NUM_CHANNELS]);
 
+void toggle_envelope(Channel channel);
+
 #endif

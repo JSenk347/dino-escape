@@ -4,7 +4,7 @@
 
 void start_music(Channel channels[], Song song)
 {
-    set_tone(channels[CHANNEL_A], song.notes[0]);
+    set_tone(channels[CHANNEL_A], song.notes[0]); /* MAKE SURE ALL NOTES ARE THERE */
     set_volume(channels[CHANNEL_A], VOL_ON);
     enable_channel(CHANNEL_A, TRUE, FALSE);
 }

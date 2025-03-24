@@ -43,6 +43,12 @@ void set_volume(Channel channel, int volume){
     }
 }
 
+void toggle_envelope(Channel channel){
+    int vol = read_psg(channel.volume_reg);
+    vol ^= 0x10;
+    write_psg(channel.volume_reg, vol);
+}
+
 
 void enable_channel(UINT8 channel, bool tone_on, bool noise_on){
     /* 1 means OFF and 0 means ON in the mixer register*/
@@ -78,7 +84,10 @@ void set_noise(int tuning){
 }
 
 void set_envelope(int shape, unsigned int sustain){
-    
+    /*if (shape <= 15 && shape >= 1)*/
+    write_psg(13, 0x1000); /* sets shape */
+    write_psg(11, 0x1111);
+    write_psg(12, 0x1111);
 }
 
 void stop_sound(){
