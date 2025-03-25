@@ -134,7 +134,6 @@ int main()
         /* Syncs both buffers once collision has occured */
         if (new_game.game_state.dead_flag && lcv != TRUE){
             render_objs(&new_game, (UINT32 *)back_buffer);
-            render_objs(&new_game, (UINT32 *)front_buffer);
             lcv = TRUE;
         }
     } 
