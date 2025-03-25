@@ -2,6 +2,7 @@
 #define PSG_H
 
 #include <osbind.h>
+#include "types.h"
 
 #define TRUE 1
 #define FALSE 0
@@ -12,8 +13,8 @@
 #define PSG_WRITE_ADR 0xFF8802
 #define wait while (!Cconis()){}Cnecin(); /*a MACRO - awaits keypress till next insturction*/
 
-typedef char UINT8;
-typedef unsigned int bool;
+/*typedef char UINT8;
+typedef unsigned int bool; */
 
 /* Sharp Notes: Indicated by uppercase; Flat Notes: indicated by lowercase*/
 

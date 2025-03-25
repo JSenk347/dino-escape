@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <linea.h>
 #include <osbind.h>
-
+#include "types.h"
 /*#define XOR 2
 #define HALF_GAP 25*/
 

@@ -1,7 +1,7 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-typedef unsigned int bool;
+#include "types.h"
 #define TRUE 1
 #define FALSE 0
 #define DEAD_VELOCITY 2
