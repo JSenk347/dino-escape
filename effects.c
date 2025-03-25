@@ -1,6 +1,5 @@
 #include "effects.h"
 #include "psg.h"
-#include "clock.h"
 #include <osbind.h>
 
 /**

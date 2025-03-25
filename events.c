@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <osbind.h>
 #include <time.h>
+#include "effects.h"
 #include "events.h"
 #include "model.h"
 
@@ -105,6 +106,7 @@ void check_collisions(Model *game)
             dino->top_left.y < top->bot_left.y &&
             dino->bot_left.y > top->top_left.y)
         {
+            play_crash();
             /*reflect_dino_death(game);*/ /* COMMENT THIS OUT FOR TESTING */
             game->game_state.dead_flag = TRUE;
             game->game_state.start_flag = FALSE;
@@ -120,6 +122,7 @@ void check_collisions(Model *game)
             /*printf("Collision with bottom obstacle!, WALL %u\n",
             i + 1); */
             /*reflect_dino_death(game);*/
+            play_crash();
             game->game_state.dead_flag = TRUE;
             game->game_state.start_flag = FALSE;
             return;
@@ -160,9 +163,11 @@ bool fell_on_obs(Model *game){
 bool check_score(Model *game)
 {
     bool pt_scored;
+    Scale scale = init_scale();
 
     if (point_earned(game))
     {
+        play_point(scale);
         update_score(game);
         pt_scored = TRUE;
     }

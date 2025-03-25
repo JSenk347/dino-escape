@@ -19,7 +19,7 @@
 #define MIN_NOISE 1
 #define PSG_REG_ADR 0xFF8800
 #define PSG_WRITE_ADR 0xFF8802
-#define wait while (!Cconis()){}Cnecin(); /*a MACRO - awaits keypress till next insturction*/
+#define wait while(!Cconis()){}Cnecin(); /*a MACRO - awaits keypress till next insturction*/
 
 typedef char UINT8;
 typedef unsigned int bool;
@@ -144,8 +144,8 @@ Scale init_scale();
  * @brief Takes in an array of channels an initializes their registers to the appropriate values
  * @param channels A declared array of Channels
  * @return none
- */
-void init_channels(Channel channels[NUM_CHANNELS]);
+ 
+void init_channels(Channel channels[NUM_CHANNELS]);*/
 
 
 
