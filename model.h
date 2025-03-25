@@ -6,7 +6,7 @@ typedef unsigned int bool;
 #define FALSE 0
 #define DEAD_VELOCITY 2
 #define HALF_GAP 25
-#define OBS_START_SPEED 2
+#define OBS_START_SPEED /*2*/ 2
 #define WIN_WIDTH 640
 #define WIN_HEIGHT 400
 #define T_BORDER_Y 49   /* 0 to 49 = 50 lines */

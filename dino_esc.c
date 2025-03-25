@@ -25,28 +25,27 @@ UINT8 pre_buffer1[32255];
 int main()
 {
     char key;
-    int x;  
+    int lcv = FALSE;  
     int i;
     UINT32 curr_time, prev_time, time_elapsed;
     bool game_over = FALSE;
     
     /* INITIALIZE MODEL */
     void *base = Physbase();  
-    void *back_buffer = base;  
-    void *back1_buffer = (void *)(((UINT32)pre_buffer + 255) & 0xFFFFFF00L); 
-    void *back2_buffer = base; 
-    
+    void *back_buffer = (void *)(((UINT32)pre_buffer + 255) & 0xFFFFFF00L); 
+    void *front_buffer = base; 
+
     Model new_game = {
         {{32, 184}, {63, 184}, {32, 215}, {63, 215}, {32, 184}, 0, 0, 0}, /* Dino */
         {
             {{{640, 50}, {671, 50}, {640, 200}, {671, 200}},    /* Wall 1 - top */
-            {{640, 249 /*250*/}, {671, 249 /*250*/}, {640, 349 /*350*/}, {671, 349 /*350*/}},   /* Wall 1 - bottom */
+            {{640, 249}, {671, 249}, {640, 349}, {671, 349}},   /* Wall 1 - bottom */
             TRUE, FALSE, 200, OBS_START_SPEED},
             {{{640, 50}, {671, 50}, {640, 200}, {671, 200}},    /* Wall 2 - top */
-            {{640, 249 /*250*/}, {671, 249 /*250*/}, {640, 349 /*350*/}, {671, 349 /*350*/}},   /* Wall 2 - bottom */
+            {{640, 249}, {671, 249}, {640, 349}, {671, 349}},   /* Wall 2 - bottom */
             FALSE, FALSE, 200, OBS_START_SPEED},
             {{{640, 50}, {671, 50}, {640, 200}, {671, 200}},    /* Wall 3 - top */
-            {{640, 249 /*250*/}, {671, 249 /*250*/}, {640, 349 /*350*/}, {671, 349 /*350*/}},   /* Wall 3 - bottom */
+            {{640, 249}, {671, 249}, {640, 349}, {671, 349}},   /* Wall 3 - bottom */
             FALSE, FALSE, 200, OBS_START_SPEED},
         },
         {{{{505, 359}, {536, 359}, {505, 390}, {536, 390}, 0},  /* Ones digit */
@@ -61,10 +60,10 @@ int main()
     /*disable_cursor(); Not needed here, already called in init_screen() */
 
     /* RENDER FIRST FRAME OF MODEL */
-    init_screen(&new_game, (UINT16 *)back2_buffer);
-    init_screen(&new_game, (UINT16 *)back1_buffer);
-    render_objs(&new_game, (UINT32 *)back2_buffer);
-    render_objs(&new_game, (UINT32 *)back1_buffer);
+    init_screen(&new_game, (UINT16 *)front_buffer);
+    init_screen(&new_game, (UINT16 *)back_buffer);
+    render_objs(&new_game, (UINT32 *)back_buffer);
+    render_objs(&new_game, (UINT32 *)front_buffer);
      /* RUN GAME UNTIL GAME OVER 
      while (game_over == FALSE){
         move_walls(&new_game);
@@ -79,18 +78,13 @@ int main()
 
      /* RUN GAME UNTIL GAME OVER*/ 
     while (game_over == FALSE) {
-        /* CHECKS FOR PENDING INPUT */ 
-        /*read_input(&new_game);*/
-        if (new_game.game_state.dead_flag && x != TRUE){
-            render_objs(&new_game, (UINT32 *)back2_buffer);
-            render_objs(&new_game, (UINT32 *)back1_buffer);
-            x = TRUE;
-        }
+        /* CHECKS FOR PENDING INPUT */
         if (Cconis()) {
             key = (char)Cnecin();
-            /*while (Cconis()) {
+            /* Prevents build up of key presses on stack */
+            while (Cconis()) {
                 Cnecin();
-            }*/
+            }
         }
 
         /* CHECKS FOR CLOCK TICK */
@@ -98,18 +92,24 @@ int main()
         time_elapsed = curr_time - prev_time;
         if (time_elapsed > 0) {
             /* PROCESS SYNCHRONOUS EVENTS */
+
+            /* Moves dino */
             if (!new_game.game_state.dead_flag) {
-                process_input(&new_game, key);  /* Moves dino */
+                process_input(&new_game, key);
                 key = NULL;                     /* Resets input key */
             }
-
+            /* Moves walls */
             move_walls(&new_game);
+            /* Checks for collsion */
             check_collisions(&new_game);
+            /* Checks score */
+            check_score(&new_game);
                 
             /* RENDER MODEL (NEXT FRAME) */ 
-            render_objs(&new_game, (UINT32 *)back2_buffer);
-            swap_buffer(&back1_buffer, &back2_buffer); 
-            clear_cave_region((UINT32 *)back2_buffer);
+            render_objs(&new_game, (UINT32 *)back_buffer);
+            swap_buffer(&front_buffer, &back_buffer);
+            clear_cave_region((UINT32 *)back_buffer);
+            
             /*clear_cave_region((UINT32 *)back2_buffer); */
             /*if (!new_game.game_state.dead_flag) {
                 move_walls(&new_game);
@@ -129,6 +129,12 @@ int main()
         }
          if (new_game.game_state.lost_flag == TRUE) {
              game_over = TRUE;
+        }
+
+        /* Syncs both buffers once collision has occured */
+        if (new_game.game_state.dead_flag && lcv != TRUE){
+            render_objs(&new_game, (UINT32 *)back_buffer);
+            lcv = TRUE;
         }
     } 
     Setscreen(-1, base, -1);

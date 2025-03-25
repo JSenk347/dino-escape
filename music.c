@@ -24,13 +24,10 @@ void update_music(UINT32 time_passed, Song *song)
         }
         (*curr_index) += 1;
 
-        /* loop necessary to allow enough time for curr_index to update before setting tone*/
-        while (i <= 10)
-        {
-            i++;
-            continue;
-        }
+        /* loop necessary to allow enough time for curr_index to update before setting tone */
+        while (i <= 11){i++;continue;}
         set_tone(MUSIC_CHANNEL, notes[*curr_index]);
+
     }
     
     return;

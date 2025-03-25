@@ -1,7 +1,7 @@
 #include "clock.h"
 #include <osbind.h>
 
-UINT32 get_time() {
+ULONG32 get_time() {
     long *timer = (long *)0x462;
     long time_now;
     long old_ssp;
