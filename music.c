@@ -15,6 +15,8 @@ void update_music(UINT32 time_passed, Song *song)
     Note *notes = song->notes;
     int *curr_index = &song -> curr_index;
     int num_notes = song -> num_notes;
+    int *timer = &song -> timer;
+    
     
     if ((time_passed % (notes[*curr_index].duration + 1)) >= notes[*curr_index].duration)
     {
@@ -23,12 +25,12 @@ void update_music(UINT32 time_passed, Song *song)
             *curr_index = -1;    
         }
         (*curr_index) += 1;
-
-        /* loop necessary to allow enough time for curr_index to update before setting tone */
-        while (i <= 11){i++;continue;}
+        /*loop necessary to allow enough time for curr_index to update before setting tone */
         set_tone(MUSIC_CHANNEL, notes[*curr_index]);
 
     }
+    
+    
     
     return;
 }
@@ -36,13 +38,13 @@ void update_music(UINT32 time_passed, Song *song)
 void init_song(Song *song, Scale scale)
 {
     song->notes[0] = scale.c4;
-    song -> notes[0].duration = 70;
+    song -> notes[0].duration = 10;
     song->notes[1] = scale.e4;
-    song -> notes[1].duration = 70;
+    song -> notes[1].duration = 10;
     song->notes[2] = scale.C4;
-    song -> notes[2].duration = 70;
+    song -> notes[2].duration = 10;
     song->notes[3] = scale.f4;
-    song -> notes[3].duration = 70;
+    song -> notes[3].duration = 10;
     song->num_notes = 4;
     song->curr_index = 0;
 }

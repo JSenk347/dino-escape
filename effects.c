@@ -1,7 +1,5 @@
 #include "effects.h"
-#include "psg.h"
-#include "clock.h"
-#include <osbind.h>
+
 
 /**
 	FILE PURPOSE: The file must be used for the creation of sound effects generated
