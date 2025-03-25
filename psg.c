@@ -170,9 +170,9 @@ void set_envelope(int shape, unsigned int sustain)
 {
     if (shape <= MAX_ENVELOPE_SHAPE && shape >= MIN_ENVELOPE_SHAPE)
     {
-        write_psg(11, (UINT8)sustain);        /* fine evelope reg */
-        write_psg(12, (UINT8)(sustain >> 8)); /* coarse envelope reg */
-        write_psg(13, (UINT8)shape);          /* envelope shape reg */
+        write_psg(FINE_ENVELOPE_REG, (UINT8)sustain);        /* fine evelope reg */
+        write_psg(COARSE_ENVELOPE_REG, (UINT8)(sustain >> 8)); /* coarse envelope reg */
+        write_psg(SHAPE_ENVELOPE_REG, (UINT8)shape);          /* envelope shape reg */
     }
 }
 

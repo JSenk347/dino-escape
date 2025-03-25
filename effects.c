@@ -47,20 +47,22 @@ REGISTER SELECTIONS:
 		- X = Not used; M = Mode (1 - Envelope On, 0 - Envelope Off); V = Volume
 	*/
 
-void play_crash(Channel channel){
-	enable_channel(CHANNEL_A, OFF, OFF);
+void play_crash(){
+	enable_channel(EFFECTS_CHANNEL, OFF, OFF);
 	set_noise(CRASH_NOISE);
-	enable_channel(CHANNEL_A, OFF, ON);
-	enable_envelope(channel, ON);
+	set_volume(EFFECTS_CHANNEL, VOL_ON);
+	enable_channel(EFFECTS_CHANNEL, OFF, ON);
+	enable_envelope(EFFECTS_CHANNEL, ON);
 	set_envelope(CRASH_ENV_SHAPE, CRASH_ENV_SUSTAIN);
 }
 
-void play_point(Channel channel, Scale scale){
-	enable_channel(CHANNEL_A, OFF, OFF);
-	set_tone(channel, scale.f4);
-    enable_channel(CHANNEL_A, ON, OFF);
-    enable_envelope(channel, ON);
-    set_envelope(9, 5888);
+void play_point(Scale scale){
+	enable_channel(EFFECTS_CHANNEL, OFF, OFF);
+	set_tone(EFFECTS_CHANNEL, scale.f4);
+	set_volume(EFFECTS_CHANNEL, VOL_ON);
+    enable_channel(EFFECTS_CHANNEL, ON, OFF);
+    enable_envelope(EFFECTS_CHANNEL, ON);
+    set_envelope(POINT_ENV_SHAPE, POINT_ENV_SUSTAIN);
 }
 
 

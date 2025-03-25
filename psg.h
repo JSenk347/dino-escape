@@ -8,6 +8,7 @@
 #define VOL_ON 11
 #define VOL_OFF 0
 #define MUSIC_CHANNEL 0
+#define EFFECTS_CHANNEL 1
 #define MIN_ENVELOPE_SHAPE 0
 #define MAX_ENVELOPE_SHAPE 15
 #define MAX_REG 15
@@ -16,10 +17,6 @@
 #define MIN_VOLUME 1
 #define MAX_NOISE 31
 #define MIN_NOISE 1
-#define NOISE_REG 6
-#define SHAPE_REG 13
-#define PERIOD_REG_1 11
-#define PERIOD_REG_2 12
 #define PSG_REG_ADR 0xFF8800
 #define PSG_WRITE_ADR 0xFF8802
 #define wait while (!Cconis()){}Cnecin(); /*a MACRO - awaits keypress till next insturction*/
@@ -31,14 +28,6 @@ typedef unsigned int bool;
 
 /* CHANNEL_A: For music; CHANNEL_B: For effects*/
 
-/*
-typedef struct
-{
-    int fine_reg;
-    int coarse_reg;
-    int volume_reg;
-} Channel;
-*/
 
 typedef struct
 {
@@ -76,7 +65,7 @@ typedef enum
 	B_COARSE_TONE_REG,  
 	C_FINE_TONE_REG,    
 	C_COARSE_TONE_REG,  
-	NOISE_FREQ_REG,    
+	NOISE_REG,    
 	MIXER_REG,          
 	A_LEVEL_REG,        
 	B_LEVEL_REG,       
