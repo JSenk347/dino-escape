@@ -44,7 +44,11 @@ REGISTER SELECTIONS:
 		- X X X M V V V V
 		- X = Not used; M = Mode (1 - Envelope On, 0 - Envelope Off); V = Volume
 	*/
-
+/*******************************************************************************
+    PURPOSE: Play the crash sound effect when colusion with object occurs
+    INPUT:  N/A
+    OUTPUT: N/A
+*******************************************************************************/
 void play_crash(){
 	enable_channel(EFFECTS_CHANNEL, OFF, OFF);
 	set_noise(CRASH_NOISE);
@@ -53,7 +57,12 @@ void play_crash(){
 	enable_envelope(EFFECTS_CHANNEL, ON);
 	set_envelope(CRASH_ENV_SHAPE, CRASH_ENV_SUSTAIN);
 }
-
+/*******************************************************************************
+    PURPOSE: Play the point sound effect when a point is scored after passing 
+	through an obstacle.
+    INPUT:  - scale: the scale to play the point sound in
+    OUTPUT: N/A
+*******************************************************************************/
 void play_point(Scale scale){
 	enable_channel(EFFECTS_CHANNEL, OFF, OFF);
 	set_tone(EFFECTS_CHANNEL, scale.f4);

@@ -1,14 +1,23 @@
 #include "music.h"
 #include "clock.h"
 #include <stdio.h>
-
+/*******************************************************************************
+    PURPOSE: Start playing music
+    INPUT:	- Song - song to play
+    OUTPUT: - N/A
+*******************************************************************************/
 void start_music(Song song)
 {
     set_tone(MUSIC_CHANNEL, song.notes[0]); /* MAKE SURE ALL NOTES ARE THERE */
     set_volume(MUSIC_CHANNEL, VOL_ON);
     enable_channel(MUSIC_CHANNEL, ON, OFF);
 }
-
+/*******************************************************************************
+    PURPOSE: Update the note being played
+    INPUT:	- Song - song being played
+            - time_passed - time passed since last update
+    OUTPUT: - N/A
+*******************************************************************************/
 void update_music(UINT32 time_passed, Song *song)
 {
     int i = 0;
@@ -34,7 +43,12 @@ void update_music(UINT32 time_passed, Song *song)
     
     return;
 }
-
+/*******************************************************************************
+    PURPOSE: Initialize the song to be played
+    INPUT:	- Song - song being played
+            - Scale - scale to play the song in
+    OUTPUT: - N/A
+*******************************************************************************/
 void init_song(Song *song, Scale scale)
 {
     song->notes[0] = scale.c4;

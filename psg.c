@@ -1,7 +1,12 @@
 #include "psg.h"
 #include <osbind.h>
 #include <stdio.h>
-
+/*******************************************************************************
+    PURPOSE: Set up the channels to play music
+    INPUT:	- reg - register to write to
+            - val - value to write to register
+    OUTPUT: - N/A
+*******************************************************************************/
 void write_psg(int reg, UINT8 val)
 {
     volatile char *PSG_reg_select = PSG_REG_ADR;
@@ -30,7 +35,12 @@ UINT8 read_psg(int reg)
     Super(old_ssp); /* exit privelaged mode */
     return PSG_reg_val;
 }
-
+/*******************************************************************************
+    PURPOSE: Set up the channels to play music
+    INPUT:	- channel - channel to set tone for
+            - note - note to play
+    OUTPUT: - N/A
+*******************************************************************************/
 void set_tone(Channel channel, Note note)
 {
     if (channel <= CHANNEL_C && channel >= CHANNEL_A){
@@ -62,6 +72,12 @@ void set_volume(Channel channel, int volume){
     }
 }
 */
+/*******************************************************************************
+    PURPOSE: Set the volume of a channel
+    INPUT:	- channel - channel to set volume for
+            - volume - volume to set channel to
+    OUTPUT: - N/A
+*******************************************************************************/
 void set_volume(Channel channel, int volume)
 {
     if (volume <= MAX_VOLUME && volume >= MIN_VOLUME)
@@ -95,7 +111,12 @@ void enable_envelope(Channel channel, bool is_on){
     write_psg(channel.volume_reg, vol);
 }
 */
-
+/*******************************************************************************
+    PURPOSE: Enable the envelope for a channel important for music
+    INPUT:	- channel - channel to set volume for
+            - is_on - boolean to turn envelope on or off
+    OUTPUT: - N/A
+*******************************************************************************/
 void enable_envelope(Channel channel, bool is_on)
 {
     if ((is_on || !is_on) && (channel <= CHANNEL_C && channel >= CHANNEL_A))
@@ -124,7 +145,13 @@ void enable_envelope(Channel channel, bool is_on)
     }
     return;
 }
-
+/*******************************************************************************
+    PURPOSE: Turn on a channel so that it can be used for game sound
+    INPUT:	- channel - channel to set volume for
+            - tone_on - boolean to turn tone on or off
+            - noise_on - boolean to turn noise on or off
+    OUTPUT: - N/A
+*******************************************************************************/
 void enable_channel(Channel channel, bool tone_on, bool noise_on)
 {
     /* 1 means OFF and 0 means ON in the mixer register*/
@@ -156,7 +183,11 @@ void enable_channel(Channel channel, bool tone_on, bool noise_on)
         write_psg(MIXER_REG, mixer_setting);
     }
 }
-
+/*******************************************************************************
+    PURPOSE: Set the noise for the noise channel
+    INPUT:	- tuning - tuning for the noise channel
+    OUTPUT: - N/A
+*******************************************************************************/
 void set_noise(int tuning)
 {
     if (tuning <= MAX_NOISE && tuning >= MIN_NOISE)
@@ -165,7 +196,12 @@ void set_noise(int tuning)
     }
     return;
 }
-
+/*******************************************************************************
+    PURPOSE: Set the envelope for the envelope channel
+    INPUT:	- shape - shape of the envelope
+            - sustain - sustain of the envelope
+    OUTPUT: - N/A
+*******************************************************************************/
 void set_envelope(int shape, unsigned int sustain)
 {
     if (shape <= MAX_ENVELOPE_SHAPE && shape >= MIN_ENVELOPE_SHAPE)
@@ -175,7 +211,11 @@ void set_envelope(int shape, unsigned int sustain)
         write_psg(SHAPE_ENVELOPE_REG, (UINT8)shape);          /* envelope shape reg */
     }
 }
-
+/*******************************************************************************
+    PURPOSE: Stop the sound for the game
+    INPUT:	-  N/A
+    OUTPUT: - N/A
+*******************************************************************************/
 void stop_sound()
 {
     /* 0x3F = 0011 1111 is the mixer setting to disable all tone and noise on all channels */
