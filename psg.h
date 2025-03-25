@@ -7,11 +7,15 @@
 #define OFF 0
 #define VOL_ON 11
 #define VOL_OFF 0
+#define MUSIC_CHANNEL 0
 #define MIN_ENVELOPE_SHAPE 0
 #define MAX_ENVELOPE_SHAPE 15
+#define MAX_REG 15
+#define MIN_REG 0
+#define MAX_VOLUME 15
+#define MIN_VOLUME 1
 #define MAX_NOISE 31
-#define MIN_NOISE 0
-#define MIXER_REG 7
+#define MIN_NOISE 1
 #define NOISE_REG 6
 #define SHAPE_REG 13
 #define PERIOD_REG_1 11
@@ -27,12 +31,14 @@ typedef unsigned int bool;
 
 /* CHANNEL_A: For music; CHANNEL_B: For effects*/
 
+/*
 typedef struct
 {
     int fine_reg;
     int coarse_reg;
     int volume_reg;
 } Channel;
+*/
 
 typedef struct
 {
@@ -40,6 +46,7 @@ typedef struct
     int coarse;
     int duration;
 } Note;
+
 
 typedef struct
 {
@@ -51,32 +58,7 @@ typedef struct
     Note c4; /*{239,0}*/
     Note C4; /*{225,0}*/
     Note f4; /*{178, 0}*/
-
 } Scale;
-
-typedef struct
-{
-    Note g4;
-    Note c5;
-    unsigned int num_notes;
-    /* notes = [g4 = {159, 0}, c5 = {119,0}] */
-} Lvl_up;
-
-typedef struct
-{
-    Note note;
-    /* data */
-} Crash;
-
-typedef struct
-{
-    Note e4;
-    Note D4;
-    Note d4;
-    Note C4;
-    Note c4;
-    unsigned int num_notes;
-} Game_Over;
 
 typedef enum
 {
@@ -84,28 +66,27 @@ typedef enum
     CHANNEL_B,
     CHANNEL_C,
     NUM_CHANNELS
-} ChannelName;
+} Channel;
 
-/*
 typedef enum
 {
 	A_FINE_TONE_REG,
-	A_ROUGH_TONE_REG,   
+	A_COARSE_TONE_REG,   
 	B_FINE_TONE_REG,  
-	B_ROUGH_TONE_REG,  
+	B_COARSE_TONE_REG,  
 	C_FINE_TONE_REG,    
-	C_ROUGH_TONE_REG,  
+	C_COARSE_TONE_REG,  
 	NOISE_FREQ_REG,    
 	MIXER_REG,          
 	A_LEVEL_REG,        
 	B_LEVEL_REG,       
 	C_LEVEL_REG,        
 	FINE_ENVELOPE_REG,  
-	ROUGH_ENVELOPE_REG,
+	COARSE_ENVELOPE_REG,
 	SHAPE_ENVELOPE_REG
 } Register;
 
-*/
+
 
 /******************REQUIRED FUNCTIONS****************** */
 /**
@@ -158,7 +139,7 @@ void enable_envelope(Channel channel, bool is_on);
  * @param noise_on Whether you're enabling noise or not (background noise)
  * @return none
  */
-void enable_channel(UINT8 channel, bool tone_on, bool noise_on);
+void enable_channel(Channel channel, bool tone_on, bool noise_on);
 
 /**
  * @brief Silences all PSG sound production via the mixer and volume registers

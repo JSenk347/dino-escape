@@ -32,8 +32,8 @@ void start_music();
  * call
  * @return none
  */
-void update_music(UINT32 time_passed, Channel channels[], Song *song);
+void update_music(UINT32 time_passed, Song *song);
 
-void init_song(Note notes[4], Scale scale);
+void init_song(Song *song, Scale scale);
 
 #endif
