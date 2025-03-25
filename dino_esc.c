@@ -15,6 +15,8 @@
 #include "bitmaps.h"
 #include "clock.h"
 #include "types.h"
+#include "music.h"
+#include "psg.h"
 #include <stdio.h>
 #include <osbind.h>
 #include <linea.h>
@@ -29,8 +31,11 @@ int main()
     int lcv = FALSE;  
     int i;
     UINT32 curr_time, prev_time, time_elapsed;
+    Scale scale;
+    Song song;
     bool game_over = FALSE;
-    
+
+
     /* INITIALIZE MODEL */
     void *base = Physbase();  
     void *back_buffer = (void *)(((UINT32)pre_buffer + 255) & 0xFFFFFF00L); 
@@ -57,6 +62,9 @@ int main()
          0},                                                    /* Current score */
         {FALSE, FALSE, FALSE},                                  /* Game state */
     };
+
+    scale = init_scale();
+    init_song(&song, scale);
     linea0();
     /*disable_cursor(); Not needed here, already called in init_screen() */
 
@@ -78,6 +86,8 @@ int main()
      }*/
 
      /* RUN GAME UNTIL GAME OVER*/ 
+    prev_time = get_time();
+    start_music(song);
     while (game_over == FALSE) {
         /* CHECKS FOR PENDING INPUT */
         if (Cconis()) {
@@ -88,9 +98,9 @@ int main()
             }
         }
 
-        /* CHECKS FOR CLOCK TICK */
         curr_time = get_time();
         time_elapsed = curr_time - prev_time;
+        /* CHECKS FOR CLOCK TICK */
         if (time_elapsed > 0) {
             /* PROCESS SYNCHRONOUS EVENTS */
 
@@ -99,12 +109,16 @@ int main()
                 process_input(&new_game, key);
                 key = NULL;                     /* Resets input key */
             }
+
+            
             /* Moves walls */
             move_walls(&new_game);
             /* Checks for collsion */
             check_collisions(&new_game);
             /* Checks score */
             check_score(&new_game);
+
+            update_music(time_elapsed, &song);
                 
             /* RENDER MODEL (NEXT FRAME) */ 
             render_objs(&new_game, (UINT32 *)back_buffer);
@@ -126,7 +140,6 @@ int main()
                 /*render_objs(&new_game, (UINT32 *)base);
             }*/
 
-            prev_time = curr_time;
         }
          if (new_game.game_state.lost_flag == TRUE) {
              game_over = TRUE;
@@ -138,6 +151,7 @@ int main()
             lcv = TRUE;
         }
     } 
+    stop_sound();
     Setscreen(-1, base, -1);
     return 0;
 }

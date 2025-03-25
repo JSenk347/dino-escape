@@ -10,6 +10,7 @@ typedef struct{
     Note notes[4];
     int num_notes;
     int curr_index;
+    int timer;
 } Song;
 
 typedef enum{

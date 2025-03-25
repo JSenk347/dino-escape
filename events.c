@@ -106,8 +106,8 @@ void check_collisions(Model *game)
             dino->top_left.y < top->bot_left.y &&
             dino->bot_left.y > top->top_left.y)
         {
-            play_crash();
             /*reflect_dino_death(game);*/ /* COMMENT THIS OUT FOR TESTING */
+            if (!game -> game_state.dead_flag) play_crash();
             game->game_state.dead_flag = TRUE;
             game->game_state.start_flag = FALSE;
             return;
@@ -122,7 +122,8 @@ void check_collisions(Model *game)
             /*printf("Collision with bottom obstacle!, WALL %u\n",
             i + 1); */
             /*reflect_dino_death(game);*/
-            play_crash();
+ 
+            if (!game -> game_state.dead_flag) play_crash();
             game->game_state.dead_flag = TRUE;
             game->game_state.start_flag = FALSE;
             return;
