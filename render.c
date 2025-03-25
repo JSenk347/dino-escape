@@ -77,8 +77,8 @@ void render_dino(const Model *game, UINT32 *base)
             bitmap = dino_wup_bitmap;
         }
         /* Draw new Dino frame */
-        clear_region(base, dino->prev_top_lt.x, dino->prev_top_lt.y, 0x00000000);       /* clears previous location dino bitmap */
-        clear_region(base, dino->top_left.x, dino->top_left.y, 0x00000000);             /* clears previous dino wings position */
+       /* clear_region(base, dino->prev_top_lt.x, dino->prev_top_lt.y, 0x00000000);       /* clears previous location dino bitmap 
+        clear_region(base, dino->top_left.x, dino->top_left.y, 0x00000000);              clears previous dino wings position */
         plot_bitmap_32(base, dino->top_left.x, dino->top_left.y, bitmap, HEIGHT_32);
     }
     else {
@@ -313,7 +313,12 @@ void clr_bot_lns(UINT32 *base, Obs *bottom, int vel) {
         }
     }
 }*/
-
+/*******************************************************************************
+    PURPOSE: Double buffers the screen by swapping between buffers and setting the screen 
+    INPUT:	- front: pointer to the front buffer
+            - back: pointer to the back buffer
+    OUTPUT: - N/A
+*******************************************************************************/
 void swap_buffer(void **front, void **back){
     void *temp = *front;
     *front = *back;

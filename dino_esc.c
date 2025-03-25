@@ -25,17 +25,16 @@ UINT8 pre_buffer1[32255];
 int main()
 {
     char key;
-    int x;  
+    int lcv = FALSE;  
     int i;
     UINT32 curr_time, prev_time, time_elapsed;
     bool game_over = FALSE;
     
     /* INITIALIZE MODEL */
     void *base = Physbase();  
-    void *back_buffer = base;  
-    void *back1_buffer = (void *)(((UINT32)pre_buffer + 255) & 0xFFFFFF00L); 
-    void *back2_buffer = base; 
-    
+    void *back_buffer = (void *)(((UINT32)pre_buffer + 255) & 0xFFFFFF00L); 
+    void *front_buffer = base; 
+
     Model new_game = {
         {{32, 184}, {63, 184}, {32, 215}, {63, 215}, {32, 184}, 0, 0, 0}, /* Dino */
         {
@@ -61,10 +60,10 @@ int main()
     /*disable_cursor(); Not needed here, already called in init_screen() */
 
     /* RENDER FIRST FRAME OF MODEL */
-    init_screen(&new_game, (UINT16 *)back2_buffer);
-    init_screen(&new_game, (UINT16 *)back1_buffer);
-    render_objs(&new_game, (UINT32 *)back2_buffer);
-    render_objs(&new_game, (UINT32 *)back1_buffer);
+    init_screen(&new_game, (UINT16 *)front_buffer);
+    init_screen(&new_game, (UINT16 *)back_buffer);
+    render_objs(&new_game, (UINT32 *)back_buffer);
+    render_objs(&new_game, (UINT32 *)front_buffer);
      /* RUN GAME UNTIL GAME OVER 
      while (game_over == FALSE){
         move_walls(&new_game);
@@ -107,9 +106,9 @@ int main()
             check_score(&new_game);
                 
             /* RENDER MODEL (NEXT FRAME) */ 
-            render_objs(&new_game, (UINT32 *)back2_buffer);
-            swap_buffer(&back1_buffer, &back2_buffer);
-            clear_cave_region((UINT32 *)back2_buffer);
+            render_objs(&new_game, (UINT32 *)back_buffer);
+            swap_buffer(&front_buffer, &back_buffer);
+            clear_cave_region((UINT32 *)back_buffer);
             
             /*clear_cave_region((UINT32 *)back2_buffer); */
             /*if (!new_game.game_state.dead_flag) {
@@ -133,10 +132,10 @@ int main()
         }
 
         /* Syncs both buffers once collision has occured */
-        if (new_game.game_state.dead_flag && x != TRUE){
-            render_objs(&new_game, (UINT32 *)back2_buffer);
-            render_objs(&new_game, (UINT32 *)back1_buffer);
-            x = TRUE;
+        if (new_game.game_state.dead_flag && lcv != TRUE){
+            render_objs(&new_game, (UINT32 *)back_buffer);
+            render_objs(&new_game, (UINT32 *)front_buffer);
+            lcv = TRUE;
         }
     } 
     Setscreen(-1, base, -1);
