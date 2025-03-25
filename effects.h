@@ -1,15 +1,13 @@
 #ifndef EFFECTS_H
 #define EFFECTS_H
 
-#define VOL_ON 11
-#define VOL_OFF 0
-
 #include "psg.h"
 
+#define CRASH_ENV_SHAPE 3
+#define CRASH_ENV_SUSTAIN 8000
+#define CRASH_NOISE 3
+
 /* REQUIRED FUNCTIONS */
-
-
-/* NOT-REQUIRED */
 void play_crash();
 
 void play_point();

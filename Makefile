@@ -118,7 +118,7 @@ clean_game:
 	$(RM) $(ESC_OBJ) $(ESC)
 
 clean_effects:
-	$(RM) $(EFF_OBJS) $(SND)
+	$(RM) $(EFF_OBJS) $(EFF)
 
 clean_music:
 	$(RM) $(MUS_OBJS) $(MUS)

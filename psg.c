@@ -43,9 +43,14 @@ void set_volume(Channel channel, int volume){
     }
 }
 
-void toggle_envelope(Channel channel){
+void enable_envelope(Channel channel, bool is_on){
     int vol = read_psg(channel.volume_reg);
-    vol ^= 0x10;
+    if (is_on){
+        vol |= 0x11;
+    } else {
+        vol &= 0x01;
+    }
+    
     write_psg(channel.volume_reg, vol);
 }
 
@@ -77,17 +82,18 @@ void enable_channel(UINT8 channel, bool tone_on, bool noise_on){
 }
 
 void set_noise(int tuning){
-    if (tuning <= MAX_NOISE && tuning >= 1){
+    if (tuning <= MAX_NOISE && tuning >= MIN_NOISE){
         write_psg(NOISE_REG, tuning);
     }
     return;
 }
 
 void set_envelope(int shape, unsigned int sustain){
-    /*if (shape <= 15 && shape >= 1)*/
-    write_psg(13, 0x1000); /* sets shape */
-    write_psg(11, 0x1111);
-    write_psg(12, 0x1111);
+    if (shape <= MAX_ENVELOPE_SHAPE && shape >= MIN_ENVELOPE_SHAPE){
+        write_psg(11, (UINT8)sustain); /* fine evelope reg */
+        write_psg(12, (UINT8)(sustain >> 8)); /* coarse envelope reg */
+        write_psg(13, (UINT8)shape); /* envelope shape reg */
+    }
 }
 
 void stop_sound(){

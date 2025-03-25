@@ -3,11 +3,14 @@
 
 #include <osbind.h>
 
-#define TRUE 1
-#define FALSE 0
+#define ON 1
+#define OFF 0
 #define VOL_ON 11
 #define VOL_OFF 0
+#define MIN_ENVELOPE_SHAPE 0
+#define MAX_ENVELOPE_SHAPE 15
 #define MAX_NOISE 31
+#define MIN_NOISE 0
 #define MIXER_REG 7
 #define NOISE_REG 6
 #define SHAPE_REG 13
@@ -21,6 +24,8 @@ typedef char UINT8;
 typedef unsigned int bool;
 
 /* Sharp Notes: Indicated by uppercase; Flat Notes: indicated by lowercase*/
+
+/* CHANNEL_A: For music; CHANNEL_B: For effects*/
 
 typedef struct
 {
@@ -81,6 +86,27 @@ typedef enum
     NUM_CHANNELS
 } ChannelName;
 
+/*
+typedef enum
+{
+	A_FINE_TONE_REG,
+	A_ROUGH_TONE_REG,   
+	B_FINE_TONE_REG,  
+	B_ROUGH_TONE_REG,  
+	C_FINE_TONE_REG,    
+	C_ROUGH_TONE_REG,  
+	NOISE_FREQ_REG,    
+	MIXER_REG,          
+	A_LEVEL_REG,        
+	B_LEVEL_REG,       
+	C_LEVEL_REG,        
+	FINE_ENVELOPE_REG,  
+	ROUGH_ENVELOPE_REG,
+	SHAPE_ENVELOPE_REG
+} Register;
+
+*/
+
 /******************REQUIRED FUNCTIONS****************** */
 /**
  * @brief Writes a specified value (0-255) to a specified register (0-15) of the PSG
@@ -113,15 +139,17 @@ void set_tone(Channel channel, Note note);
 void set_volume(Channel channel, int volume);
 
 /**
- * @brief Loads the noise register with the defined frequency
+ * @brief Loads the noise register with the defined frequency (1-31)
  * @param freq The frequency that will be played as noise (1-31)
  */
 void set_noise(int tuning);
 
 /**
- * @brief Defines the shape and 
+ * @brief Defines the evelope shape and period (sustain (1 - 65535))
  */
 void set_envelope(int shape, unsigned int sustain);
+
+void enable_envelope(Channel channel, bool is_on);
 
 /**
  * @brief Enables the tone and/or noise of a specified channel
@@ -149,6 +177,6 @@ Scale init_scale();
  */
 void init_channels(Channel channels[NUM_CHANNELS]);
 
-void toggle_envelope(Channel channel);
+
 
 #endif
