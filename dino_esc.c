@@ -14,6 +14,7 @@
 #include "input.h"
 #include "bitmaps.h"
 #include "clock.h"
+#include "types.h"
 #include <stdio.h>
 #include <osbind.h>
 #include <linea.h>

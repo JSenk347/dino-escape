@@ -12,6 +12,7 @@
 #include <time.h>
 #include <stdlib.h>
 
+
 /*******************************************************************************
 	PURPOSE: Moves the dino vertically up or down the screen, while staying
 			 within the gameplay borders.

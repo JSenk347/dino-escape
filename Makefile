@@ -64,7 +64,7 @@ model.o: model.c model.h
 bitmaps.o: bitmaps.c bitmaps.h
 	$(CC) -c bitmaps.c
 
-raster.o: raster.c raster.h
+raster.o: raster.c raster.h types.h
 	$(CC) -c raster.c
 
 input.o: input.c input.h

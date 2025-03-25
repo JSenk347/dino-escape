@@ -6,6 +6,7 @@
 #include "events.h"
 #include "model.h"
 #include "bitmaps.h"
+#include "types.h"
 
 
 void init_screen(const Model *game, UINT16 *base);
