@@ -26,8 +26,7 @@ UINT8 pre_buffer[32255]; /* 32255 = 320 * 200 + 15 */
 int main()
 {
     char key;
-    int /*lcv*/ has_run_once = FALSE;  /* loop control variable */
-    int i;
+    int has_run_once = FALSE;  /* loop control variable */
     UINT32 curr_time, prev_time, time_elapsed;
     Scale scale;
     Song song;
