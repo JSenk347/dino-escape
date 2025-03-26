@@ -60,6 +60,7 @@ int main()
         {FALSE, FALSE, FALSE},                                  /* Game state */
     };
 
+    
     scale = init_scale();
     init_song(&song, scale);
     /*linea0(); No longer using linea functions */ 
@@ -70,17 +71,6 @@ int main()
     init_screen(&new_game, (UINT16 *)back_buffer);
     render_objs(&new_game, (UINT32 *)back_buffer);
     render_objs(&new_game, (UINT32 *)front_buffer);
-     /* RUN GAME UNTIL GAME OVER 
-     while (game_over == FALSE){
-        move_walls(&new_game);
-        read_input(&new_game);
-        check_collisions(&new_game);
-        check_score(&new_game);
-
-        if (new_game.game_state.lost_flag == TRUE){
-            game_over = TRUE;
-        }
-     }*/
 
      /* RUN GAME UNTIL GAME OVER*/ 
     prev_time = get_time();
@@ -106,8 +96,6 @@ int main()
                 process_input(&new_game, key);
                 key = NULL;                     /* Resets input key */
             }
-
-            
             /* Moves walls */
             move_walls(&new_game);
             /* Checks for collsion */
