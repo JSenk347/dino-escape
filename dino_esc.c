@@ -22,8 +22,6 @@
 #include <linea.h>
 
 UINT8 pre_buffer[32255]; /* 32255 = 320 * 200 + 15 */
-UINT8 pre_buffer1[32255]; 
-
 
 int main()
 {
