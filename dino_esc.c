@@ -26,7 +26,7 @@ UINT8 pre_buffer[32255]; /* 32255 = 320 * 200 + 15 */
 int main()
 {
     char key;
-    int lcv = FALSE;  
+    int /*lcv*/ has_run_once = FALSE;  /* loop control variable */
     int i;
     UINT32 curr_time, prev_time, time_elapsed;
     Scale scale;
@@ -144,9 +144,9 @@ int main()
         }
 
         /* Syncs both buffers once collision has occured */
-        if (new_game.game_state.dead_flag && lcv != TRUE){
+        if (new_game.game_state.dead_flag && /* lcv */ has_run_once != TRUE){
             render_objs(&new_game, (UINT32 *)back_buffer);
-            lcv = TRUE;
+            /* lcv */ has_run_once = TRUE;
         }
     } 
     stop_sound();
