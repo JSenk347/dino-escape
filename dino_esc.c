@@ -85,9 +85,9 @@ int main()
             }
         }
 
+        /* CHECKS FOR CLOCK TICK */
         curr_time = get_time();
         time_elapsed = curr_time - prev_time;
-        /* CHECKS FOR CLOCK TICK */
         if (time_elapsed > 0) {
             /* PROCESS SYNCHRONOUS EVENTS */
 
