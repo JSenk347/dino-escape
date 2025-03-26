@@ -26,7 +26,7 @@ void update_music(UINT32 time_passed, Song *song)
     int num_notes = song -> num_notes;
     int *timer = &song -> timer;
     
-    
+    /* If time_passed is > 70 (greater than 1 second) */
     if ((time_passed % (notes[*curr_index].duration + 1)) >= notes[*curr_index].duration)
     {
         if (*curr_index >= num_notes - 1)

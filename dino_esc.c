@@ -22,14 +22,11 @@
 #include <linea.h>
 
 UINT8 pre_buffer[32255]; /* 32255 = 320 * 200 + 15 */
-UINT8 pre_buffer1[32255]; 
-
 
 int main()
 {
     char key;
-    int lcv = FALSE;  
-    int i;
+    bool has_run_once = FALSE;  /* loop control variable */
     UINT32 curr_time, prev_time, time_elapsed;
     Scale scale;
     Song song;
@@ -63,9 +60,10 @@ int main()
         {FALSE, FALSE, FALSE},                                  /* Game state */
     };
 
+    
     scale = init_scale();
     init_song(&song, scale);
-    linea0();
+    /*linea0(); No longer using linea functions */ 
     /*disable_cursor(); Not needed here, already called in init_screen() */
 
     /* RENDER FIRST FRAME OF MODEL */
@@ -73,17 +71,6 @@ int main()
     init_screen(&new_game, (UINT16 *)back_buffer);
     render_objs(&new_game, (UINT32 *)back_buffer);
     render_objs(&new_game, (UINT32 *)front_buffer);
-     /* RUN GAME UNTIL GAME OVER 
-     while (game_over == FALSE){
-        move_walls(&new_game);
-        read_input(&new_game);
-        check_collisions(&new_game);
-        check_score(&new_game);
-
-        if (new_game.game_state.lost_flag == TRUE){
-            game_over = TRUE;
-        }
-     }*/
 
      /* RUN GAME UNTIL GAME OVER*/ 
     prev_time = get_time();
@@ -98,9 +85,9 @@ int main()
             }
         }
 
+        /* CHECKS FOR CLOCK TICK */
         curr_time = get_time();
         time_elapsed = curr_time - prev_time;
-        /* CHECKS FOR CLOCK TICK */
         if (time_elapsed > 0) {
             /* PROCESS SYNCHRONOUS EVENTS */
 
@@ -109,8 +96,6 @@ int main()
                 process_input(&new_game, key);
                 key = NULL;                     /* Resets input key */
             }
-
-            
             /* Moves walls */
             move_walls(&new_game);
             /* Checks for collsion */
@@ -146,9 +131,9 @@ int main()
         }
 
         /* Syncs both buffers once collision has occured */
-        if (new_game.game_state.dead_flag && lcv != TRUE){
+        if (new_game.game_state.dead_flag && /* lcv */ has_run_once != TRUE){
             render_objs(&new_game, (UINT32 *)back_buffer);
-            lcv = TRUE;
+            /* lcv */ has_run_once = TRUE;
         }
     } 
     stop_sound();

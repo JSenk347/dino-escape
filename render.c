@@ -160,6 +160,7 @@ void render_obs(const Model *model, UINT32 *base) {
 
             /* Only replots obstacles if no collision has occured */
             if (top -> prev_top_lt.x != top -> top_left.x) {
+                
                 /* Top obstacle */
                 clr_top_lns(base, top, vel);
                 clear_region(base, top->bot_left.x + vel*2, (top->bot_left.y) - 31, 0x00000000);
@@ -172,19 +173,6 @@ void render_obs(const Model *model, UINT32 *base) {
                 draw_bot_lns(base, bottom, vel);
                 plot_bitmap_32(base, bottom->top_left.x, bottom->top_left.y, obs_top_edge_bitmap, HEIGHT_32);
 
-                /* NO LONGER NEEDED */
-                /*if (top->top_right.x == R_BORDER_X - 2 || top->top_right.x == R_BORDER_X - 1) {
-                    /* Cancels out the lines that are supposed to cancel out old lines on the first plot, since there are no old lines on the first plot */ 
-                    /*plot_gline((top->top_left.x) + vel, T_BORDER_Y + 1, (top->top_left.x) + vel, (top->bot_left.y) - 31, XOR);                 
-                    plot_gline((top->top_left.x) + vel + 1, T_BORDER_Y + 1, (top->top_left.x) + vel + 1, (top->bot_left.y) - 31, XOR); 
-                    plot_gline((top->top_right.x) + vel, T_BORDER_Y + 1, (top->top_right.x) + vel, (top->bot_right.y) - 31, XOR);              
-                    plot_gline((top->top_right.x) + 1, T_BORDER_Y + 1, (top->top_right.x) + 1, (top->bot_right.y) - 31, XOR); 
-
-                    plot_gline((bottom->top_left.x) + vel, (bottom->top_left.y) + 31, (bottom->top_left.x) + vel, bottom->bot_left.y, XOR);
-                    plot_gline((bottom->top_left.x) + vel + 1, (bottom->top_left.y) + 31, (bottom->top_left.x) + vel + 1, bottom->bot_left.y, XOR);
-                    plot_gline((bottom->top_right.x) + vel, (bottom->top_right.y) + 31, (bottom->top_right.x) + vel, bottom->bot_right.y, XOR);
-                    plot_gline((bottom->top_right.x) + 1, (bottom->top_right.y) + 31, (bottom->top_right.x) + 1, bottom->bot_right.y, XOR);
-                }*/
                 if (wall -> top.top_left.x <= L_BORDER_X + 2) {
                     clear_far_left(base);
                 }
