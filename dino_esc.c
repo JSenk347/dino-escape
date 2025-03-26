@@ -26,7 +26,7 @@ UINT8 pre_buffer[32255]; /* 32255 = 320 * 200 + 15 */
 int main()
 {
     char key;
-    int has_run_once = FALSE;  /* loop control variable */
+    bool has_run_once = FALSE;  /* loop control variable */
     UINT32 curr_time, prev_time, time_elapsed;
     Scale scale;
     Song song;
@@ -62,7 +62,7 @@ int main()
 
     scale = init_scale();
     init_song(&song, scale);
-    linea0();
+    /*linea0(); No longer using linea functions */ 
     /*disable_cursor(); Not needed here, already called in init_screen() */
 
     /* RENDER FIRST FRAME OF MODEL */
