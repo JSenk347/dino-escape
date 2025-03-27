@@ -7,6 +7,7 @@
  FILE: dino_esc.c
  SUMMARY: Contains the main game module for Dino Escape
 *******************************************************************************/
+#include "screen.h"
 #include "render.h"
 #include "events.h"
 #include "model.h"
@@ -34,7 +35,8 @@ int main()
 
 
     /* INITIALIZE MODEL */
-    void *base = Physbase();  
+    UINT8 *temp = get_video_base();
+    void *base = temp;
     void *back_buffer = (void *)(((UINT32)pre_buffer + 255) & 0xFFFFFF00L); 
     void *front_buffer = base; 
 

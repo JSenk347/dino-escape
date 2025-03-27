@@ -11,6 +11,7 @@
         "bitmaps.h": "c",
         "events.h": "c",
         "game_snd.h": "c",
-        "music.h": "c"
+        "music.h": "c",
+        "screen.h": "c"
     }
 }
