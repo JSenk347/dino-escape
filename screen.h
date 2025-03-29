@@ -3,7 +3,7 @@
 #include <osbind.h>
 #include "types.h"
 
-UINT8 *get_video_base();
 
+void set_video_base(UINT16 *base);
 
 #endif

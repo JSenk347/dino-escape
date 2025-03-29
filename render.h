@@ -7,6 +7,8 @@
 #include "model.h"
 #include "bitmaps.h"
 #include "types.h"
+#include "base.h"
+#include "screen.h"
 
 
 void init_screen(const Model *game, UINT16 *base);

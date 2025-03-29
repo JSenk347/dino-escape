@@ -14,6 +14,8 @@
 #include "tst_mod.h"
 #include "bitmaps.h"
 #include "clock.h"
+#include "base.h"
+#include "screen.h"
 #include <stdio.h>
 #include <osbind.h>
 #include <linea.h>
@@ -311,7 +313,8 @@ void swap_buffer(void **front, void **back){
     void *temp = *front;
     *front = *back;
     *back = temp;
-    Setscreen(-1, *front, -1);
+    /*Setscreen(-1, *front, -1); */
+    set_video_base((UINT16*)*front); 
     Vsync();
 }
 

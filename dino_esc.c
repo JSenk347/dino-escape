@@ -7,6 +7,7 @@
  FILE: dino_esc.c
  SUMMARY: Contains the main game module for Dino Escape
 *******************************************************************************/
+#include "base.h"
 #include "screen.h"
 #include "render.h"
 #include "events.h"
@@ -139,6 +140,7 @@ int main()
         }
     } 
     stop_sound();
-    Setscreen(-1, base, -1);
+    /*Setscreen(-1, (UINT16*)base, -1);*/
+    set_video_base((UINT16*)base); 
     return 0;
 }
