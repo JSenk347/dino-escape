@@ -78,6 +78,7 @@ int main()
      /* RUN GAME UNTIL GAME OVER*/ 
     prev_time = get_time();
     start_music(song);
+    
     while (game_over == FALSE) {
         /* CHECKS FOR PENDING INPUT */
         if (Cconis()) {
@@ -91,7 +92,8 @@ int main()
         /* CHECKS FOR CLOCK TICK */
         curr_time = get_time();
         time_elapsed = curr_time - prev_time;
-        if (time_elapsed > 0) {
+        if (render_request == TRUE) {
+            render_request = FALSE; /* Resets render request flag */
             /* PROCESS SYNCHRONOUS EVENTS */
 
             /* Moves dino */
@@ -113,21 +115,6 @@ int main()
             swap_buffer(&front_buffer, &back_buffer);
             clear_cave_region((UINT32 *)back_buffer);
             
-            /*clear_cave_region((UINT32 *)back2_buffer); */
-            /*if (!new_game.game_state.dead_flag) {
-                move_walls(&new_game);
-                check_collisions(&new_game);
-                
-                /* Render model (next frame)*/ 
-                /*render_objs(&new_game, (UINT32 *)base);
-            }
-            else {
-                reflect_dino_death(&new_game);
-
-                 /*Render model (next frame) */
-                /*render_objs(&new_game, (UINT32 *)base);
-            }*/
-
         }
          if (new_game.game_state.lost_flag == TRUE) {
              game_over = TRUE;

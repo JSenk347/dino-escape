@@ -9,7 +9,7 @@ MOD = tst_mod
 REN_OBJS = events.o model.o render.o bitmaps.o raster.o input.o tst_ren.o
 REN = tst_ren
 
-ESC_OBJ = model.o events.o render.o raster.o bitmaps.o input.o clock.o effects.o music.o psg.o base.o screen.o dino_esc.o
+ESC_OBJ = model.o events.o render.o raster.o bitmaps.o input.o clock.o effects.o music.o psg.o base.o screen.o isr.o vbl.o dino_esc.o
 ESC = dino_esc
 
 EFF_OBJS = tst_eff.o psg.o effects.o
@@ -51,6 +51,12 @@ $(MUS): $(MUS_OBJS)
 
 $(PSG): $(PSG_OBJS)
 	$(CC) -o $(PSG) $(PSG_OBJS)
+
+isr.o: isr.s isr.h
+	gen -D -L2 isr.s
+
+vbl.o: vbl.c vbl.h
+	$(CC) -c vbl.c
 
 render.o: render.c render.h
 	$(CC) -c render.c
