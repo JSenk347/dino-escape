@@ -53,6 +53,11 @@ void init_screen(const Model *game, UINT16 *base)
 *******************************************************************************/
 void render_objs(const Model *new_game, UINT32 *base)
 {
+    /* Renders splash screen start button */
+    if (new_game->game_state.start_flag == FALSE) {
+        render_start(new_game, base);
+    }
+
     render_obs(new_game, base);
     render_dino(new_game, base);
     render_score(new_game, (UINT32 *)base); 

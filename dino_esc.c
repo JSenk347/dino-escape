@@ -63,17 +63,24 @@ int main()
         {FALSE, FALSE, FALSE},                                  /* Game state */
     };
 
-    
+    /* SPLASH SCREEN */
+    init_screen(&new_game, (UINT16 *)front_buffer);
+    init_screen(&new_game, (UINT16 *)back_buffer);
+    render_objs(&new_game, (UINT32 *)back_buffer);
+    render_objs(&new_game, (UINT32 *)front_buffer);
+
+    /* Waiting for enter or quit */
+
     scale = init_scale();
     init_song(&song, scale);
     /*linea0(); No longer using linea functions */ 
     /*disable_cursor(); Not needed here, already called in init_screen() */
 
     /* RENDER FIRST FRAME OF MODEL */
-    init_screen(&new_game, (UINT16 *)front_buffer);
+    /*init_screen(&new_game, (UINT16 *)front_buffer);
     init_screen(&new_game, (UINT16 *)back_buffer);
     render_objs(&new_game, (UINT32 *)back_buffer);
-    render_objs(&new_game, (UINT32 *)front_buffer);
+    render_objs(&new_game, (UINT32 *)front_buffer);*/
 
      /* RUN GAME UNTIL GAME OVER*/ 
     prev_time = get_time();
