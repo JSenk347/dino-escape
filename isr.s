@@ -15,3 +15,5 @@ _custom_vbl_isr:
 	jsr _handle_VBL
 	movem.l (sp)+,d0-2/a0-2
 	rte
+void custom_ikbd_isr();
+void custom_vbl_isr();

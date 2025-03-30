@@ -36,10 +36,9 @@ int main()
 
 
     /* INITIALIZE MODEL */
-    UINT8 *temp = get_video_base();
-    void *base = temp;
+    UINT8 *base = get_video_base();
+    void *front_buffer = base;
     void *back_buffer = (void *)(((UINT32)pre_buffer + 255) & 0xFFFFFF00L); 
-    void *front_buffer = base; 
 
     Model new_game = {
         {{32, 184}, {63, 184}, {32, 215}, {63, 215}, {32, 184}, 0, 0, 0}, /* Dino */
