@@ -386,10 +386,10 @@ void plot_top_start_button(UINT32 *base, const UINT32 *lt_top_start_bitmap,
 	const UINT32 *mid_lt_top_start_bitmap, const UINT32 *mid_rt_top_start_bitmap,
 	const UINT32 *rt_top_start_bitmap)
 {
-	plot_bitmap_32((UINT32 *)base, 256, 168, lt_top_start_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 288, 168, mid_lt_top_start_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 320, 168, mid_rt_top_start_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 352, 168, rt_top_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 255, 167, lt_top_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 287, 167, mid_lt_top_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 319, 167, mid_rt_top_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 351, 167, rt_top_start_bitmap, HEIGHT_32);
 }
 
 /*******************************************************************************
@@ -406,10 +406,10 @@ void plot_bottom_start_button(UINT32 *base, const UINT32 *lt_bottom_start_bitmap
 	const UINT32 *mid_lt_bottom_start_bitmap, const UINT32 *mid_rt_bottom_start_bitmap,
 	const UINT32 *rt_bottom_start_bitmap)
 {
-	plot_bitmap_32((UINT32 *)base, 256, 200, lt_bottom_start_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 288, 200, mid_lt_bottom_start_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 320, 200, mid_rt_bottom_start_bitmap, HEIGHT_32);
-	plot_bitmap_32((UINT32 *)base, 352, 200, rt_bottom_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 255, 199, lt_bottom_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 287, 199, mid_lt_bottom_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 319, 199, mid_rt_bottom_start_bitmap, HEIGHT_32);
+	plot_bitmap_32((UINT32 *)base, 351, 199, rt_bottom_start_bitmap, HEIGHT_32);
 }
 
 /*******************************************************************************

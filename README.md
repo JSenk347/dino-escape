@@ -39,4 +39,9 @@
     - PSG:
         - To clean: make clean_psg
         - To make/compile: make psg
-        - To run: tst_psg 
+        - To run: tst_psg
+- Phase 8:
+    - To clean: make clean_game
+    - To make/compile: make game
+    - To run: dino_esc
+        To quit game press key 'Q', to start game press any other key.

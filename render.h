@@ -16,6 +16,7 @@ void render_objs(const Model *model , UINT32 *base);
 void render_dino(const Model *game, UINT32 *base);
 void render_score(const Model *model , UINT32 *base);
 void render_start(const Model *model , UINT32 *base);
+void clr_start(UINT32 *base);
 void render_obs(const Model *model , UINT32 *base);
 void draw_top_lns(UINT32 *base, Obs *top, int vel);
 void draw_bot_lns(UINT32 *base, Obs *bottom, int vel);
