@@ -70,6 +70,15 @@ int main()
     render_objs(&new_game, (UINT32 *)front_buffer);
 
     /* Waiting for enter or quit */
+    while (!Cconis()) {
+    }
+    key = (char)Cnecin();
+    start_or_quit(&new_game, key);
+
+    if (new_game.game_state.start_flag) {
+        clr_start((UINT32 *)back_buffer);
+        clr_start((UINT32 *)front_buffer);
+    }
 
     scale = init_scale();
     init_song(&song, scale);

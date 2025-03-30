@@ -44,3 +44,4 @@
     - To clean: make clean_game
     - To make/compile: make game
     - To run: dino_esc
+        To quit game press key 'Q', to start game press any other key.
