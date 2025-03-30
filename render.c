@@ -54,6 +54,11 @@ void init_screen(const Model *game, UINT16 *base)
 *******************************************************************************/
 void render_objs(const Model *new_game, UINT32 *base)
 {
+    /* Renders splash screen start button */
+    if (new_game->game_state.start_flag == FALSE) {
+        render_start(new_game, base);
+    }
+
     render_obs(new_game, base);
     render_dino(new_game, base);
     render_score(new_game, (UINT32 *)base); 
@@ -137,10 +142,26 @@ void render_score(const Model *model, UINT32 *base)
             - base: Base address of the screen
     OUTPUT: - N/A
 *******************************************************************************/
-void render_start(const Model *model, UINT32 *base)
-{
+void render_start(const Model *model, UINT32 *base) {
     plot_top_start_button((UINT32 *)base, lt_top_start_bitmap, mid_lt_top_start_bitmap, mid_rt_top_start_bitmap, rt_top_start_bitmap);
     plot_bottom_start_button((UINT32 *)base, lt_bottom_start_bitmap, mid_lt_bottom_start_bitmap, mid_rt_bottom_start_bitmap, rt_bottom_start_bitmap);
+}
+
+/*******************************************************************************
+    PURPOSE: Calls the functions to clear the start button once the game has
+                begun
+    INPUT:  - base: Base address of the screen
+    OUTPUT: - N/A
+*******************************************************************************/
+void clr_start(UINT32 *base) {
+    clear_region(base, 255, 167, 0x00000000);
+    clear_region(base, 287, 167, 0x00000000);
+    clear_region(base, 319, 167, 0x00000000);
+    clear_region(base, 351, 167, 0x00000000);
+    clear_region(base, 255, 199, 0x00000000);
+    clear_region(base, 287, 199, 0x00000000);
+    clear_region(base, 319, 199, 0x00000000);
+    clear_region(base, 351, 199, 0x00000000);
 }
 
 /*******************************************************************************

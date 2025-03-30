@@ -35,6 +35,17 @@ void process_input(Model *gameModel, char key) {
     }
 }
 
+void start_or_quit(Model *gameModel, char key) {
+    /* Quits game */
+    if (key == 'q') {
+        game_quit(gameModel);
+        return;
+    }
+    
+    /* Enters game if any key is pressed */
+    gameModel->game_state.start_flag = TRUE;
+}
+
 /* not using anymore */
 /*void read_input(Model *gameModel) {
     if (Cconis()) {

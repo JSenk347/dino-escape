@@ -5,7 +5,7 @@
 ; DATE: Mar.28, 2025
 
 ; FILE: Screen.s
-; SUMMARY: Contains the funcitons to set video base
+; SUMMARY: Contains the functions to set video base
 ;-------------------------------------------------------------
         xdef	_set_video_base
 OFFSET  equ     8
