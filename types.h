@@ -11,6 +11,8 @@
 #define KBD_RIGHT   0x4D
 #define KBD_ENTER   0x1C
 #define KBD_ESC   	0x01
+#define TRUE    1
+#define FALSE   0
 
 typedef unsigned char UINT8;
 typedef unsigned int  UINT16;

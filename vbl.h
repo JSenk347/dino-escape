@@ -2,21 +2,40 @@
 #define VBL_H
 #include <osbind.h>
 #include "types.h"
-int music_ticks = 0;
-int score_ticks = 0;
-int enemy_ticks = 0;
-int render_request = 1; 
+#include "ISR.H"
+#define VBL_ISR  28
+#define IKBD_ISR 70
+
 /* Pointers to hardware registers for IKBD and MFP */
-volatile unsigned char *const IKBD_CTRL = (unsigned char *)0xFFFC00;       /* Control register (write) */
-volatile const unsigned char *const IKBD_STATUS = (unsigned char *)0xFFFC00; /* Status register (read) */
-volatile const unsigned char *const IKBD_DATA = (unsigned char *)0xFFFC02;   /* Data register (read) */
-volatile unsigned char *const MFP_IN_SERVICE_B = (unsigned char *)0xFFFA11;  /* MFP in-service register */
-volatile unsigned char *const MFP_IEB = (unsigned char *)0xFFFA09;           /* MFP interrupt enable register */
-typedef void (*Vector)(); 
-int render_request = 0;
+
+typedef void (*Vector)();
+
+
+extern Vector VBL_orig_vector;
+extern Vector IKBD_orig_vector;
+
+extern UINT8 head;
+extern UINT8 tail;
+
+extern UINT8 IKBD_buffer[256];
+
+extern int music_ticks;
+extern int score_ticks;
+extern int enemy_ticks;
+extern int key_update_ticks;
+
+
+extern int mseX;
+extern int mseY;
+extern int mse_click;
+extern int mse_enable;
+
+extern bool key_repeat;
+
 Vector install_vector(int num, Vector vector);
 void remove_vectors();
-void mask_interrupts();
-void unmask_interrupts();
+void enable_ikbd_interrupts();
+void disable_ikbd_interrupts();
+
 
 #endif

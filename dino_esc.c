@@ -27,6 +27,7 @@ UINT8 pre_buffer[32255]; /* 32255 = 320 * 200 + 15 */
 
 int main()
 {
+    extern int render_request;
     char key;
     bool has_run_once = FALSE;  /* loop control variable */
     UINT32 curr_time, prev_time, time_elapsed;
@@ -130,6 +131,7 @@ int main()
             swap_buffer(&front_buffer, &back_buffer);
             clear_cave_region((UINT32 *)back_buffer);
             
+            render_request = TRUE; /* Resets render request flag */
         }
          if (new_game.game_state.lost_flag == TRUE) {
              game_over = TRUE;
