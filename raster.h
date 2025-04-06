@@ -1,7 +1,8 @@
 #ifndef RASTER_H
 #define RASTER_H
 #include "types.h"
-
+#include "vbl.h"
+#include "ISR.H"
 #define BYTES_PER_SCREEN 32000
 #define SOLID_32    		0xFFFFFFFF
 #define CLEAR_32			0x00000000
@@ -12,7 +13,8 @@
 #define XOR 2
 #define AND 3
 #define HALF_GAP 25
-
+#define MOUSE_WIDTH 16
+#define MOUSE_HEIGHT 19
 
 
 void plot_bitmap_32(UINT32 *base, int x, int y, const UINT32 *bitmap, unsigned int height);
@@ -43,4 +45,12 @@ void disable_cursor();
 void clear_far_left(UINT32 *base);
 void clear_region(UINT32 *base, int x, int y, unsigned int pattern);
 void clear_cave_region(UINT32 *base);
+/* Saves mouse background, as a long, to an array in bitmaps file */
+void save_mouse_bkgd(UINT32 *base, int x, int y);
+/* restores mouse background, as a long, from an array in bitmaps file */
+void restore_mouse_bkgd(UINT32 *base, int x, int y);
+
+/* Prints a mouse to the screen  (i.e a print bitmap)*/
+void plot_mouse(UINT16 *base, int x, int y, UINT16 *bitmap);
+
 #endif

@@ -3,8 +3,11 @@
 #include <osbind.h>
 #include "types.h"
 #include "ISR.H"
+#include "raster.h"
+#include "bitmaps.h"
 #define VBL_ISR  28
 #define IKBD_ISR 70
+
 
 /* Pointers to hardware registers for IKBD and MFP */
 
@@ -31,6 +34,7 @@ extern int mse_enable;
 extern bool key_repeat;
 extern int seconds;
 extern int ticks;
+
 Vector install_vector(int num, Vector vector);
 void remove_vectors();
 void mask_interrupts();
@@ -40,6 +44,7 @@ bool kbd_is_waiting();
 void clear_kbd_buffer();
 void do_VBL_ISR();
 void do_IKBD_ISR();
-
-
+void init_mouse(UINT32 *base);
+void update_mouse(UINT32 *base);
+UINT8 mouse_inBounds();
 #endif

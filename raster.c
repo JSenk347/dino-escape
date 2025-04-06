@@ -467,3 +467,32 @@ void plot_obstacles(UINT32 *base, int x, int gap_y, int mode){
 	plot_top_obs(base, x, gap_y, mode);
 	plot_bottom_obs(base, x, gap_y, mode);
 }
+/* Saves mouse background, as a long, to an array in bitmaps file */
+void save_mouse_bkgd(UINT32 *base, int x, int y) {
+	int i, j;
+	
+	for(i = 0, j = 0; i < MOUSE_HEIGHT; i++) {
+		mouse_bkgd[j++] = *(base + (y + i) * 20 + (x >> 5));
+		mouse_bkgd[j++] = *(base + (y + i) * 20 + ((x >> 5) + 1));
+	}
+}
+
+/* restores mouse background, as a long, from an array in bitmaps file */
+void restore_mouse_bkgd(UINT32 *base, int x, int y) {
+	int i, j;
+	
+	for(i = 0, j = 0; i < MOUSE_HEIGHT; i++) {
+		*(base + (y + i) * 20 + (x >> 5)) = mouse_bkgd[j++];
+		*(base + (y + i) * 20 + ((x >> 5) + 1)) = mouse_bkgd[j++];
+	}
+}
+
+/* Prints a mouse to the screen  (i.e a print bitmap)*/
+void plot_mouse(UINT16 *base, int x, int y, UINT16 *bitmap) {
+	int i, j;
+	
+	for(i = 0, j = 0; i < MOUSE_HEIGHT; i++) {
+		*(base + (y + i) * 40 + (x >> 4)) ^= *(bitmap + j) >> (x & 15);
+		*(base + (y + i) * 40 + ((x >> 4) + 1)) ^= *(bitmap + j++) << (16 - (x & 15));
+	}
+}

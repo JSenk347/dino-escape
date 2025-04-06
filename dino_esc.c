@@ -27,12 +27,13 @@
 #include <linea.h>
 
     UINT8 pre_buffer[32255]; /* 32255 = 320 * 200 + 15 */
-    extern UINT8 IKBD_buffer[256];     
+
     extern void install_vectors();
     extern void remove_vectors();
     extern long kbd_read_char(bool update_head);
     extern bool kbd_is_waiting();
     extern void clear_kbd_buffer();
+    extern int mse_enable;
     int seconds = 0;
     int ticks = 0;
     int render_request = 1;
@@ -86,12 +87,22 @@
     render_objs(&new_game, (UINT32 *)front_buffer);
     init_screen(&new_game, (UINT16 *)back_buffer);
     ascii_key = 0;
-    while (ascii_key != 'w') {
-        while (!kbd_is_waiting()); /* Wait here */
+    mse_enable = 1;
+    init_mouse((UINT32 *)front_buffer); /* Initialize mouse */
+    while ((mouse_inBounds() != 1 && mouse_inBounds() != 2) || mse_click != 2) {
+        update_mouse((UINT32 *)front_buffer); 
+    
 
-        ascii_key = kbd_read_char(1) & 0xFF; /* ASCII */
-    } 
-    key = (char)ascii_key; 
+        /* If the mouse was clicked in a boundary, override ascii_key */
+        if (mouse_inBounds() == 1) {
+            key = (char)NULL;    
+        } else if (mouse_inBounds() == 2) {
+            key = 'q';    
+        } 
+    }
+
+    /* Pass the key to start_or_quit() */
+    restore_mouse_bkgd((UINT32 *)front_buffer, mseX, mseY);
     start_or_quit(&new_game, key);
 
     if (new_game.game_state.start_flag) {
@@ -122,8 +133,6 @@
             render_objs(&new_game, (UINT32 *)back_buffer);
             swap_buffer(&front_buffer, &back_buffer); 
             render_request = 0; 
- 
-            
         }
 
          if (new_game.game_state.lost_flag == TRUE) {

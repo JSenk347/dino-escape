@@ -32,7 +32,7 @@ void init_screen(const Model *game, UINT16 *base)
 
     Digit *digits = game->score.digits;
 
-    disable_cursor();
+    /* disable_cursor(); */
     clear_screen((UINT16 *)base, 0);
     plot_borders((UINT32 *) base);
     
