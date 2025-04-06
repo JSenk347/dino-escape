@@ -16,73 +16,56 @@ int old_mseY;
 int mse_click;
 int mse_enable;
 bool key_repeat = 0;
-int render_request = 1;
+int render_request = 0;
+
 volatile   		unsigned char *const CTRL       = 0xFFFC00;
 volatile const 	unsigned char *const STATUS		= 0xFFFC00;
 volatile const 	unsigned char *const READER		= 0xFFFC02;
 volatile		unsigned char *const MFP 		= 0xFFFA11; 
 volatile		unsigned char *const IE			= 0xFFFA09; 
+char *ascii_tbl = 0xFFFE829C;
 
-void handle_VBL() {
-	
-	if (mse_enable == 1) {
-		render_mouse = 1;
-	}
-	
-	render_request = 1;
-}
-void disable_ikbd_interrupts() {
+
+void mask_interrupts() {
     long old_ssp = Super(0);
-    *IE &= 0xBF; /* interupt enable*/
+    *IE &= 0xBF;
     Super(old_ssp);
 }
 
-void enable_ikbd_interrupts() {
+void unmask_interrupts() {
     long old_ssp = Super(0);
     *IE |= 0x40;
     Super(old_ssp);
 }
+void do_VBL_ISR() {
+	static int time;
+	time++;
 
-void handle_IKBD() {
+	if(time == 70) {
+		time = 0;
+		seconds++;
+	}
+
+	return;
+}
+
+void do_IKBD_ISR() {
     UINT8 code = *(READER);  /* Read byte from IKBD data register */
 
-    if (mse_state == 0) {
-        if (code >= 0xF8) {
-            /* Start of a mouse packet (header byte with button state) */
-            mse_button = code;
-            mse_state = 1;  /* Next byte will be delta X */
-        }
-        else if (code == 0x11 || code == 0x1F || code == 0x10) {
-            /* W (0x11), S (0x1F), Q (0x10) pressed */
-            IKBD_buffer[tail++] = code;  /* Store key in buffer */
-            key_repeat = 1;           /* Enable key repeat */
-        }
-        else if (code == 0x91 || code == 0x9F || code == 0x90) {
-            /* W, S, or Q released (break codes) */
-            key_repeat = 0;          /* Disable key repeat */
-        }
+    
+    if (code == 0x11 || code == 0x1F || code == 0x10) {
+        /* W (0x11), S (0x1F), Q (0x10) pressed */
+        IKBD_buffer[tail++] = code;
+        key_repeat = 1;
     }
-    else if (mse_state == 1) {
-        /* Second byte of mouse packet: delta X */
-        mse_deltaX = code;
-        mse_state = 2;  /* Next byte will be delta Y */
-    }
-    else if (mse_state == 2) {
-        /* Third byte of mouse packet: delta Y */
-        mse_deltaY = code;
-        mse_state = 0;  /* Mouse packet complete */
-    }
-    else {
-        /* Safety reset in case of unexpected state */
-        mse_state = 0;
+    else if (code == 0x91 || code == 0x9F || code == 0x90) {
+        /* W, S, or Q released (break codes) */
+        key_repeat = 0;
     }
 
     /* Clear bit 6 in MFP in-service register to acknowledge interrupt */
     *MFP &= 0xBF;
 }
-
-
-
 
 Vector install_vector(int num, Vector vector) {
 	Vector original_vector;
@@ -91,6 +74,7 @@ Vector install_vector(int num, Vector vector) {
     
 	original_vector = *vectptr;
 	*vectptr = vector;
+
 	
     Super(old_ssp);
     
@@ -98,19 +82,58 @@ Vector install_vector(int num, Vector vector) {
 }
 
 void install_vectors() {
-    enable_ikbd_interrupts();
-	VBL_orig_vector = install_vector(VBL_ISR, vbl_isr);
-    IKBD_orig_vector = install_vector(IKBD_ISR, ikbd_isr
-	);
-	disable_ikbd_interrupts();
+    mask_interrupts();
+	VBL_orig_vector = install_vector(VBL_ISR, vbl_isr); 
+    IKBD_orig_vector = install_vector(IKBD_ISR, ikbd_isr); 
+	unmask_interrupts();
 }
 
 void remove_vectors() {
-    enable_ikbd_interrupts();
-
-	install_vector(VBL_ISR, VBL_orig_vector);
-    install_vector(IKBD_ISR, IKBD_orig_vector);
-	
-	disable_ikbd_interrupts();
+    mask_interrupts();
+	install_vector(VBL_ISR, VBL_orig_vector); 
+    install_vector(IKBD_ISR, IKBD_orig_vector); 
+	unmask_interrupts();
 }
 
+long kbd_read_char(bool update_head) {
+	long ret;
+    
+	mask_interrupts();
+	
+    /* read the scancode from buffer, and then put ascii value */
+	ret = IKBD_buffer[head];
+	ret = ret << 16;
+	ret = ret + *(ascii_tbl + IKBD_buffer[head]);
+	
+	unmask_interrupts();
+    
+	if(update_head) {
+		head++;
+	}
+	
+	return ret;
+}
+
+
+/* 
+Purpose: Checks to see if buffer is empty
+Return: true = not empty
+        false = empty
+*/
+bool kbd_is_waiting() {
+	return head != tail;
+}
+
+
+/* 
+Purpose: Empty the buffer
+*/
+void clear_kbd_buffer() {
+    /* Keep going until buffer is empty */
+	while(kbd_is_waiting()) {
+		head++;
+	}
+    
+    /* Clear the last value */
+	IKBD_buffer[tail] = 0x00;
+}
