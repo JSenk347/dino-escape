@@ -16,7 +16,6 @@ int old_mseY;
 int mse_click;
 int mse_enable;
 bool key_repeat = 0;
-int render_request = 0;
 
 volatile   		unsigned char *const CTRL       = 0xFFFC00;
 volatile const 	unsigned char *const STATUS		= 0xFFFC00;
@@ -27,20 +26,33 @@ char *ascii_tbl = 0xFFFE829C;
 
 
 void mask_interrupts() {
-    long old_ssp = Super(0);
+    long old_ssp;
+    UINT32 supercheck = Super(1);  
+    if (!supercheck) {
+        old_ssp = Super(0);
+    }
     *IE &= 0xBF;
-    Super(old_ssp);
+    if (!supercheck) {
+        Super(old_ssp);
+    }
 }
 
 void unmask_interrupts() {
-    long old_ssp = Super(0);
+    long old_ssp;
+    UINT32 supercheck = Super(1);  
+    if (!supercheck) {
+        old_ssp = Super(0);
+    }
     *IE |= 0x40;
-    Super(old_ssp);
+    if (!supercheck) {
+        Super(old_ssp);
+    }
 }
 void do_VBL_ISR() {
 	static int time;
-	time++;
-
+	time += 5;
+    render_request = 1;
+    ticks++;
 	if(time == 70) {
 		time = 0;
 		seconds++;
@@ -84,14 +96,14 @@ Vector install_vector(int num, Vector vector) {
 void install_vectors() {
     mask_interrupts();
 	VBL_orig_vector = install_vector(VBL_ISR, vbl_isr); 
-    IKBD_orig_vector = install_vector(IKBD_ISR, ikbd_isr); 
+    IKBD_orig_vector = install_vector(IKBD_ISR, ikbd_isr);   
 	unmask_interrupts();
 }
 
 void remove_vectors() {
     mask_interrupts();
 	install_vector(VBL_ISR, VBL_orig_vector); 
-    install_vector(IKBD_ISR, IKBD_orig_vector); 
+    install_vector(IKBD_ISR, IKBD_orig_vector);   
 	unmask_interrupts();
 }
 

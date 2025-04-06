@@ -78,15 +78,15 @@ void render_dino(const Model *game, UINT32 *base)
     if (!game->game_state.dead_flag) {
         /* Select new Dino sprite - flaps dino wings */
         UINT32 *bitmap;
-        if ((get_time() / 10) % 2 == 0) {
+        if ((seconds) % 2 == 0) {
             bitmap = dino_wdown_bitmap;
         }
         else {
             bitmap = dino_wup_bitmap;
         }
         /* Draw new Dino frame */
-       /* clear_region(base, dino->prev_top_lt.x, dino->prev_top_lt.y, 0x00000000);       /* clears previous location dino bitmap 
-        clear_region(base, dino->top_left.x, dino->top_left.y, 0x00000000);              clears previous dino wings position */
+        /*clear_region(base, dino->prev_top_lt.x, dino->prev_top_lt.y, 0x00000000);        clears previous location dino bitmap */
+        /* clear_region(base, dino->top_left.x, dino->top_left.y, 0x00000000);             /*  clears previous dino wings position */
         plot_bitmap_32(base, dino->top_left.x, dino->top_left.y, bitmap, HEIGHT_32);
     }
     else {
@@ -334,10 +334,9 @@ void clr_bot_lns(UINT32 *base, Obs *bottom, int vel) {
 void swap_buffer(void **front, void **back){
     void *temp = *front;
     *front = *back;
-    *back = temp;
-    /*Setscreen(-1, *front, -1); */
-    set_video_base((UINT16*)*front); 
-    Vsync();
+    *back = temp;   
+    set_video_base(*front); 
+
 }
 
 

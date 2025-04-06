@@ -30,6 +30,7 @@ extern int mse_click;
 extern int mse_enable;
 extern bool key_repeat;
 extern int seconds;
+extern int ticks;
 Vector install_vector(int num, Vector vector);
 void remove_vectors();
 void mask_interrupts();
