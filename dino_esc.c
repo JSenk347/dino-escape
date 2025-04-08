@@ -39,8 +39,7 @@
     int render_request = 1;
 
     int main()
-{    
-    int x = 0;     
+{        
     char key;
     bool has_run_once = FALSE;  /* loop control variable */
     UINT32 curr_time, prev_time, time_elapsed;

@@ -192,38 +192,6 @@ void plot_bline(UINT32 *base, int y, int x1, int x2) {
     }
 }
 
-/******************************************************************************
-	PURPOSE: Plots a horizontal line across the full game screen at the given 
-				y coordinate
-	INPUT: 	- y the y coordinate to plot the line at
-			- mode the behaviour of the line:
-				- 0: replace
-				- 1: or		(will plot a black line over all previous bits)
-				- 2: xor	
-				- 3: and
-	OUTPUT: N/A
-******************************************************************************/
-/*void plot_hline(unsigned short y, short mode)
-{
-	/* Sets line start point coordinates 
-	X1 = (unsigned short) L_BORDER_X;
-	Y1 = y;
-	
-	/* Sets line end point coordinates 
-	X2 = (unsigned short) R_BORDER_X;
-	Y2 = y;
-
-	/* Sets colour to black (linea document) 
-	COLBIT0 = 1;
-    COLBIT1 = 1;
-    COLBIT2 = 1;
-    COLBIT3 = 1;
-	
-	LNMASK = 0xFFFF;	/* Solid line style (pattern) 
-	WMODE = mode; 		/* Writing mode 
-	LSTLIN = -1; 		/* changed from 0 to -1 as per linea document
-	linea3();
-}*/
 
 /******************************************************************************
 	PURPOSE: To plot a 2 pixel thick vertical line with the given x, y1, and y2
@@ -255,77 +223,7 @@ void plot_vline(UINT8 *base, int x, int y1, int y2, int mode) {
 	}
 }
 
-/******************************************************************************
-	PURPOSE: To plot a vertical line at a specified x coordinate
-	INPUT: 	- x the x coordinate to plot the line at
-			- mode the behaviour of the line:
-				- 0: replace
-				- 1: or
-				- 2: xor
-				- 3: and				
-	OUTPUT: N/A
-******************************************************************************/
-/*void plot_vline(unsigned short x, short mode)
-{
-	X1 = x;
-	Y1 = 0;
-	X2 = x;
-	Y2 = 400;
-	LNMASK = 0xFFFF;
-	WMODE = mode;
-	LSTLIN = 0;
-	linea3();
-}*/
 
-/*****************************************************************************
-	PURPOSE: To plot a general line at specified x1, y1, x2, and y2 coordinates
-	INPUT:	- x1 the x coordinate of the start of the line
-			- y1 the y coordinate of the start of the line
-			- x2 the x coordinate of the end of the line
-			- y2 the y coordinate of the end of the line
-			- mode the behaviour of the line:
-				- 0: replace
-				- 1: or
-				- 2: xor	
-				- 3: and
-			- set_bit determines the color of the line (1: black 0: white)
-	OUTPUT: N/A
-*****************************************************************************/
-/*void plot_gline(unsigned short x1, unsigned short y1,
-				unsigned short x2, unsigned short y2,
-				short mode, int set_bit)
-{
-	/* Sets line start point coordinates 
-	X1 = x1; 
-	Y1 = y1;
-
-	/* Sets line end point coordinates 
-	X2 = x2;
-	Y2 = y2;
-
-	/* Sets colour to 0 (white) or 1 (black) (linea document) 
-	COLBIT0 = set_bit;
-    COLBIT1 = set_bit;
-    COLBIT2 = set_bit;
-    COLBIT3 = set_bit;
-	
-
-	if (set_bit == 0) {
-		LNMASK = 0x0000;
-	}
-	else {
-		LNMASK = 0xFFFF;
-	}
-	WMODE = mode; 		/* Writing mode 
-	LSTLIN = -1; 		/* changed from 0 to -1 as per linea document
-
-	/*LNMASK = 0xFFFF;
-	WMODE = mode;
-	LSTLIN = 0;
-
-	/* plotting the line 
-	linea3();
-} */
 
 /*******************************************************************************
 	PURPOSE: Plots the upper and lower borders of the game
@@ -349,28 +247,6 @@ void plot_borders(UINT32 *base) {
 		plot_gline(505, i, 631, i, XOR);
 	}*/
 }
-
-/*******************************************************************************
-	PURPOSE: Plots the upper and lower borders of the game, excluding the 
-				ground and roof triangles (rocks). FOR PHASE 2 ONLY.
-	INPUT: 	N/A
-	OUTPUT: N/A
-*******************************************************************************/
-/*void plot_borders_raster()
-{
-	int i;
-
-	/* plots the upper and lower border lines with plot_hline() 
-	for (i = 0; i < 50; i++) {
-		plot_hline(i, XOR);
-		plot_hline(399 - i, XOR);
-	}
-
-	/*  plots lines to cancel out lines covering the score
-	for (i = 390; i > 358; i--) {
-		plot_gline(312, i, 631, i, XOR, 1);
-	}
-}*/
 
 /*******************************************************************************
 	PURPOSE: Plots the top three 32x32 bitmaps to create the top half of the 
