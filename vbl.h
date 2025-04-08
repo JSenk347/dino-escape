@@ -5,6 +5,8 @@
 #include "ISR.H"
 #include "raster.h"
 #include "bitmaps.h"
+#include "music.h"
+#include "psg.h"
 #define VBL_ISR  28
 #define IKBD_ISR 70
 
@@ -34,6 +36,8 @@ extern int mse_enable;
 extern bool key_repeat;
 extern int seconds;
 extern int ticks;
+
+
 
 Vector install_vector(int num, Vector vector);
 void remove_vectors();

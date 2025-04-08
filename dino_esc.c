@@ -92,7 +92,6 @@
     while ((mouse_inBounds() != 1 && mouse_inBounds() != 2) || mse_click != 2) {
         update_mouse((UINT32 *)front_buffer); 
     
-
         /* If the mouse was clicked in a boundary, override ascii_key */
         if (mouse_inBounds() == 1) {
             key = (char)NULL;    
@@ -127,8 +126,7 @@
             move_walls(&new_game);
             check_collisions(&new_game);
             check_score(&new_game);
-            update_music(time_elapsed, &song); 
-
+            update_music(ticks, &song); 
             clear_cave_region((UINT32 *)back_buffer);
             render_objs(&new_game, (UINT32 *)back_buffer);
             swap_buffer(&front_buffer, &back_buffer); 

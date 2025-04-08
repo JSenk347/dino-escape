@@ -1,6 +1,8 @@
 #include "vbl.h"
 Vector VBL_orig_vector;
 Vector IKBD_orig_vector;
+Scale scale;
+Song song;
 UINT8 IKBD_buffer[256];
 UINT8 head = 0;
 UINT8 tail = 0;
@@ -75,7 +77,6 @@ void do_VBL_ISR() {
 		time = 0;
 		seconds++;
 	}
-
 	return;
 }
 

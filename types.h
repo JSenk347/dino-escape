@@ -1,5 +1,6 @@
 #ifndef TYPES_H
 #define TYPES_H
+
 #define KBD_W       0x11
 #define KBD_A       0x1E
 #define KBD_S       0x1F
@@ -13,7 +14,6 @@
 #define KBD_ESC   	0x01
 #define TRUE    1
 #define FALSE   0
-
 typedef unsigned char UINT8;
 typedef unsigned int  UINT16;
 typedef unsigned long UINT32;
