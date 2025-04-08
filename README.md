@@ -41,7 +41,36 @@
         - To make/compile: make psg
         - To run: tst_psg
 - Phase 8:
-    - To clean: make clean_game
+    - To clean: make clean
     - To make/compile: make game
     - To run: dino_esc
-        To quit game press key 'Q', to start game press any other key.
+    - To start:
+        - Press any keyboard button
+    - To quit: 
+        - Tap key 'Q'
+    - To control dinosaur:
+        - Tap 'W' to move up
+        - Tap 'S' to move down
+- Phase 9:
+    - To clean: make clean
+    - To make/compile: make game
+    - To run: dino_esc
+    - To start:
+        - Press any keyboard button
+    - To quit: 
+        - Tap key 'Q'
+    - To control dinosaur:
+        - Tap 'W' to move up
+        - Tap 'S' to move down
+
+- Phase 10:
+   - To clean: make clean
+    - To make/compile: make game
+    - To run: dino_esc
+    - To start: click left mouse button on start icon
+    - To quit in start screen: click left mouse button on quit icon
+    - To control dinosaur:
+        - Tap 'W' to move up
+        - Tap 'S' to move down
+    - To quit mid game: 
+        - Tap key 'Q'
