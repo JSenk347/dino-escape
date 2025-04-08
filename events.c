@@ -222,7 +222,7 @@ void dino_mvd_down(Model *gameModel)
 void game_quit(Model *gameModel)
 {
     gameModel->game_state.lost_flag = TRUE;
-    printf("Game ended by user.\n");
+    
 }
 
 /*******************************************************************************

@@ -101,7 +101,7 @@
     }
 
     /* Pass the key to start_or_quit() */
-    restore_mouse_bkgd((UINT32 *)front_buffer, mseX, mseY);
+    restore_mouse_bkgd((UINT32 *)front_buffer, mse_X, mse_Y);
     start_or_quit(&new_game, key);
 
     if (new_game.game_state.start_flag) {

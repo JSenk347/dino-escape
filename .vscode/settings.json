@@ -16,6 +16,7 @@
         "render.h": "c",
         "base.h": "c",
         "setscreen.h": "c",
-        "vbl.C": "cpp"
+        "vbl.C": "cpp",
+        "interupts.C": "cpp"
     }
 }

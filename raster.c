@@ -467,7 +467,14 @@ void plot_obstacles(UINT32 *base, int x, int gap_y, int mode){
 	plot_top_obs(base, x, gap_y, mode);
 	plot_bottom_obs(base, x, gap_y, mode);
 }
-/* Saves mouse background, as a long, to an array in bitmaps file */
+/*******************************************************************************
+    PURPOSE: Saves the mouse background to the mouse_bkgd array at the given x and y
+				coordinates. The mouse background is 16x16 pixels in size.
+    INPUT:  - base: 32 bit base address of the screen
+			- x: x coordinate to plot horizontal position of each obstacle
+			- y: y coordinate to plot vertical position of each obstacle
+    OUTPUT: N/A
+*******************************************************************************/
 void save_mouse_bkgd(UINT32 *base, int x, int y) {
 	int i, j;
 	
@@ -477,7 +484,14 @@ void save_mouse_bkgd(UINT32 *base, int x, int y) {
 	}
 }
 
-/* restores mouse background, as a long, from an array in bitmaps file */
+/*******************************************************************************
+    PURPOSE: Restores the mouse background to the screen at the given x and y
+				coordinates
+    INPUT:  - base: 32 bit base address of the screen
+			- x: x coordinate to plot horizontal position of each obstacle		
+			-y: y coordinate to plot vertical position of each obstacle
+    OUTPUT: N/A
+*******************************************************************************/
 void restore_mouse_bkgd(UINT32 *base, int x, int y) {
 	int i, j;
 	
@@ -487,7 +501,14 @@ void restore_mouse_bkgd(UINT32 *base, int x, int y) {
 	}
 }
 
-/* Prints a mouse to the screen  (i.e a print bitmap)*/
+/*******************************************************************************
+    PURPOSE: Plots the mouse bitmap at the given x and y coordinates. The mouse
+				bitmap is 16x16 pixels in size. The mouse bitmap is XORed with the
+    INPUT:  - base: 16 bit base address of the screen
+			- x: x coordinate to plot horizontal position of each obstacle
+			- y: y coordinate to plot vertical position of each obstacle
+    OUTPUT: N/A
+*******************************************************************************/
 void plot_mouse(UINT16 *base, int x, int y, UINT16 *bitmap) {
 	int i, j;
 	

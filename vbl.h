@@ -7,6 +7,7 @@
 #include "bitmaps.h"
 #include "music.h"
 #include "psg.h"
+#include "input.h"
 #define VBL_ISR  28
 #define IKBD_ISR 70
 
@@ -24,13 +25,11 @@ extern UINT8 tail;
 
 extern UINT8 IKBD_buffer[256];
 
-extern int music_ticks;
-extern int score_ticks;
-extern int enemy_ticks;
+
 extern int key_update_ticks;
 extern int render_request;
-extern int mseX;
-extern int mseY;
+extern int mse_X;
+extern int mse_Y;
 extern int mse_click;
 extern int mse_enable;
 extern bool key_repeat;
